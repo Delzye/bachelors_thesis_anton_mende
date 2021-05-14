@@ -1,18 +1,43 @@
 \chapter{Ergebnisse}
 \label{ch:ergebnisse}
 
-Dieses Kapitel sollte die Ergebnisse beinhalten, die mit den Methoden aus \autoref{ch:methodik} erstellt wurden.
+\section{Mapping}
 
-\begin{table}[h]
-\caption{Beispieltabelle}
-\begin{center}
-	\begin{tabular}{|c||c|c|}
-		\hline
-		Spalte1 & Spalte2 & Spalte3 \\ 
-		\hline\hline
-		   1    &    2    &    3    \\ 
-		\hline
-	\end{tabular}
-\end{center}
-\label{tbl:table}
-\end{table}
+\subsection{Dummy Elemente in ODM}
+
+- ODM kann mehr Beziehungen in Studien darstellen
+- Es müssen Dummy-Elemente angelegt werden, weil LimeSurvey diese Elemente nicht hat, sie aber in ODM vorkommen müssen
+- Betroffen: GlobalVariables, StudyEvent
+
+\subsection{Umfrage-Eigenschaften}
+
+- Eine Umfrage wird als ein \el{Form} dargestellt
+- Titel, Beschreibung und ID der Umfrage werden zu Titel, Beschreibung und ID des \el{Forms}
+
+\subsection{Fragegruppen}
+
+- Aus jeder LS Gruppe wird eine ItemGroup in ODM
+- Eigenschaften werden 1:1 abgebildet
+
+\subsection{Fragen}
+
+- Aus einer Frage in LS werden pot. mehrere ItemDef's in ODM (fragetypabhängig)
+- Elemente aus \el{Questions} und \el{Subquestions} und \el{Question\_l10ns} werden genutzt
+
+\section{Implementierung}
+
+% Dieses Kapitel sollte die Ergebnisse beinhalten, die mit den Methoden aus \autoref{ch:methodik} erstellt wurden.
+
+% \begin{table}[h]
+% \caption{Beispieltabelle}
+% \begin{center}
+% 	\begin{tabular}{|c||c|c|}
+% 		\hline
+% 		Spalte1 & Spalte2 & Spalte3 \\ 
+% 		\hline\hline
+% 		   1    &    2    &    3    \\ 
+% 		\hline
+% 	\end{tabular}
+% \end{center}
+% \label{tbl:table}
+% \end{table}

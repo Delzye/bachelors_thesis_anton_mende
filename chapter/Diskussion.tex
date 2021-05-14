@@ -1,4 +1,19 @@
 \chapter{Diskussion}
 \label{ch:diskussion}
 
-In diesem Kapitel werden die zuvor vorgestellten Ergebnisse der Arbeit diskutiert. Häufig wird es mit dem Fazit zusammengelegt.
+% In diesem Kapitel werden die zuvor vorgestellten Ergebnisse der Arbeit diskutiert. Häufig wird es mit dem Fazit zusammengelegt.
+
+% Verwandte Arbeiten hier
+
+\section{Weglassen von Fragetypen}
+
+Auch wenn mit diesem Konverter eine vollständige Umsetzung der LimeSurvey Archiv-Daten angestrebt wird, so wurden doch einige Fragetypen bewusst nicht umgesetzt. Im Folgenden soll erläutert werden, wie diese Fragetypen hätten umgesetzt werden können und warum die Entscheidung getroffen wurde, dies nicht zu tun.
+
+\subsection{Datei-Upload}
+
+Der Fragetyp \textit{'Datei-Upload'} kann genutzt werden, um den Nutzer auf eine Frage mit einer Datei antworten zu lassen.
+In ODM hätte man diese Datei einbinden können, indem man sie in hexBinary umwandelt, ein Datentyp in ODM, welcher Stream-Daten in einem hexacodierten Binärformat sammelt.
+Trotzdem wurde dieser Fragentyp im Konverter nicht umgesetzt.
+Das liegt zum einen daran, dass die hochgeladenen Dateien nicht Teil des Archives sind (s. \cref{lsa}) und andererseits daran, dass die Praktikabilität dieses Vorgehens eher fragwürdig ist.
+Unter anderem wird eine Rekonstruktion zur Originaldatei schwer, da es zum Beispiel keine Informationen über den ursprünglichen Dateityp gibt, auch wird die XMl-Datei nur noch sehr unangenehm von Hand lesbar, wenn man diese Stream-Daten in Antworten einbinden würde. 
+Auch wird der Fragetyp nicht häufig genutzt, was die Umsetzung noch unattraktiver macht.

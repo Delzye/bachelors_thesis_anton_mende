@@ -1,41 +1,149 @@
 \chapter{Methodik}
 \label{ch:methodik}
 
-Im Methodik-Kapitel werden die mathematischen Ausführungen des Verfahrens bzw. des Algorithmus vorgestellt, jedoch technische Details zur Umsetzung und Implementierung (falls nötig) auf ein darauffolgendes Kapitel verlagert.
+\section{Akronyme}
 
+\begin{description}[font=\sffamily\bfseries, leftmargin=0cm, itemsep=-0.15cm, style=nextline]
+	\item \textbf{XML} die Extensible Markup Language
+	\item \textbf{CDISC} Clinical Data Interchange Standards Consortium
+	\item \textbf{CDISC ODM} von CDISC entwickeltes XML-Format \enquote{Operational Data Model}
+	\item \textbf{lsa} Dateiendung des LimeSurvey Archives (siehe \cref{lsa})
+	\item \textbf{lsr} Dateiendung der LimeSurvey Response Datei (siehe \cref{lsa})
+	\item \textbf{lss} Dateiendung der LimeSurvey Struktur Datei (siehe \cref{lsa})
+	\item \textbf{EDC} Electronic Data Capture, das Sammeln und Verarbeiten von Daten
+	\item \textbf{DOM} Document Object Model. Bietet die Möglichkeit, die Hierarchie der XML-Knoten in Baumform darzustellen und so zu navigieren/ den Baum zu bearbeiten
+	\item \textbf{SAX} Simple API for XML. Ein Standard, welcher beschreibt, wie man ein XML-Dokument parsen kann. Dieses wird sequentiell eingelesen und für definierte Ereignisse wird eine vorgegebene Rückruf-Funktion aufgerufen. Ein Programm kann eigene Funktionen registrieren und so das Dokument verarbeiten.
+\end{description}
 
-\section{Mathematische Notation}
-\label{s:notation}
+\section{LimeSurvey}
 
-Mathematische Formeln können mittels der \verb+\begin{align}...\end{align}+ Umgebung gesetzt werden:
+- Umfragewerkzeug, sammeln von Meinungen/Interessen/Entscheidungsgrundlagen
+- Firma gleichen Namens aus D
+- Wird von den Entwicklern in der Cloud-Edition angeboten
+- 4 Pläne
+	- Free
+	- Basic (34 Euro/Monat)
+	- Expert (29Euro/Monat)
+	- Enterprise (74 Euro/Monat)
+- Code auch Open-Source
 
-\begin{align}
-f(n) & =
-	\begin{cases}
-		n/2, & \text{wenn }n\text{ gerade,}\\
-		3n+1, & \text{wenn }n\text{ ungerade.}
-	\end{cases}
-\label{eq:f} \\
+\subsection{Fragegruppen}
+
+- Name/Beschreibung/Randomisierungsgruppe/Relevanz
+- Kann beliebig viele Fragen enthalten
+
+\subsection{Fragetypen}
+
+- 36 Fragetypen (manche sind keine "Fragen" per se, davon gibt es 28), 5 Gruppen
+- Bedingungen
+
+- Single Choice
+
+- Skala 1-5
+- Bootstrap/Dropdown/Radio sind untersch. Darstellungen
+- Liste mit Kommentar hat nur Kommentar
+- Image Select List Radio hat Bild dazu
+
+- Arrays
+
+- Man kann aus einer Festen Liste an Möglichkeiten eine pro Subfrage Auswählen
+- 5 Punkte, 10 Punkte, Erhöhung/Gleich/Erniedrigung, Ja/Nein/Unsicher, Selbst definierte Möglichkeiten
+- Nach Spalte: Gleiches wie Freitext, nur Achsen getauscht
+- Dual Scale: Zwei mal selbst definierte Möglichkeiten, aus beiden Skalen eine Antwort pro Subfrage auswählbar.
+- Matrizen
+- Freitext oder freie Zahl
+
+- Multiple Choice
+
+- Darstellungen: Bootstrap, simples Multiple Choice
+- Mit Bild oder mit Kommentar (Ein Kommentar pro Antwortfeld)
+
+- Textfragen
+
+- Browser Detect
+- Kurz/Normal/Lang-er Freitext
+- Mehrere kurze Freitexte
+- Input on Demand
+
+- Maskenfragen
+
+- Tag/Zeit
+- Ja/Nein
+- Gleichung
+- Dateiupload
+- Geschlecht
+- Sprachumschaltung
+- Zahleneingabe (Auch mehrfach, mit Limitierbaren Maximal/Minimal-Werten/Summen, Genauen Gesamtergebnissen und nur Ganzzahl)
+- Ranking (Advanced)
+- Textanzeige
+
+\subsection{Export}
+\subsubsection{LimeSurvey Archiv}
+\label{lsa}
+Das LimeSurvey Archiv ist eine von sieben Möglichkeiten, Daten von einer LimeSurvey Umfrage zu exportieren.
+Ein solches Archiv ist eine komprimierte Datei im .lsa-Format, welche mehrere extrahierbare Dateien enthält.
+Die Zahl und Art der Dateien ist dabei abhängig von den Einstellungen. Zwei Dateien sind immer enthalten:\\
+Die erste Datei enthält die Umfrage-Struktur sowie Informationen über die Art und Weise, wie die Fragen darstellt werden sollen (die .lss-Datei), die zweite Datei enthält die Antworten der Teilnehmer (.lsr-Datei).
+Ausdrücklich erwähnt wird dabei, dass Dateien, die als Antwort auf eine Frage hochgeladen wurden, nicht Teil des Archivs sind.
+Weitere optionale Dateien sind eine Token-Datei, welche Daten über die % TODO
+
+\subsubsection{Weitere Exportmöglichkeiten}
+\begin{itemize}
+	\item[LSS] Es ist möglich, nur die im LSA enthaltene LSS-Datei zu exportieren, das wird mittels dieser Option gemacht.
+	\item[Excel/.csv] Hier sind weitere Einstellungen möglich, wie das Exportieren eines Teils der Antworten oder die Wahl eines bestimmten Formates (Word, Excel, CSV, HTML, PDF).
+	\item[SPSS] SPSS ist ein Software-Paket, welches zur statistischen Analyse von Daten genutzt wird. Auch hier kann ausgewählt werden, welche Antworten exportiert werden sollen. Die Nutzung der Open-Source Version PSPP ist auch möglich
+	\item[R] R ist eine Alternative zu SPSS, hier werden allerdings alle Daten exportiert
+	\item[STATA-xml] Auch STATA ist eine komerzielle Lösung für Datenanalyse wie SPSS. Hierfür werden die Daten von LimeSurvey direkt in das proprietäre STATA-Format umgewandelt.
+	\item[VV] Durch "vertical verfication" ist es möglich, die Antworten zu modifizieren und die modifizierte Datei dann wieder zu importieren
+\end{itemize}
+
+\section{ODM}
+- Ein Datenstandard im XML-Format
+- entwickelt von der CDISC
+- Ziel: Ein klares, einheitliches Format für Klinische Daten
+- Zusätzliche Daten wie Metadaten oder admin. Daten werden auch gespeichert
+- Plattform-unabhängig
+- Unabhängig von spezifischen Firmen
+- Mittlerweile viel genutzt in EDC Tools
+
+\section{dom4j}
+
+- API für den Zugriff und die Verarbeitung von XML-Dokumenten
+- Bietet simple Wege, um existierende Funktionen wie XPath oder Parsing mittels DOM/SAX zu nutzen
+- Auch Dokumente erstellen möglich
+%%
+%\section{Mathematische Notation}
+%\label{s:notation}
+
+%Mathematische Formeln können mittels der \verb+\begin{align}...\end{align}+ Umgebung gesetzt werden:
+
+%\begin{align}
+%f(n) & =
+%	\begin{cases}
+%		n/2, & \text{wenn }n\text{ gerade,}\\
+%		3n+1, & \text{wenn }n\text{ ungerade.}
+%	\end{cases}
+%\label{eq:f} \\
+%%
+%g(n) & = \frac{n}{2} \label{eq:g}
+%\end{align}
 %
-g(n) & = \frac{n}{2} \label{eq:g}
-\end{align}
-
-\section{Algorithmus}
-\label{s:algorithmus}
-
-Eigene Algorithmen beschreibt man am Besten mit Hilfe von Pseudo-Code und dem Paket \verb+algorithm+.
-
-\begin{algorithm}
-\caption{Algorithmus}
-\label{alg:alg}
-\begin{algorithmic}
-\algsetup{indent=2em}
-
-\REQUIRE Argument $n\in\mathbb{N}$
-\STATE $a = 0$
-\FOR{ $i=0,\dots,n$}
-	\STATE $a = a + 1$
-\ENDFOR
-\RETURN $a$
-\end{algorithmic}
-\end{algorithm}
+%\section{Algorithmus}
+%\label{s:algorithmus}
+%
+%Eigene Algorithmen beschreibt man am Besten mit Hilfe von Pseudo-Code und dem Paket \verb+algorithm+.
+%
+%\begin{algorithm}
+%\caption{Algorithmus}
+%\label{alg:alg}
+%\begin{algorithmic}
+%\algsetup{indent=2em}
+%
+%\REQUIRE Argument $n\in\mathbb{N}$
+%\STATE $a = 0$
+%\FOR{ $i=0,\dots,n$}
+%	\STATE $a = a + 1$
+%\ENDFOR
+%\RETURN $a$
+%\end{algorithmic}
+%\end{algorithm}
