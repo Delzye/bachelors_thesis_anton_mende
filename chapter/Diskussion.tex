@@ -7,13 +7,47 @@
 
 \section{Weglassen von Fragetypen}
 
-Auch wenn mit diesem Konverter eine vollständige Umsetzung der LimeSurvey Archiv-Daten angestrebt wird, so wurden doch einige Fragetypen bewusst nicht umgesetzt. Im Folgenden soll erläutert werden, wie diese Fragetypen hätten umgesetzt werden können und warum die Entscheidung getroffen wurde, dies nicht zu tun.
+Auch wenn mit diesem Konverter eine vollständige Umsetzung der LimeSurvey Archiv-Daten angestrebt wird, so wurden doch einige Fragetypen bewusst nicht umgesetzt.
+Im Folgenden soll erläutert werden, welche Fragetypen nicht konvertiert wurden, wie diese Fragetypen hätten umgesetzt werden können und warum die Entscheidung getroffen wurde, dies nicht zu tun.
 
 \subsection{Datei-Upload}
 
-Der Fragetyp \textit{'Datei-Upload'} kann genutzt werden, um den Nutzer auf eine Frage mit einer Datei antworten zu lassen.
+Der Fragetyp \el{Datei-Upload} kann genutzt werden, um den Nutzer auf eine Frage mit einer Datei antworten zu lassen.
 In ODM hätte man diese Datei einbinden können, indem man sie in hexBinary umwandelt, ein Datentyp in ODM, welcher Stream-Daten in einem hexacodierten Binärformat sammelt.
 Trotzdem wurde dieser Fragentyp im Konverter nicht umgesetzt.
-Das liegt zum einen daran, dass die hochgeladenen Dateien nicht Teil des Archives sind (s. \cref{lsa}) und andererseits daran, dass die Praktikabilität dieses Vorgehens eher fragwürdig ist.
+Das liegt zum einen daran, dass die hochgeladenen Dateien nicht Teil des Archives sind (siehe \cref{m:lsa}) und andererseits daran, dass die Praktikabilität dieses Vorgehens eher fragwürdig ist.
 Unter anderem wird eine Rekonstruktion zur Originaldatei schwer, da es zum Beispiel keine Informationen über den ursprünglichen Dateityp gibt, auch wird die XMl-Datei nur noch sehr unangenehm von Hand lesbar, wenn man diese Stream-Daten in Antworten einbinden würde. 
 Auch wird der Fragetyp nicht häufig genutzt, was die Umsetzung noch unattraktiver macht.
+
+\subsection{Browser-Detection, Language-Switch}
+
+- Es werden Infos gesammelt
+- Darstellung durch Frage + Antwort
+
+- Ruft die Irreführende Darstellung hervor, der Nutzer habe geantwortet (Was nicht der Fall ist)
+- Die Information ist nicht Teil der Meinung/Ansicht des Teilnehmers, es sind eher Metainformationen über den Antwortenden
+
+\subsection{Text-Display}
+
+- Es werden keine Informationen gesammelt
+- Es ist nicht automatisiert feststellbar, wozu Infos des Textes gehören
+	- Nicht z.B. als Description irgendwo zuordnebar
+
+\section{Visuelle Darstellung der Fragen}
+
+- LimeSurvey speichert viele Infos über die Darstellung
+	- Themes
+	- CSS-Klassen
+	- Attribute für visuelle Elemente
+- Werden nicht übernommen in ODM
+- Ist kritisch, da die Darstellung von Fragen direkten Einfluss auf die Antworten hat
+	- So gehen evtl. Infos verloren, die ein gewisses Antwortverhalten erklären könnten
+- Infos sind Teil des .lsa-Archives
+
+- ODM bietet keinen Weg, visuelle Darstellungen zu speichern
+	- Jede Lösung ist nicht im Standard definiert und daher potentiell für andere nicht verwendbar
+	- Es handelt sich weder um Fragen noch um Antworten, auch wenn die Informationen nicht egal sind, so sind sie doch auch nicht sehr relevant
+
+\section{Verwandte Arbeiten}
+
+- OpenClinica zu ODM

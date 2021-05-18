@@ -4,15 +4,15 @@
 \section{Akronyme}
 
 \begin{description}[font=\sffamily\bfseries, leftmargin=0cm, itemsep=-0.15cm, style=nextline]
-	\item \textbf{XML} die Extensible Markup Language
-	\item \textbf{CDISC} Clinical Data Interchange Standards Consortium
-	\item \textbf{CDISC ODM} von CDISC entwickeltes XML-Format \enquote{Operational Data Model}
-	\item \textbf{lsa} Dateiendung des LimeSurvey Archives (siehe \cref{lsa})
-	\item \textbf{lsr} Dateiendung der LimeSurvey Response Datei (siehe \cref{lsa})
-	\item \textbf{lss} Dateiendung der LimeSurvey Struktur Datei (siehe \cref{lsa})
-	\item \textbf{EDC} Electronic Data Capture, das Sammeln und Verarbeiten von Daten
-	\item \textbf{DOM} Document Object Model. Bietet die Möglichkeit, die Hierarchie der XML-Knoten in Baumform darzustellen und so zu navigieren/ den Baum zu bearbeiten
-	\item \textbf{SAX} Simple API for XML. Ein Standard, welcher beschreibt, wie man ein XML-Dokument parsen kann. Dieses wird sequentiell eingelesen und für definierte Ereignisse wird eine vorgegebene Rückruf-Funktion aufgerufen. Ein Programm kann eigene Funktionen registrieren und so das Dokument verarbeiten.
+	\item \textbf{XML} \el{Extensible Markup Language}
+	\item \textbf{CDISC} \el{Clinical Data Interchange Standards Consortium}
+	\item \textbf{CDISC ODM} \el{Operational Data Model} von CDISC entwickeltes XML-Format (siehe \cref{m:odm})
+	\item \textbf{lsa} Dateiendung des LimeSurvey Archives (siehe \cref{m:lsa})
+	\item \textbf{lsr} Dateiendung der LimeSurvey Response Datei (siehe \cref{m:lsa})
+	\item \textbf{lss} Dateiendung der LimeSurvey Struktur Datei (siehe \cref{m:lsa})
+	\item \textbf{EDC} \el{Electronic Data Capture} Das Sammeln und Verarbeiten von Daten
+	\item \textbf{DOM} \el{Document Object Model} Bietet die Möglichkeit, die Hierarchie der XML-Knoten in Baumform darzustellen und so zu navigieren/ den Baum zu bearbeiten
+	\item \textbf{SAX} \el{Simple API for XML} Ein Standard, welcher beschreibt, wie man ein XML-Dokument parsen kann. Dieses wird sequentiell eingelesen und für definierte Ereignisse wird eine vorgegebene Rückruf-Funktion aufgerufen. Ein Programm kann eigene Funktionen registrieren und so das Dokument verarbeiten.
 \end{description}
 
 \section{LimeSurvey}
@@ -79,7 +79,7 @@
 
 \subsection{Export}
 \subsubsection{LimeSurvey Archiv}
-\label{lsa}
+\label{m:lsa}
 Das LimeSurvey Archiv ist eine von sieben Möglichkeiten, Daten von einer LimeSurvey Umfrage zu exportieren.
 Ein solches Archiv ist eine komprimierte Datei im .lsa-Format, welche mehrere extrahierbare Dateien enthält.
 Die Zahl und Art der Dateien ist dabei abhängig von den Einstellungen. Zwei Dateien sind immer enthalten:\\
@@ -98,6 +98,7 @@ Weitere optionale Dateien sind eine Token-Datei, welche Daten über die % TODO
 \end{itemize}
 
 \section{ODM}
+\label{m:odm}
 - Ein Datenstandard im XML-Format
 - entwickelt von der CDISC
 - Ziel: Ein klares, einheitliches Format für Klinische Daten
