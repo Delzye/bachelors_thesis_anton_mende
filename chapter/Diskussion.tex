@@ -13,7 +13,7 @@ Im Folgenden soll erläutert werden, welche Fragetypen nicht konvertiert wurden,
 \subsection{Datei-Upload}
 
 Der Fragetyp \el{Datei-Upload} kann genutzt werden, um den Nutzer auf eine Frage mit einer Datei antworten zu lassen.
-In ODM hätte man diese Datei einbinden können, indem man sie in hexBinary umwandelt, ein Datentyp in ODM, welcher Stream-Daten in einem hexacodierten Binärformat sammelt.
+In ODM hätte man diese Datei einbinden können, indem man sie in \el{hexBinary} umwandelt, ein Datentyp in ODM, welcher Stream-Daten in einem hexacodierten Binärformat sammelt.
 Trotzdem wurde dieser Fragentyp im Konverter nicht umgesetzt.
 Das liegt zum einen daran, dass die hochgeladenen Dateien nicht Teil des Archives sind (siehe \cref{m:lsa}) und andererseits daran, dass die Praktikabilität dieses Vorgehens eher fragwürdig ist.
 Unter anderem wird eine Rekonstruktion zur Originaldatei schwer, da es zum Beispiel keine Informationen über den ursprünglichen Dateityp gibt, auch wird die XMl-Datei nur noch sehr unangenehm von Hand lesbar, wenn man diese Stream-Daten in Antworten einbinden würde. 
@@ -47,7 +47,72 @@ Auch wird der Fragetyp nicht häufig genutzt, was die Umsetzung noch unattraktiv
 - ODM bietet keinen Weg, visuelle Darstellungen zu speichern
 	- Jede Lösung ist nicht im Standard definiert und daher potentiell für andere nicht verwendbar
 	- Es handelt sich weder um Fragen noch um Antworten, auch wenn die Informationen nicht egal sind, so sind sie doch auch nicht sehr relevant
+- Oft ist am wichtigsten, wie die Frage formuliert ist, die Formulierung wird hier übernommen
+
+\subsection{Timings}
+
+\section{Formatierung}
+
+- Nicht alle Fragen können in ihrer Ursprungsform dargestellt werden
+	- ODM bietet wenig Möglichkeiten, anzugeben, wie Fragen dargestellt werden sollen
+	- LimeSurvey hat wesentlich mehr Optionen
+
+\subsection{Arrays}
+
+- Auseinanderziehen in Einzelne Single-Choice-Fragen ist nicht optimal
+	- Originale Struktur geht verloren
+- Bestimmtes Antwortverhalten tritt nur bei Arrays auf
+	- Antworten in Mustern
+
+- Darstellung der Antwortmöglichkeiten bleibt
+	- Änderungen sind nicht sehr groß
+	- Antwortverhalten wie oben ist nicht sehr häufig und bei Analyse größerer Datenmengen wohl ohnehin nicht feststellbar
+
+\subsection{Multiple Choice Fragen}
+
+- Auseinanderziehen in einzelne Ja/-Nein Fragen ist nicht optimal
+	- Man macht sich mehr Gedanken über einzelne Antwortmöglichkeiten
+	- Man überliest potentiell weniger Antworten
+	- Man ist weniger geneigt, mehrere Dinge zu antworten
+- Die IMI bietet eine eigene Syntax für die Darstellung von MC-Fragen
+
+- ODM hat keine Optionen für MC-Fragen
+	- Ist eine bessere Alternative dazu, die gleiche Frage fünf Mal zu stellen
+
+\section{Versionsabhängigkeit}
+
+\section{XSD Defintion}
+
+\section{Implementierung}
+
+\subsection{Java}
+
+- Nicht die schnellste Sprache
+- Bietet viele praktische Funktionen anderer Sprachen nicht
+	- Optionale Parameter
+
+- Betriebssystemunabhängig
+- Einfache Mittel zur Programmierung
+	- Logging (log4j)
+	- Ordentlichen Code (Lombok)
+		- Keine Getter/Setter, kaum Konstruktoren im Code
+- Immer noch schneller als andere Sprachen (Python)
+
+\subsection{Switch-Statement}
+
+- Eher C-Stil, für Objektorientierung nicht optimal
+
+- Bietet sich an
+	- mehrere Fragetypen haben gleiche Verarbeitung
+	- Verarbeitung mancher Fragetypen ist Teil einer anderen Verarbeitung
+- => Switch Statement kann all diese Fälle gut verarbeiten
+
 
 \section{Verwandte Arbeiten}
 
 - OpenClinica zu ODM
+	- Kann nur Klinische Daten einlesen, keine Metadaten (Angeblich)
+	- Betrachtet verschiedene Eigenschaften, die für eine Konformität zum ODM-Standard eingehalten werden müssen
+	- Zeigt ein Mapping (Hier werden auch Metadaten gemappt)
+	- Nutzt eine Vendor-Extension, ebenfalls im Mapping enthalten
+	- Redet sowohl über Import als auch Export

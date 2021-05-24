@@ -4,78 +4,137 @@
 \section{Akronyme}
 
 \begin{description}[font=\sffamily\bfseries, leftmargin=0cm, itemsep=-0.15cm, style=nextline]
+	\item \textbf{EDC} \el{Electronic Data Capture} Das Sammeln und Verarbeiten von Daten
+	\item \textbf{RegEx} \el{Regular Expression} Ein Ausdruck, der genutzt werden kann, um Zeichenketten auf eine bestimmte Struktur zu überprüfen
 	\item \textbf{XML} \el{Extensible Markup Language}
+	\item \textbf{XSD} \el{XML Schema Definition} Eine Datei, welche beschreibt, wie ein XML-Dokument aufgebaut sein sollte, um einer bestimmten Definition zu entsprechen.
+	\item \textbf{SAX} \el{Simple API for XML} Ein Standard, welcher beschreibt, wie man ein XML-Dokument parsen kann. Dieses wird sequentiell eingelesen und für definierte Ereignisse wird eine vorgegebene Rückruf-Funktion aufgerufen. Ein Programm kann eigene Funktionen registrieren und so das Dokument verarbeiten.
+	\item \textbf{DOM} \el{Document Object Model} Bietet die Möglichkeit, die Hierarchie der XML-Knoten in Baumform darzustellen und so zu navigieren/ den Baum zu bearbeiten
 	\item \textbf{CDISC} \el{Clinical Data Interchange Standards Consortium}
 	\item \textbf{CDISC ODM} \el{Operational Data Model} von CDISC entwickeltes XML-Format (siehe \cref{m:odm})
 	\item \textbf{lsa} Dateiendung des LimeSurvey Archives (siehe \cref{m:lsa})
 	\item \textbf{lsr} Dateiendung der LimeSurvey Response Datei (siehe \cref{m:lsa})
 	\item \textbf{lss} Dateiendung der LimeSurvey Struktur Datei (siehe \cref{m:lsa})
-	\item \textbf{EDC} \el{Electronic Data Capture} Das Sammeln und Verarbeiten von Daten
-	\item \textbf{DOM} \el{Document Object Model} Bietet die Möglichkeit, die Hierarchie der XML-Knoten in Baumform darzustellen und so zu navigieren/ den Baum zu bearbeiten
-	\item \textbf{SAX} \el{Simple API for XML} Ein Standard, welcher beschreibt, wie man ein XML-Dokument parsen kann. Dieses wird sequentiell eingelesen und für definierte Ereignisse wird eine vorgegebene Rückruf-Funktion aufgerufen. Ein Programm kann eigene Funktionen registrieren und so das Dokument verarbeiten.
 \end{description}
 
 \section{LimeSurvey}
+% - Umfragewerkzeug, sammeln von Meinungen/Interessen/Entscheidungsgrundlagen
+% - Firma gleichen Namens aus D
+% - Wird von den Entwicklern in der Cloud-Edition angeboten
+% - 4 Pläne
+% 	- Free
+% 	- Basic (34 Euro/Monat)
+% 	- Expert (29Euro/Monat)
+% 	- Enterprise (74 Euro/Monat)
+% - Code auch Open-Source
 
-- Umfragewerkzeug, sammeln von Meinungen/Interessen/Entscheidungsgrundlagen
-- Firma gleichen Namens aus D
-- Wird von den Entwicklern in der Cloud-Edition angeboten
-- 4 Pläne
-	- Free
-	- Basic (34 Euro/Monat)
-	- Expert (29Euro/Monat)
-	- Enterprise (74 Euro/Monat)
-- Code auch Open-Source
+LimeSurvey ist ein von der gleichnamigen deutschen Firma entwickeltes Werkzeug für Umfragen.
+Laut ihrer Website ist LimeSurvey ein für Einsteiger und Profis sowie für Privatpersonen als auch Institutionen gut geeignetes Werkzeug, um die Meinungen, Interessen und Entscheidungsgrundlagen einer Zielgruppe herauszufinden.
+Es wird seit 2006 an der Software entwickelt und sie ist sowohl als Cloud-Edition über die Firma erhältlich, sowie auch als OpenSource-Projekt.\\
+
+Falls man die Cloud-Edition nutzen will, hat man fünf Optionen: \textit{Free}, \textit{Basic}, \textit{Expert}, \textit{Enterprise} und \textit{Corporate}.
+Diese unterscheiden sich vor allem durch die Zahl an Antworten pro Monat, die Menge an Upload-Speicher, E-Mail-Support, White-Label-Umfragen, Alias-Domains und die Entfernung des LimeSurvey-Brandings.
+Innerhalb der \textit{Corporate}-Lösung kann man noch dedizierte Server und die Nutzung von SAML beantragen.
+Preislich bewegt man sich in einem Rahmen von 0€-74€ für die normalen Lösungen und einem individuell absprechbaren Preis für die \textit{Corporate}-Lösung.
+
+\subsection{Features}
+\subsubsection{ExpressionScript}
+\label{m:expr_script}
+Mit Expression Script lässt sich komplexe Logik in die Umfrage einbringen.
+Die LimeSurvey-interne Skriptsprache lässt Bedingungen zu, unter denen bestimmte Fragen oder Antworten angezeigt werden sollen.
+Man kann hier sowohl Antworten auf vorherige Fragen einbinden, als auch Informationen über den Teilnehmer, welche er vorher angegeben hat beziehungsweise welche über ihn gespeichert wurden.
+Man kann mehrere Szenarios designen und es sind Vergleiche mit den Standard-Operatoren sowie RegEx möglich.
+
+\subsubsection{Timings}
+
+Es ist möglich genau festzulegen, wie viel Zeit ein Nutzer zum Beantworten einer Frage hat.
+Es können Warnmeldungen zu bestimmten Abschnitten innerhalb der Zeitperiode angezeigt werden, die CSS-Klasse kann angepasst werden und das Beantworten anderer Fragen kann unterbunden werden.
 
 \subsection{Fragegruppen}
 
-- Name/Beschreibung/Randomisierungsgruppe/Relevanz
-- Kann beliebig viele Fragen enthalten
+% - Name/Beschreibung/Randomisierungsgruppe/Relevanz
+% - Kann beliebig viele Fragen enthalten
+
+Fragen in LimeSurvey sind in Fragegruppen unterteilt. Jede Frage ist genau einer Gruppe zugeordnet.
+Eine Gruppe kann beliebig viele Fragen enthalten, weiterhin hat sie einen Titel, eine Beschreibung, eine Randomisierungsgruppe und eine Relevanz-Gleichung, wo mittels ExpressionScript (siehe \cref{m:expr_script}) angegeben werden kann, wann die Fragen dieser Gruppe angezeigt werden sollen.
+Es darf beliebig viele Fragegruppen geben.
 
 \subsection{Fragetypen}
 
-- 36 Fragetypen (manche sind keine "Fragen" per se, davon gibt es 28), 5 Gruppen
-- Bedingungen
+% - 36 Fragetypen (manche sind keine "Fragen" per se, davon gibt es 28), 5 Gruppen
+% - Bedingungen
 
-- Single Choice
+Es gibt 36 Fragetypen in LimeSurvey, welche in fünf Kategorien unterteilt sind.
+Davon sind allerdings nicht alle tatsächlich Fragen, auf die der Teilnehmer antworten kann, insgesamt gibt es vier Fragetypen, welche nicht explizit Fragen sind.
+Die möglichen Antworten auf Freitext- und Zahlenfragen lassen sich mittels RegEx limitieren.
+Es gibt pro Frage einen optionalen Hilfstext.
+Fragen mit vordefinierten Antworten erhalten eine \enquote{Keine Antwort}-Option, wenn sie nicht verpflichtend sind.
+Im folgenden sollen alle Typen einmal aufgelistet und kurz beschrieben werden.
 
-- Skala 1-5
-- Bootstrap/Dropdown/Radio sind untersch. Darstellungen
-- Liste mit Kommentar hat nur Kommentar
-- Image Select List Radio hat Bild dazu
 
-- Arrays
+\subsubsection{Einfachauswahl}
 
-- Man kann aus einer Festen Liste an Möglichkeiten eine pro Subfrage Auswählen
-- 5 Punkte, 10 Punkte, Erhöhung/Gleich/Erniedrigung, Ja/Nein/Unsicher, Selbst definierte Möglichkeiten
-- Nach Spalte: Gleiches wie Freitext, nur Achsen getauscht
-- Dual Scale: Zwei mal selbst definierte Möglichkeiten, aus beiden Skalen eine Antwort pro Subfrage auswählbar.
-- Matrizen
-- Freitext oder freie Zahl
+Auf folgende Fragen kann man maximal eine Antwort geben.
+\begin{itemize}
+	\item[5 Punkte Wahl] Hier kann auf einer Skala von 1 bis 5 ein Wert ausgewählt werden
+	\item[Liste] Hier kann aus einer vordefinierten Liste eine Antwort gewählt werden. Es gibt drei unterschiedliche Darstellungsmöglichkeiten für diese Liste, entweder als Dropdown-Menü, als Bootstrap-Buttons oder mit Radio-Buttons neben den Antworten
+	\item[Liste mit Kommentar] Dies ist eine Listen-Frage wie oben, allerdings kann für die Frage auch noch ein Kommentar im Freitext geschrieben werden
+	\item[Image-Select-List] Hier wird zu der Liste an Antworten noch ein Bild angezeigt. Die Antworten werden mit Radio-Buttons daneben angezeigt
+\end{itemize}
 
-- Multiple Choice
+\subsubsection{Matrix}
 
-- Darstellungen: Bootstrap, simples Multiple Choice
-- Mit Bild oder mit Kommentar (Ein Kommentar pro Antwortfeld)
+% - Man kann aus einer Festen Liste an Möglichkeiten eine pro Subfrage Auswählen
 
-- Textfragen
+Pro Frage gibt es beliebig viele Subfragen, für jede Subfrage kann eine der vordefinierten Antworten ausgewählt werden.
+Subfragen werden typischerweise als Zeilen dargestellt, die Antworten als Spalten
 
-- Browser Detect
-- Kurz/Normal/Lang-er Freitext
-- Mehrere kurze Freitexte
-- Input on Demand
+\begin{itemize}
+	\item[5 Punkte] Hier kann auf einer Skala von 1 bis 5 ein Wert ausgewählt werden
+	\item[10 Punkte] Hier kann auf einer Skala vom 1 bis 10 ein Wert ausgewählt werden
+	\item[Z/G/A] Hier kann aus den drei Möglichkeiten \enquote{Zunahme/Gleich/Abnahme} eine gewählt werden
+	\item[J/N/U] Hier kann aus den drei Möglichkeiten \enquote{Ja/Nein/Unsicher} eine gewählt werden
+	\item[Matrix (Custom)] Hier kann eine eigene Liste an Antwortmöglichkeiten definiert werden
+	\item[Matrix nach Spalte] Identisch zu Matrix (Custom), allerdings werden Zeilen und Spalten getauscht
+	\item[Dual Matrix] Es gibt zwei selbst erstellbare Listen an Antwortmöglichkeiten, man kann aus beiden eine Antwort pro Subfrage wählen
+	\item[Matrix (Freitext)] Hier kann man zwei Listen an Subfragen angeben. Daraus wird dann eine Matrix erstellt, wo in jeder Zelle Freitext als Antwort geschrieben werden kann
+	\item[Matrix (Zahlen)] Identisch zu Matrix (Freitext), aber es können nur Zahlen als Antwort angegeben werden
+\end{itemize}
 
-- Maskenfragen
+\subsubsection{Multiple Choice}
 
-- Tag/Zeit
-- Ja/Nein
-- Gleichung
-- Dateiupload
-- Geschlecht
-- Sprachumschaltung
-- Zahleneingabe (Auch mehrfach, mit Limitierbaren Maximal/Minimal-Werten/Summen, Genauen Gesamtergebnissen und nur Ganzzahl)
-- Ranking (Advanced)
-- Textanzeige
+Hier können mehrere Antworten aus einer vordefinierten Liste ausgewählt werden.
+Optional kann ein \enquote{Anderes}-Feld zugänglich gemacht werden, wo Teilnehmer eine eigene Antwort schreiben können
+
+\begin{itemize}
+	\item[Multiple Choice] Darstellung als Bootstrap-Buttons oder Radio-List ist möglich
+	\item[Image Select] Hier wird ein Bild mit angezeigt
+	\item[Kommentar] hier kann ein Kommentar pro Antwortfeld geschrieben werden
+\end{itemize}
+
+\subsubsection{Textfragen}
+
+\begin{itemize}
+	\item[Browser Detect] Erkennt den Webbrowser des Teilnehmers. Dies ist keine Frage, welche der Teilnehmer beantworten kann
+	\item[Freitext] Hier kann der Teilnehmer einen Text eintippen. Es gibt kurze/lange und riesige Freitexte
+	\item[Mehrere Texte] Es gibt mehrere Subfragen. Für jede kann ein kurzer Freitext angegeben werden
+	\item[Input on Demand] %TODO
+\end{itemize}
+
+\subsubsection{Maskenfragen}
+
+\begin{itemize}
+	\item[Datum/Zeit] Hier kann ein Datum und eine Uhrzeit angegeben werden. Das Format ist einstellbar, es kann auch ein minimales Datum angegeben werden
+	\item[Ja/Nein] Hier kann mit Ja oder Nein geantwortet werden
+	\item[Gleichung] Hier kann ein Text angegeben werden, wo der Nutzer Variablen einträgt, diese können in einer Rechnung verwendet werden, dessen Ergebnis dann angezeigt wird
+	\item[Dateiupload] Hier kann eine Datei als Antwort hochgeladen werden
+	\item[Geschlecht] Hier kann zwischen \enquote{Männlich}, \enquote{Weiblich} und \enquote{Keine Antwort} ausgewählt werden
+	\item[Sprachumschaltung] Hier kann der Teilnehmer die Sprache ändern. Auch das ist keine richtige Antwort
+	\item[Zahleneingabe] Hier kann nach einer Zahl als Antwort gefragt werden.
+	\item[Mehrfache Zahlen] Hier gibt es mehrere Subfragen, auf die jeweils mit einer Zahl geantwortet werden muss. Die Maximal/Minimal-Werte sind limitierbar, genau so wie auch die Maximal- und Minimal-Summe. Es können genaue Gesamtergebnisse verlangt werden und nur Ganzzahlen als Antwort verlangt werden
+	\item[Ranking (Advanced)] Hier kann der Teilnehmer Elemente aus einer vordifinierten Liste sortieren. Es müssen nicht alle Elemente einsortiert werden
+	\item[Textanzeige] Hier wird ein Text angezeigt. Auch hier kann nicht geantwortet werden
+\end{itemize}
 
 \subsection{Export}
 \subsubsection{LimeSurvey Archiv}
@@ -94,24 +153,65 @@ Weitere optionale Dateien sind eine Token-Datei, welche Daten über die % TODO
 	\item[SPSS] SPSS ist ein Software-Paket, welches zur statistischen Analyse von Daten genutzt wird. Auch hier kann ausgewählt werden, welche Antworten exportiert werden sollen. Die Nutzung der Open-Source Version PSPP ist auch möglich
 	\item[R] R ist eine Alternative zu SPSS, hier werden allerdings alle Daten exportiert
 	\item[STATA-xml] Auch STATA ist eine komerzielle Lösung für Datenanalyse wie SPSS. Hierfür werden die Daten von LimeSurvey direkt in das proprietäre STATA-Format umgewandelt.
-	\item[VV] Durch "vertical verfication" ist es möglich, die Antworten zu modifizieren und die modifizierte Datei dann wieder zu importieren
+	\item[VV] Durch \enquote{vertical verfication} ist es möglich, die Antworten zu modifizieren und die modifizierte Datei dann wieder zu importieren
 \end{itemize}
 
 \section{ODM}
 \label{m:odm}
-- Ein Datenstandard im XML-Format
-- entwickelt von der CDISC
-- Ziel: Ein klares, einheitliches Format für Klinische Daten
-- Zusätzliche Daten wie Metadaten oder admin. Daten werden auch gespeichert
-- Plattform-unabhängig
-- Unabhängig von spezifischen Firmen
-- Mittlerweile viel genutzt in EDC Tools
+
+% - Ein Datenstandard im XML-Format
+% - entwickelt von der CDISC
+% - Ziel: Ein klares, einheitliches Format für Klinische Daten
+% - Zusätzliche Daten wie Metadaten oder admin. Daten werden auch gespeichert
+% - Plattform-unabhängig
+% - Unabhängig von spezifischen Firmen
+% - Mittlerweile viel genutzt in EDC Tools
+
+ODM ist einer der Standards, welcher von CDISC entwickelt wurde, um den gesamten Zyklus einer Studie in ihren verschiedensten Formen zu standardisieren.
+Es dient dazu, sowohl Metadaten als auch klinische Daten einer Studie zu erfassen. Auch administrative Daten sind im Standard enthalten.
+ODM ist unabhängig von spezifischen Firmen und Plattformen und daher gut zum Austausch zwischen verschiedensten Werkzeugen und Gruppierungen geeignet.
+Bereits 2006 hat ODM im internationalen Raum Anklang gefunden, in Deutschland allerdings noch nicht.
+Das ändert sich mittlerweile, das IMI der WWU zum Beispiel nutzt das Format bereits in mehreren Werkzeugen.
+
+\subsection{Aufbau}
+
+Zuerst sollte angemerkt werden, dass hier bei weitem nicht alle Elemente, die im ODM-Standard definiert sind, vorgestellt werden. Das hat sowohl Zeit- als auch Platzgründe, weiterhin werden viele Elemente für die Abbildung von LimeSurvey nicht gebraucht.
+Für diese Arbeit sind besonders zwei Teile des ODM Standards relevant: Die \el{Study} und die \el{ClinicalData}.
+Weiterhin gibt es noch \el{AdminData}, \el{ReferenceData} und \el{Association}.
+Grundlegend werden andere Elemente mittels einer OID referenziert, ein Attribut, welches jedes Element besitzt, das man referenzieren kann.
+
+\subsubsection{Study}
+
+Eine Studie hat globale Variablen und grundlegende Definitionen.
+Weiterhin gibt es die \el{MetaDataVersion}, wo die Struktur der Umfrage festgelegt wird.
+In der einer Version der Metadaten sind alle Elemente in Referenzen und Definitionen aufgeteilt, wobei die Referenzen immer zuerst im nächst \enquote{höhergelegenen} Element vorkommen.\\
+
+Das Basiselement einer Studie ist das \el{Protocol}.
+Dies enthält Elemente des Typs \el{StudyEventRef}.
+Dann folgen Elemente des Typs \el{StudyEventDef}, welche wiederum Referenzen auf Elemente des Typs \el{FormDef} beinhalten.
+Dieses Schema setzt sich noch mit den Elementen \el{ItemGroupDef} und \el{ItemDef} fort.\\
+
+Als weitere Elemente gibt es noch die \el{CodeList} und die \el{Condition}.
+In einer \el{CodeList} werden Antwortmöglichkeiten festgehalten, welche auf eine Frage (Element des Typs \el{ItemDef}) gegeben werden können.
+Entsprechend enthält \el{ItemDef} ein Element \el{Question}, in welchem eine Frage festgehalten wird.
+Mit \el{ConditionDef} kann eine Bedingung festgelegt werden.
+Referenziert eine Frage ein Element dieses Typs und evaluiert der Ausdruck zu \enquote{true}, wird die Frage nicht angezeigt.
+
+\subsubsection{ClinicalData}
+
+In der \el{ClinicalData} gibt es für jeden Teilnehmer der Studie ein Element des Typs \el{SubjectData}.
+Ab hier ist dann die Stuktur der Studie abgebildet, wobei die \el{ItemData} das unterste Element ist und die Antwort auf eine Frage beinhaltet.
 
 \section{dom4j}
 
-- API für den Zugriff und die Verarbeitung von XML-Dokumenten
-- Bietet simple Wege, um existierende Funktionen wie XPath oder Parsing mittels DOM/SAX zu nutzen
-- Auch Dokumente erstellen möglich
+% - API für den Zugriff und die Verarbeitung von XML-Dokumenten
+% - Bietet simple Wege, um existierende Funktionen wie XPath oder Parsing mittels DOM/SAX zu nutzen
+% - Auch Dokumente erstellen möglich
+
+Dom4j ist eine API, welche die bestehenden Funktionen der \jv{javax}-Bibliothek abstrahiert und so wesentlich simplere Wege bietet, diese zu nutzen.
+Unter anderem ist es möglich, Elemente in einem XML-Dokument mittels XPath-Ausdrücken zu finden und DOM/SAX-Parser zu nutzen, um ein Dokument zu verarbeiten.
+Auch ein \jv{XMLWriter} existiert, welcher unter anderem Standardelemente von XML automatisch an ein Dokument anhängt und das Format des Dokuments mittels eines einzeiligen Befehls so anpassen kann, dass es leicht für einen Menschen lesbar ist.
+
 %%
 %\section{Mathematische Notation}
 %\label{s:notation}

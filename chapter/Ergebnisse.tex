@@ -1,6 +1,32 @@
 \chapter{Ergebnisse}
 \label{ch:ergebnisse}
 
+\section{Analyse des LSS- und LSR-Formates}
+
+- Keine Dokumentation zum Aufbau des XML vorhanden
+- Lösung: Testdokumente erstellen und von da aus Format herausfinden
+	- Erst simples Dokument mit Textfragen und zwei Fragegruppen
+
+- Gruppen:
+	- \el{groups} sammelt Metadaten über Fragegruppen, diese sind aber auch in \el{group\_l10ns}
+	- \el{group\_l10ns} hat auch noch weitere Inhalte wie Name, Sprache
+
+- \el{questions} Enthält Metadaten über Fragen, wie \el{qid}, \el{gid}, \el{title}, \el{type}.
+- \el{subquestions} hat Unterfragen von Arrays, Matrizen etc. sind via \el{parent\_qid} and ein Element aus \el{question} gebunden
+- \el{question\_l10ns} hat \el{qid} und \el{question}, \el{help}, \el{language}
+	- Für jedes Element aus \el{question}, \el{subquestion} gibt es hier ein Element
+- \el{question\_attributes} Enthält Informationen über eine Frage wie ein Prä-/Suffix, RegEx-Validations-Ausdrücke, Timings und Informationen zur Darstellung einer Frage (Textfeldbreite, Defauld-Antworten) 
+
+- Antwortmöglichkeiten
+	- werden entweder implizit durch den Typ ermittelt
+	- oder (wenn custom) in \el{answers} (\el{qid}, \el{aid}, \el{code}) + \el{answer\_l10ns} (\el{answer}, \el{aid}, \el{language})
+
+- \el{surveys} hat Metadaten über die Umfrage (keine für die Konvertierung relevanten)
+- \el{surveyls\_languagesettings} enthält relevante Infos wie \el{surveyls\_id}, \el{surveyls\_title}, \el{surveyls\_description}
+- \el{themes} und \el{themes\_inherited} enthalten Infos über die visuelle Darstellung der Umfrage in LimeSurvey
+
+\subsection{Erstellung eines XML-Schemas}
+
 \section{Mapping}
 
 \subsection{Dummy Elemente in ODM}
@@ -24,7 +50,39 @@
 - Aus einer Frage in LS werden pot. mehrere ItemDef's in ODM (fragetypabhängig)
 - Elemente aus \el{Questions} und \el{Subquestions} und \el{Question\_l10ns} werden genutzt
 
+\subsection{Themes und Frageattribute}
+
+- Werden nicht übernommen
+	- ODM dient zum Austausch der Fragen/Antworten, nicht die Art und Weise, wie sie dargestellt werden
+
 \section{Implementierung}
+
+\subsection{Java}
+
+- Bietet sehr mächtige Werkzeuge zur Bearbeitung von XML
+	- Kann z.B. mit mehreren Attributen in einem Element umgehen
+	- Unterstützt XSD-1.1
+- Wird beim IMI bereits viel genutzt
+
+\subsection{Eingabe}
+
+- Archiv
+	- muss entpackt werden
+
+\subsection{XSD-Validierung}
+
+- Nutze Xerces zusammen mit der erstellten XSD um eine Eingabedatei zu prüfen
+- Prüfung ist nicht bindend
+	- Auch invalide Datei wird weiter verarbeitet
+	- Grund: Starke Versionsabhängigkeit
+		 - Invalide lss-Datei kann eventuell trotzdem erfolgreich umgewandelt werden
+	- Zur Information für Anwender: Potentiell problematisch/inkompatibel mit Konverter
+
+\subsection{Parsing der LimeSurvey Struktur}
+
+\subsection{Parsing der LimeSurvey Antworten}
+
+\subsection{Ausgabe als ODM-Datei}
 
 % Dieses Kapitel sollte die Ergebnisse beinhalten, die mit den Methoden aus \autoref{ch:methodik} erstellt wurden.
 
