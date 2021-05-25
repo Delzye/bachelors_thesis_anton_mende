@@ -3,27 +3,78 @@
 
 \section{Analyse des LSS- und LSR-Formates}
 
-- Keine Dokumentation zum Aufbau des XML vorhanden
-- Lösung: Testdokumente erstellen und von da aus Format herausfinden
-	- Erst simples Dokument mit Textfragen und zwei Fragegruppen
+% - Keine Dokumentation zum Aufbau des XML vorhanden
+% - Lösung: Testdokumente erstellen und von da aus Format herausfinden
+% 	- Erst simples Dokument mit Textfragen und zwei Fragegruppen
 
-- Gruppen:
-	- \el{groups} sammelt Metadaten über Fragegruppen, diese sind aber auch in \el{group\_l10ns}
-	- \el{group\_l10ns} hat auch noch weitere Inhalte wie Name, Sprache
+In der Online-Dokumetation von LimeSurvey gibt es zwar eine Sektion zum Thema Export und Export-Formate, dieses Kapitel war aber bis vor kurzem leer.
+Auch jetzt enthält das Kapitel nur eine oberflächliche Beschreibung der Formate, die genaue Struktur wird nicht erklärt.
+Da diese allerdings benötigt wird, um eine Konvertierung vornehmen zu können, muss zunächst ermittelt werden, wie die .lss- und .lsr-Dateien genau aufgebaut sind.
 
-- \el{questions} Enthält Metadaten über Fragen, wie \el{qid}, \el{gid}, \el{title}, \el{type}.
-- \el{subquestions} hat Unterfragen von Arrays, Matrizen etc. sind via \el{parent\_qid} and ein Element aus \el{question} gebunden
-- \el{question\_l10ns} hat \el{qid} und \el{question}, \el{help}, \el{language}
-	- Für jedes Element aus \el{question}, \el{subquestion} gibt es hier ein Element
-- \el{question\_attributes} Enthält Informationen über eine Frage wie ein Prä-/Suffix, RegEx-Validations-Ausdrücke, Timings und Informationen zur Darstellung einer Frage (Textfeldbreite, Defauld-Antworten) 
 
-- Antwortmöglichkeiten
-	- werden entweder implizit durch den Typ ermittelt
-	- oder (wenn custom) in \el{answers} (\el{qid}, \el{aid}, \el{code}) + \el{answer\_l10ns} (\el{answer}, \el{aid}, \el{language})
+Dies wurde bewerkstelligt, indem zunächst ein simples Dokument erstellt wurde, welches eine Fragegruppe und drei Freitextfragen enthält.
+Dafür wurde eine Instanz der LimeSurvey Community Edition benötigt, diese aufzusetzen war dank existierenden Docker-Compose-Dateien relativ simpel.
+Nachdem die Struktur der Umfrage selbst, sowie der Fragegruppen so ermittelt wurde, wurden komplexere Dateien erstellt.
+Diese enthielten zunächst Fragen mit festen Antwortmöglichkeiten, also vor allem Maskenfragen und Multiple Choice Fragen.
+Nachdem so auch die Struktur der Antworten deutlich geworden war, wurden zuletzt die Matrixfragen eingebaut und die Struktur der Subfragen ermittelt.
+Das Ergebis dieser Analyse wird im Folgenden dargestellt (Es werden nicht alle existierenden Elemente angesprochen, sondern nur die für diese Arbeit relevanten, eine vollständige Auflistung kann im %TODO 
+gefunden werden):
 
-- \el{surveys} hat Metadaten über die Umfrage (keine für die Konvertierung relevanten)
-- \el{surveyls\_languagesettings} enthält relevante Infos wie \el{surveyls\_id}, \el{surveyls\_title}, \el{surveyls\_description}
-- \el{themes} und \el{themes\_inherited} enthalten Infos über die visuelle Darstellung der Umfrage in LimeSurvey
+\subsection{Grundlegende Struktur}
+
+Das Root-Element in LSS ist \el{document}.
+Hier sind zuerst grundlegende Informationen wie die Datenbank-Version und den Typ des Dokuments enthalten.
+Jedes der größeren Hauptelemente in \el{document} hat die gleiche Struktur.
+Es gibt zwei Elemente, \el{fields} und \el{rows}. In \el{rows} gibt es \el{row} Elemente, welche die Informationen selbst in weiteren Elementen enthalten.
+In \el{fields} gibt es \el{fieldname} Elemente, wobei es für jedes mögliche Element in \el{rows/row} ein \el{filedname} Element mit dem Namen als Text gibt.
+
+\subsection{Fragegruppen}
+
+Im Element \el{groups} werden Metadaten über Fragegruppen gesammelt, wie zum Beispiel die Gruppen-ID.
+Diese sind aber auch in \el{group\_l10ns} enthalten, darüber hinaus sind auch noch weitere Inhalte wie Gruppenname und Sprache in diesem Element.
+Daher werden später keine Informationen aus \el{groups} später verwendet.
+Ein \el{row} Element steht hier für eine Fragegruppe.
+
+\subsection{Fragen}
+
+Das Element \el{questions} enthält Metadaten über Fragen, wie \el{qid}, \el{gid}, \el{title}, \el{type}.
+Ein \el{row} Element steht hier für eine Frage, pro richtiger Frage in der Umfrage gibt es ein Element in \el{questions}.
+\el{subquestions} hat Subfragen von Arrays, Matrizen et cetera. Diese sind via \el{parent\_qid} and ein Element aus \el{questions} gekoppelt.
+Auch in \el{subquestions} sind nur Metadaten enthalten, jede Subfrage hat, wie die richtigen Fragen auch, eine Fragen-ID.
+In \el{question\_l10ns} gibt es nun die tatsächliche Frage in \el{question}, weiterhin gibt es mit \el{help} einen Hilfstext für die Frage, \el{language} gibt die Sprache des Fragetextes an.
+Für jedes Element aus \el{question} und \el{subquestion} gibt es hier ein Element pro Sprache.
+Referenziert werden diese mit der \el{qid}.
+
+\el{question\_attributes} enthält Informationen über eine Frage wie ein Prä-/Suffix zu der Antwort, RegEx-Validations-Ausdrücke für die Antwort, Timings und Informationen zur Darstellung einer Frage (Textfeldbreite, Default-Antworten).
+
+\subsection{Antwortmöglichkeiten}
+
+Es gibt eine Reihe an Fragen, für die es eine Menge an vordefinierten Antworten gibt.
+Diese sind entweder schon durch die Frage festgelegt, wie bei dem Fragetyp \el{5 Punkte Wahl} oder dem Typ \el{Geschlecht}, oder der Umfrage-Ersteller kann sie selber angeben.
+Sind die Möglichkeiten schon durch den Typ festgelegt, werden die Antwortmöglichkeiten implizit ermittelt und nie konkret im Dokument niedergeschrieben.
+Hat der Umfrage-Ersteller die Möglichkeiten selber festgelegt, werden diese in \el{answers} und \el{answer\_l10ns} gespeichert.
+In \el{answers} gibt es dabei wieder Metadaten wie \el{qid}, \el{aid}, und einen \el{code}. 
+In \el{answer\_l10ns} hingegen gibt es den Antworttext in \el{answer}, eine \el{aid} zur Verknüpfung mit den Metadaten und die Sprache in \el{language}.
+Für jedes Element aus \el{answers} gibt es pro Sprache ein Element in \el{answer\_l10ns}.
+
+\subsection{Umfrage-Metadaten}
+
+In \el{surveys} findet man Metadaten über die Umfrage, allerdings sind keine davon für die Konvertierung relevant.
+Beispiele wären Daten darüber, ob Willkommenstexte angezeigt werden sollen oder ob IP-Adressen der Teilnehmer gespeichert werden sollen.
+\el{surveyls\_languagesettings} enthält relevante Informationen wie die \el{surveyls\_id}, den Titel in \el{surveyls\_title} und eine Beschreibung der Umfrage in \el{surveyls\_description}.
+\el{themes} und \el{themes\_inherited} enthalten Infos über die visuelle Darstellung der Umfrage in LimeSurvey.
+
+\subsection{LSR-Aufbau}
+
+Auch für die Antworten wurde die gleiche Strategie wie für die Umfragestruktur verwendet.
+Die Ergebnisse sind wie folgt:
+
+Das Hauptelement ist wieder \el{Document}, zuerst gibt es wieder einige Metadaten wie der Typ des Dokuments, die Datenbank-Version und die Sprache.
+Dann gibt es ein \el{responses} Element, welches dieselbe grundlegende Struktur wie die Elemente in der LSS-Datei besitzt.
+Für jeden Teilnehmer der Umfrage gibt es ein Element vom Typ \el{row}.
+Dies enthält eine ID, das Absendedatum, die Sprache und einen Seed.
+Dann kommen die Antworten, wobei es für jede Frage bzw. Subfrage ein Element mit folgendem Namensschema gibt: \el{\_\{Survey-ID\}X\{GID\}X\{QID\}\{SQID\}?\{ext\}?}, wobei \el{ext} folgendes sein kann (\enquote{other}$\vert$\enquote{comment}).
+Man kann bereits am Format sehen, dass es auch für die \enquote{other} und Kommentar-Felder hier eine separate Antwort gibt.
 
 \subsection{Erstellung eines XML-Schemas}
 
