@@ -6,6 +6,7 @@
 \begin{description}[font=\sffamily\bfseries, leftmargin=0cm, itemsep=-0.15cm, style=nextline]
 	\item \textbf{EDC} \el{Electronic Data Capture} Das Sammeln und Verarbeiten von Daten
 	\item \textbf{RegEx} \el{Regular Expression} Ein Ausdruck, der genutzt werden kann, um Zeichenketten auf eine bestimmte Struktur zu überprüfen
+	\item \textbf{IMI} \el{Institut für Medizinische Informatik} Eines der Institute der WWU. Diese Arbeit ist in Kooperation mit ihnen entstanden
 	\item \textbf{XML} \el{Extensible Markup Language}
 	\item \textbf{XSD} \el{XML Schema Definition} Eine Datei, welche beschreibt, wie ein XML-Dokument aufgebaut sein sollte, um einer bestimmten Definition zu entsprechen.
 	\item \textbf{SAX} \el{Simple API for XML} Ein Standard, welcher beschreibt, wie man ein XML-Dokument parsen kann. Dieses wird sequentiell eingelesen und für definierte Ereignisse wird eine vorgegebene Rückruf-Funktion aufgerufen. Ein Programm kann eigene Funktionen registrieren und so das Dokument verarbeiten.
@@ -116,7 +117,7 @@ Optional kann ein \enquote{Anderes}-Feld zugänglich gemacht werden, wo Teilnehm
 
 \begin{itemize}
 	\item[Browser Detect] Erkennt den Webbrowser des Teilnehmers. Dies ist keine Frage, welche der Teilnehmer beantworten kann
-	\item[Freitext] Hier kann der Teilnehmer einen Text eintippen. Es gibt kurze/lange und riesige Freitexte
+	\item[Freitext] Hier kann der Teilnehmer einen Text eintippen. Es gibt kurze, lange und riesige Freitexte
 	\item[Mehrere Texte] Es gibt mehrere Subfragen. Für jede kann ein kurzer Freitext angegeben werden
 	\item[Input on Demand] %TODO
 \end{itemize}
@@ -129,7 +130,7 @@ Optional kann ein \enquote{Anderes}-Feld zugänglich gemacht werden, wo Teilnehm
 	\item[Gleichung] Hier kann ein Text angegeben werden, wo der Nutzer Variablen einträgt, diese können in einer Rechnung verwendet werden, dessen Ergebnis dann angezeigt wird
 	\item[Dateiupload] Hier kann eine Datei als Antwort hochgeladen werden
 	\item[Geschlecht] Hier kann zwischen \enquote{Männlich}, \enquote{Weiblich} und \enquote{Keine Antwort} ausgewählt werden
-	\item[Sprachumschaltung] Hier kann der Teilnehmer die Sprache ändern. Auch das ist keine richtige Antwort
+	\item[Sprachumschaltung] Hier kann der Teilnehmer die Sprache ändern. Auch das ist keine richtige Frage
 	\item[Zahleneingabe] Hier kann nach einer Zahl als Antwort gefragt werden.
 	\item[Mehrfache Zahlen] Hier gibt es mehrere Subfragen, auf die jeweils mit einer Zahl geantwortet werden muss. Die Maximal/Minimal-Werte sind limitierbar, genau so wie auch die Maximal- und Minimal-Summe. Es können genaue Gesamtergebnisse verlangt werden und nur Ganzzahlen als Antwort verlangt werden
 	\item[Ranking (Advanced)] Hier kann der Teilnehmer Elemente aus einer vordifinierten Liste sortieren. Es müssen nicht alle Elemente einsortiert werden
@@ -193,7 +194,12 @@ Dieses Schema setzt sich noch mit den Elementen \el{ItemGroupDef} und \el{ItemDe
 
 Als weitere Elemente gibt es noch die \el{CodeList} und die \el{Condition}.
 In einer \el{CodeList} werden Antwortmöglichkeiten festgehalten, welche auf eine Frage (Element des Typs \el{ItemDef}) gegeben werden können.
-Entsprechend enthält \el{ItemDef} ein Element \el{Question}, in welchem eine Frage festgehalten wird.
+Dabei gibt es zwei Arten von CodeLists, die simple und die komplexe.
+Die simple Liste besteht aus \el{EnumeratedItems}, wo die Antwortmöglichkeit in dem Attribut \el{CodedValue} angegeben ist.
+In den klinischen Daten wird als Antwort dann dieser codierte Wert stehen.
+Die komplexe Liste hat dieses Attribut ebenfalls, in Elementen des Typs \el{CodeListItem}. Es ist auch als Antwort angegeben, aber die tatsächliche Antwortmöglichkeit ist der Text von \el{CodeListItem/Decode/TranslatedText}.
+
+\el{ItemDef} enthält ein Element \el{Question}, in welchem eine Frage festgehalten wird.
 Mit \el{ConditionDef} kann eine Bedingung festgelegt werden.
 Referenziert eine Frage ein Element dieses Typs und evaluiert der Ausdruck zu \enquote{true}, wird die Frage nicht angezeigt.
 
@@ -201,6 +207,8 @@ Referenziert eine Frage ein Element dieses Typs und evaluiert der Ausdruck zu \e
 
 In der \el{ClinicalData} gibt es für jeden Teilnehmer der Studie ein Element des Typs \el{SubjectData}.
 Ab hier ist dann die Stuktur der Studie abgebildet, wobei die \el{ItemData} das unterste Element ist und die Antwort auf eine Frage beinhaltet.
+
+\section{IMI Syntaxerweiterung für ODM}
 
 \section{dom4j}
 
@@ -211,6 +219,7 @@ Ab hier ist dann die Stuktur der Studie abgebildet, wobei die \el{ItemData} das 
 Dom4j ist eine API, welche die bestehenden Funktionen der \jv{javax}-Bibliothek abstrahiert und so wesentlich simplere Wege bietet, diese zu nutzen.
 Unter anderem ist es möglich, Elemente in einem XML-Dokument mittels XPath-Ausdrücken zu finden und DOM/SAX-Parser zu nutzen, um ein Dokument zu verarbeiten.
 Auch ein \jv{XMLWriter} existiert, welcher unter anderem Standardelemente von XML automatisch an ein Dokument anhängt und das Format des Dokuments mittels eines einzeiligen Befehls so anpassen kann, dass es leicht für einen Menschen lesbar ist.
+
 
 %%
 %\section{Mathematische Notation}

@@ -6,6 +6,7 @@
 % Verwandte Arbeiten hier
 
 \section{Weglassen von Fragetypen}
+\label{d:leave}
 
 Auch wenn mit diesem Konverter eine vollständige Umsetzung der LimeSurvey Archiv-Daten angestrebt wird, so wurden doch einige Fragetypen bewusst nicht umgesetzt.
 Im Folgenden soll erläutert werden, welche Fragetypen nicht konvertiert wurden, wie diese Fragetypen hätten umgesetzt werden können und warum die Entscheidung getroffen wurde, dies nicht zu tun.
@@ -34,6 +35,7 @@ Auch wird der Fragetyp nicht häufig genutzt, was die Umsetzung noch unattraktiv
 	- Nicht z.B. als Description irgendwo zuordnebar
 
 \section{Visuelle Darstellung der Fragen}
+\label{d:themes}
 
 - LimeSurvey speichert viele Infos über die Darstellung
 	- Themes
@@ -83,6 +85,21 @@ Auch wird der Fragetyp nicht häufig genutzt, was die Umsetzung noch unattraktiv
 
 \section{XSD Defintion}
 
+\subsection{Element-Inhalte}
+
+Auffällig war, dass in der LSS-Datei nur CDATA-Werte als Text verwendet werden.
+So ist niemals klar, welcher Datentyp genau nun in ein bestimmtes Feld gehört.
+Das Schema erzwingt hier teils genauere Datentypen, wenn der Inhalt offensichtlich ist, allerdings ist dies nicht immer möglich.
+Trotzdem wird so nicht nur ein Maß an struktureller Korrektheit sondern auch an inhaltlicher Korrektheit erzwungen.
+Prinzipiell sollten diese Datentypen einer aus LimeSurvey exportierten Datei nie im Wege stehen, daher ist die Einführung dieser kein Problem.
+
+\subsection{Design}
+
+Auch das Design der hardgecodeten Elemente ist nicht optimal, da so in der Zukunft zum LSS-Format hinzugefügte Elemente als invalide erkannt werden.
+Man könnte sicherlich einen dynamischeren Weg kreieren, indem man die Liste an möglichen Elementen in dem \el{fields}-Element und Features von XSD 1.1 nutzt.
+Allerdings widerspricht das der Art und Weise, wie XSD verwendet werden sollte, das festhalten der genauen Elementnamen ist dort vorgesehen.
+Auch ist es kein großes Problem, da der Konverter diese Felder dann sowieso nicht kennt, so wird man ebenfalls vor potentiellen Inkompatibilitäten gewarnt.
+
 \section{Implementierung}
 
 \subsection{Java}
@@ -108,6 +125,16 @@ Auch wird der Fragetyp nicht häufig genutzt, was die Umsetzung noch unattraktiv
 - => Switch Statement kann all diese Fälle gut verarbeiten
 
 \subsection{JAXB}
+
+\section{Erweiterung der IMI-Syntax}
+\label{d:imi}
+
+In der IMI-Syntax wird keine Möglichkeit vorgestellt, reguläre Ausdrücke zu evaluieren. %TODO reference Refining the CDISC ODM-XML Standard
+Daher wird in dieser Arbeit vorgeschlagen, eine Funktion \el{MATCH(REGEX, PATH)} einzuführen, welche reguläre Ausdrücke mit beginnendem und endendem Schrägstrich und potentiell Flags hinter dem endenden Schrägstrich entgegennimmt und prüft, ob die Antwort dem Muster entspricht.
+Mittels einer Custom-Funktion ließe sich so eine Syntax in \textit{expr-eval} und \textit{EvalEx} integrieren.
+
+Auch wird keine Möglichkeit geboten, die Abwesenheit einer Antwort zu überprüfen. Dafür wird ein Vergleich mit \enquote{NULL} vorgeschlagen.
+Das wird allerdings nur von \textit{EvalEx} unterstützt, nicht durch \textit{expr-eval}.
 
 \section{Verwandte Arbeiten}
 

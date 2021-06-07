@@ -17,7 +17,7 @@ Dafür wurde eine Instanz der LimeSurvey Community Edition benötigt, diese aufz
 Nachdem die Struktur der Umfrage selbst, sowie der Fragegruppen so ermittelt wurde, wurden komplexere Dateien erstellt.
 Diese enthielten zunächst Fragen mit festen Antwortmöglichkeiten, also vor allem Maskenfragen und Multiple Choice Fragen.
 Nachdem so auch die Struktur der Antworten deutlich geworden war, wurden zuletzt die Matrixfragen eingebaut und die Struktur der Subfragen ermittelt.
-Das Ergebis dieser Analyse wird im Folgenden dargestellt (Es werden nicht alle existierenden Elemente angesprochen, sondern nur die für diese Arbeit relevanten, eine vollständige Auflistung kann im %TODO 
+Das Ergebis dieser Analyse wird im Folgenden dargestellt (Es werden nicht alle existierenden Elemente angesprochen, sondern nur die für diese Arbeit relevanten, eine vollständige Auflistung kann im %TODO
 gefunden werden):
 
 \subsection{Grundlegende Struktur}
@@ -53,16 +53,17 @@ Es gibt eine Reihe an Fragen, für die es eine Menge an vordefinierten Antworten
 Diese sind entweder schon durch die Frage festgelegt, wie bei dem Fragetyp \el{5 Punkte Wahl} oder dem Typ \el{Geschlecht}, oder der Umfrage-Ersteller kann sie selber angeben.
 Sind die Möglichkeiten schon durch den Typ festgelegt, werden die Antwortmöglichkeiten implizit ermittelt und nie konkret im Dokument niedergeschrieben.
 Hat der Umfrage-Ersteller die Möglichkeiten selber festgelegt, werden diese in \el{answers} und \el{answer\_l10ns} gespeichert.
-In \el{answers} gibt es dabei wieder Metadaten wie \el{qid}, \el{aid}, und einen \el{code}. 
+In \el{answers} gibt es dabei wieder Metadaten wie \el{qid}, \el{aid}, und einen \el{code}.
 In \el{answer\_l10ns} hingegen gibt es den Antworttext in \el{answer}, eine \el{aid} zur Verknüpfung mit den Metadaten und die Sprache in \el{language}.
 Für jedes Element aus \el{answers} gibt es pro Sprache ein Element in \el{answer\_l10ns}.
 
 \subsection{Umfrage-Metadaten}
+\label{a:survey_meta}
 
 In \el{surveys} findet man Metadaten über die Umfrage, allerdings sind keine davon für die Konvertierung relevant.
 Beispiele wären Daten darüber, ob Willkommenstexte angezeigt werden sollen oder ob IP-Adressen der Teilnehmer gespeichert werden sollen.
 \el{surveyls\_languagesettings} enthält relevante Informationen wie die \el{surveyls\_id}, den Titel in \el{surveyls\_title} und eine Beschreibung der Umfrage in \el{surveyls\_description}.
-\el{themes} und \el{themes\_inherited} enthalten Infos über die visuelle Darstellung der Umfrage in LimeSurvey.
+\el{themes} und \el{themes\_inherited} enthalten Informationen über die visuelle Darstellung der Umfrage in LimeSurvey.
 
 \subsection{LSR-Aufbau}
 
@@ -78,33 +79,129 @@ Man kann bereits am Format sehen, dass es auch für die \enquote{other} und Komm
 
 \subsection{Erstellung eines XML-Schemas}
 
+Da die Struktur der Umfrage nun bekannt ist, wird ein XML-Schema für das LSS-Format erstellt.
+Das sorgt einerseits für eine wesentlich bessere Übersicht über den Aufbau, das kann für zukünftige Arbeit nützlich sein.
+Andererseits lässt sich dieses Schema später verwenden, um zu überprüfen, ob es sich bei der Eingabedatei um eine valide LSS-Datei handelt.
+
 \section{Mapping}
+
+Da der Aufbau beider Formate nun bekannt ist, muss überlegt werden, wie man das LSS-Format auf ODM abbilden kann. Im Folgenden werden die verschiedenen Teile von LSS nacheinander abgehandelt und es wird erklärt, wie mit überschüssigen Elementen in ODM ungegangen wird.
 
 \subsection{Dummy Elemente in ODM}
 
-- ODM kann mehr Beziehungen in Studien darstellen
-- Es müssen Dummy-Elemente angelegt werden, weil LimeSurvey diese Elemente nicht hat, sie aber in ODM vorkommen müssen
-- Betroffen: GlobalVariables, StudyEvent
+% - ODM kann mehr Beziehungen in Studien darstellen
+% - Es müssen Dummy-Elemente angelegt werden, weil LimeSurvey diese Elemente nicht hat, sie aber in ODM vorkommen müssen
+% - Betroffen: GlobalVariables, StudyEvent
+
+ODM besitzt mehr Möglichkeiten, mögliche Abläufe einer Studie oder Umfrage darzustellen, da es als generisches Format natülich mehr Einsatzzwecke abdecken soll, als das LSS-Format.
+Dementsprechend gibt es mehrere Wege, LSS auf ODM abzubilden.
+Durch die hier getroffenen Entscheidungen werden die Elemente \el{StudyEvent} und \el{GlobalVariables} überflüssig,	da es sich dabei um für eine Studie relevante Felder handelt, es soll aber nur eine Umfrage innerhalb einer Studie erstellt werden.
+
+
+Da diese Elemente dennoch zwingend in ODM vorkommen müssen, werden die globalen Variablen leer gelassen und es wird ein \el{StudyEvent} erstellt, welches unabhängig von der Eingabe-Datei immer die gleichen Dummy-Werte hat.
+Weiterhin wird die \el{OID} des \el{Study} Elements auch auf einen Dummy-Wert gesetzt, da wir hier ebenfalls kein Äquivalent in LSS haben.
+Die \el{OID} der \el{MetaDataVersion} wird auf \enquote{MetaData} + Study-ID gesetzt, da die Version der Metadaten die gesamte Umfrage enthält, es ergibt also Sinn, hier keinen Dummy-Wert einzusetzen sondern eine Referenz auf die Studie mit einzubringen.
 
 \subsection{Umfrage-Eigenschaften}
+\label{m:survey_meta}
 
-- Eine Umfrage wird als ein \el{Form} dargestellt
-- Titel, Beschreibung und ID der Umfrage werden zu Titel, Beschreibung und ID des \el{Forms}
+% - Eine Umfrage wird als ein \el{Form} dargestellt
+% - Titel, Beschreibung und ID der Umfrage werden zu Titel, Beschreibung und ID des \el{Forms}
+Innerhalb unseres Dummy-\el{StudyEvent's} gibt es nun ein \el{Form} Element, dieses soll die Umfrage repräsentieren.
+Das \el{Repeating} Attribut wird auf \enquote{No} gesetzt, da die Umfrage nur einmal pro Teilnehmer ausgefüllt werden soll, füllt jemand sie mehrmals aus, gerade wenn es keine vorher festgelegten Nutzer gibt, gilt das als zwei verschiedene Teilnehmer %TODO: Wenn man eine feste Teilnehmer-Liste hat, kann man dann eine Umfrage mehrmals ausfüllen?
+Als \el{OID} des \el{Form's} wird die Study-ID gewählt, als \el{Name} wird der Titel der Umfrage gesetzt. Die \el{surveyls\_description} wird zur \el{Description} des \el{Form's}.
 
 \subsection{Fragegruppen}
-
-- Aus jeder LS Gruppe wird eine ItemGroup in ODM
-- Eigenschaften werden 1:1 abgebildet
+\label{m:qg}
+% - Aus jeder LS Gruppe wird eine ItemGroup in ODM
+% - Eigenschaften werden 1:1 abgebildet
+Fragegruppen in LimeSurvey sind fast äquivalent zu \el{ItemGroup's} in ODM.
+Entsprechend wird für jede Fragegruppe eine \el{ItemGroupDef} erstellt, die \el{gid} wird zur \el{OID} in ODM, der \el{title} wird zum \el{Name}.
+%TODO: Beschreibung?
+Das Attribut \el{Repeating} wird wieder auf \enquote{No} gesetzt. %TODO: Korrekt?
+Entsprechende Referenzen werden zur \el{FormDef} hinzugefügt.
 
 \subsection{Fragen}
 
-- Aus einer Frage in LS werden pot. mehrere ItemDef's in ODM (fragetypabhängig)
-- Elemente aus \el{Questions} und \el{Subquestions} und \el{Question\_l10ns} werden genutzt
+% - Aus einer Frage in LS werden pot. mehrere ItemDef's in ODM (fragetypabhängig)
+% - Elemente aus \el{Questions} und \el{Subquestions} und \el{Question\_l10ns} werden genutzt
+
+Grob gesprochen wird die Frage aus \el{question} in LimeSurveys \el{question\_l10ns} Element bei ODM in \el{Question/TranslatedText} der \el{ItemDef} eingetragen, die Sprache aus \el{language} wird im Attribut \el{xml:lang} des \el{TranslatedText} eingetragen.
+Aus \el{qid} wird \el{OID} und aus \el{help} wird el{Description}.
+Aus \el{questions} wird \el{title} genutzt, um es in \el{Name} einzusetzen und \el{mandatory} wird auf \el{Mandatory} der \el{ItemRef} abgebildet.
+
+In ODM gibt es allerdings keine Subfragen, dementsprechend muss eine Frage in LimeSurvey potentiell in mehrere Fragen, eine pro Subfrage, umgewandelt werden, damit diese dann in ODM eingefügt werden können.
+Dementsprechend muss jeder Fragetyp aus LimeSurvey einzeln behandelt werden, wobei die Behandlung eines Fragetyps teils in der Behandlung eines anderen Fragetyps enthalten ist.
+Auch sind die Behandlungen für mehrere Fragetypen identisch.
+Zum Beispiel werden die Fragetexte aus \el{question} der Hauptfrage und \el{question} der Subfrage konkateniert, um so eine neue Frage  zu formulieren.
+Für die Festlegung der \el{OID} von Subfragen wird die \el{qid} der Hauptfrage mit dem \el{title} der Subfrage konkateniert.
+Gründe dafür werden in \cref{im:ans} dargelegt.
+Im folgenden werden alle Behandlungen erklärt, mit einer Angabe, für welche Fragetypen diese genutzt werden.
+
+\subsubsection{Einfachauswahl}
+\label{e:sc}
+
+Hier werden die Fragen 1:1 abgebildet, die Antwortmöglichkeiten werden in einer CodeList gespeichert.
+Für den Typ \el{Liste mit Kommentar} wird eine weitere Frage hinzugefügt, deren \el{OID} die \el{qid} der Frage ist, allerdings wird noch \enquote{comment} angehangen.
+An die Frage wird ebenfalls das gleiche angehangen.
+Bei dem Bild der \el{Image-Select-List} besteht das Problem, dass dieses nur mittels Link zum Bild auf dem LimeSurvey-Server eingebettet ist.
+Beim Übertragen der Fragen ist somit auch nur dieser Link enthalten.
+
+\subsubsection{Matrix}
+
+Für die Matrizen mit Zahlen- oder Freitextantworten wird eine Frage pro Zelle der Matrix hinzugefügt.
+Für alle weiteren Typen dieser Kategorie bis auf die \el{Dual Matrix} wird eine Frage pro Subfrage hinzugefügt, die gleiche Liste an Antwortmöglichkeiten wird für jede Subfrage verwendet.
+Die \el{Dual Matrix} wird behandelt, als würde die gleiche Frage zwei Mal mit unterschiedlichen Antwortmöglichkeiten dargestellt.
+
+\subsubsection{Multiple Choice}
+
+Hier wird eine Frage pro Subfrage hinzugefügt, %TODO Kommentare
+Das Bild beim Typ \el{Image Select} wird wie schon bei \cref{e:sc} nur auf Umwegen übernommen.
+
+\subsubsection{Textfragen}
+
+Hier wird der Fragetext wie oben erklärt übertragen, als \el{DataType}-Attribut in \el{ItemDef} wird \enquote{string} gesetzt.
+Das funktioniert für alle drei Freitextfragetypen, kurz, lang und riesig so.
+Im Falle von \el{Mehrere Texte} wird wieder eine Frage pro Subfrage genutzt.
+\el{Input on Demand} und \el{Browser Detect} werden nicht gemappt. Für Details siehe \cref{d:leave}.
+
+\subsubsection{Maskenfragen}
+
+Für den Typ \el{Datum/Zeit} wird der \el{DataType} auf \enquote{datetime} gesetzt.
+Für \el{Zahleneingabe} wird der \el{DataType} auf \enquote{float} gesetzt. %TODO: Auch integer?
+Für \el{Mehrfache Zahlen} wird wieder eine Frage pro Subfrage erstellt %TODO: Conditions
+%TODO Gleichung
+Es gibt mehrere Typen, bei denen es feste Antwortmöglichkeiten gibt und daher eine CodeList implizit aus dem Typ erstellt wird:
+\el{Ja/Nein}, \el{Geschlecht}.
+\el{Ranking}, \el{Textanzeige}, \el{Dateiupload} und \el{Sprachumschaltung} werden nicht gemappt. Für weitere Details siehe \cref{d:leave}.
+
+\subsection{Antwortmöglichkeiten}
+
+
+Grundsätzlich wird jedes Mal, wenn es eine vordefinierte Liste an Antwortmöglichkeiten gibt, eine CodeList genutzt, um diese Liste in ODM darzustellen.
+Für die Fragen, wo man mit 1 bis 5 oder 1 bis 10 antworten kann, wird eine simple Liste genutzt, für alle weiteren Fragen eine komplexe Liste.
+Das liegt unter anderem daran, dass LimeSurvey fast alle Antworten mit einem Buchstaben darstellt und die tatsächlichen Antworten aus mindestens einem Wort bestehen.
+So werden komplexere Umwandlungen vermieden und die existierende Struktur wird übernommen.
+Für selbstdefinierte Antwortmöglichkeiten ist ohnehin eine komplexe Liste notwendig, da der Ersteller der Umfrage beliebige Kombinationen für Code und Antwort definieren kann.
+
+\subsection{Antworten}
+
+Als \el{StudyOID} und \el{MetaDataVersionOID} der \el{ClinicalData} werden die entsprechenden OIDs genutzt.
+Jede \el{row} aus dem LSR Dokument wird auf ein \el{SubjectData} Element abgebildet.
+Als \el{SubjectKey} wird die \el{id} genutzt.
+Für \el{StudyEventOID} und \el{FormOID} werden die bereits erstellten Werte eingetragen.
+Als \el{ItemGroupOID} wird die \el{gid} gesetzt.
+Als \el{ItemOID} des \el{ItemData} Elements wird ein Teil des Elementnamens genutzt, nämlich \enquote{\{qid\}\{ext\}}, in \el{Value} wird der Text des Elements eingetragen.
+Da die OIDs der Fragen vorher bereits so gewählt wurden, dass sie mit dieser Stuktur übereinstimmen, haben wir bereits funktionierende Referenzen, ohne weitere Umwandlungen vornehmen zu müssen.
 
 \subsection{Themes und Frageattribute}
 
-- Werden nicht übernommen
-	- ODM dient zum Austausch der Fragen/Antworten, nicht die Art und Weise, wie sie dargestellt werden
+% - Werden nicht übernommen
+% 	- ODM dient zum Austausch der Fragen/Antworten, nicht die Art und Weise, wie sie dargestellt werden
+
+Die Themes werden nicht in ODM übernommen. Weitere Informationen gibt es in \cref{d:themes}.
+Auch von den Frageattributen werden fast keine übernommen, da die meisten der visuellen Darstellung dienen.
+%TODO: sum etc. for mult. num input?
 
 \section{Implementierung}
 
@@ -120,20 +217,123 @@ Man kann bereits am Format sehen, dass es auch für die \enquote{other} und Komm
 - Archiv
 	- muss entpackt werden
 
+\subsection{Properties}
+
 \subsection{XSD-Validierung}
 
 - Nutze Xerces zusammen mit der erstellten XSD um eine Eingabedatei zu prüfen
 - Prüfung ist nicht bindend
 	- Auch invalide Datei wird weiter verarbeitet
 	- Grund: Starke Versionsabhängigkeit
-		 - Invalide lss-Datei kann eventuell trotzdem erfolgreich umgewandelt werden
+		- Invalide lss-Datei kann eventuell trotzdem erfolgreich umgewandelt werden
 	- Zur Information für Anwender: Potentiell problematisch/inkompatibel mit Konverter
 
 \subsection{Parsing der LimeSurvey Struktur}
 
+Zuerst wird in der Main-Methode eine Instanz der Klasse \jv{LssParser} mit der entsprechenden LSS-Datei erstellt, dann wird die Methode \jv{parseDocument} aufgerufen.
+In \jv{LssParser} gibt es eine Instanz der Datenklasse \jv{Survey}. In dieser werden zunächst alle gesammelten Informationen abgelegt.
+
+Hier werden zunächst die drei in \cref{a:survey_meta} angesrochenen Elemente mit Metadaten der Studie in die \jv{survey} übernommen.
+Dann werden die Fragegruppen übernommen, hierbei werden alle für das Mapping relevante Informationen gespeichert.
+
+\subsubsection{Parsing der Fragen}
+
+Als nächstes werden die Fragen in \jv{survey} übernommen. Dabei werden diese bereits gemäß des Mappings umgewandelt.
+Das wird gemacht, um die Gesamtstruktur so früh wie möglich zu simplifizieren und nicht für jede Frage eine gesonderte Klasse erstellen zu müssen.
+Da sich viele Fragen im Aufbau stark ähneln, ist dies ein simpler und schneller Weg, dieses Ziel zu erreichen.
+Am Ende dieser Verarbeitung soll es noch vier Fragetypen geben:
+
+\begin{enumerate}
+\item[T] Eine Frage, auf die mit einem Freitext geantwortet werden kann
+\item[N] Bei dieser Frage muss mit einer Zahl geantwortet werden
+\item[A] Bei dieser Frage muss aus einer vordifinierten Liste an Antwortmöglichkeiten gewählt werden
+\item[D] Diese Frage hat ein Datum und eine Uhrzeit als Antwort
+\end{enumerate}
+
+Zuerst wird eine Liste aller \el{row} Elemente aus \el{questions} erstellt, durch welche im Anschluss iteriert wird.
+In jeder Iteration wird nun zuerst eine Instanz der Klasse \jv{Question} erstellt, wo alle relevanten Daten über die Frage gespeichert werden.
+Eine Liste dieser ist in %TODO Bild des Konstruktors
+zu sehen.
+Nicht in jedem Fall wird diese Frage auch zur Umfrage hinzugefügt, wenn es sich zum Beispiel um eine Matrix-Frage handelt, wird diese Instanz nur zum Erstellen neuer Fragen genutzt.
+Dann werden potentiell existierende Bedingungen hinzugefügt. %TODO anderen Abschnitt referenzieren
+
+Anschließend gibt es ein \jv{switch}-Statement, welches einen passenden Weg zum Parsen der Frage abhängig vom Typ ausführt.
+
+Für Textfragen wird hier nur der Typ zu \enquote{T} geändert.
+Bei Datum/Zeit-Fragen wird die \el{qid} zu einer Liste hinzugefügt, welche später in \cref{im:ans} gebraucht wird.
+Eine numerische Frage braucht keine weitere Bearbeitung.
+
+
+Dabei wird die Frage-ID wie folgt aufgebaut: \enquote{\{Parent\_QID\} + \{Title(y-Axis)\}\_\{Title(x-Axis)\}}.
+
+\subsubsection{Parsing der Anzeige-Bedingungen}
+\label{im:cond}
+
+Da die Bedingungen innerhalb des LSS-Formates ohnehin als Elemente gespeichert werden und nicht als ExpressionScript, ergibt es mehr Sinn, diese nicht wieder in ExpressionScript umzuwandeln, sondern direkt in die Syntax des IMI.
+Die in LimeSurvey mit ExpressionScript formulierten Bedingungen geben an, wann eine Frage angezeigt werden soll.
+Die in ODM definierten Bedingungen müssen zu \enquote{True} evaluieren, wenn eine Frage nicht angezeigt werden soll.
+Somit muss die Bedingung zuerst umgedreht werden, indem ein Paar an Klammern um den Gesamtausdruck gesetzt wird und ein \jv{NOT} vor den Anfang geschrieben wird.
+Dann werden alle Bedingungen rausgesucht, welche zur \el{qid} gehören.
+Diese sollen nun durch ein logisches \enquote{Und} verknüpft werden.
+
+Die Frage aus \el{cfieldname} wird mittels des regulären Ausdrucks \enquote{\textasciicircum\textbackslash\textbackslash d+X(\textbackslash\textbackslash d+)X(.+?)\$} so verarbeitet, dass wir die darin enthaltene \el{gid} und \el{qid} der Frage enthalten.
+Mit diesen, der Dummy-ID für das \jv{StudyEvent} und der Umfragen-ID wird dann ein Pfad gemäß der IMI-Syntax erstellt.
+
+Handelt es sich nicht um einen Regulären Ausdruck, der als Operator genutzt wird, werden folgende drei Teile in dieser Reihenfolge aneinander gehangen: \el{\{PATH\} \{OPERATOR\} \{VALUE\}}.
+Wobei das Element \el{method} den Operator enthält und \el{value} den Wert. \jv{PATH} ist der vorher erstellte Pfad.
+
+Handelt es sich um einen regulären Ausdruck, wird das führende Leerzeichen entfernt und die Bedingung in folgender Form aufgeschrieben: \el{MATCH(\{REGEX\}, \{PATH\})}.
+
+Soll eine Antwort leer bleiben, wird \enquote{NULL} verwendet.
+Bei beidem handelt es sich nicht um einen Teil der IMI-Syntax, weiteres dazu in \cref{d:imi}.
+
+Abschließend wird der Bedingung eine OID gegeben, in der Form \el{\{qid\}\{ex\}}, wobei \el{ex} in der Properties-Datei festgelegt werden kann.
+Diese wird auch in der Frage eingetragen.
+
 \subsection{Parsing der LimeSurvey Antworten}
+\label{im:ans}
+
+Die Klasse \jv{LsrParser}, zusammen mit den Klassen \jv{Response} und \jv{Answer} wurden erstellt, um diesen Zweck zu erfüllen.
+Zuerst wird in \jv{createDocument} ein neuer SAXReader erstellt, welcher die LSR-Datei in eine Instanz der Klasse Document einliest.
+Selbige wird dann in \jv{parseAnswers} weiterverwendet.
+
+Alle für das Parsing relevanten Felder stehen in \el{document/responses/rows}. Dort gibt es ein \el{Row} Element pro Beantwortung des Fragebogens.
+Entsprechend wird über eine Liste aller \el{row} Elemente iteriert. Dabei wird für jede \el{row} eine Instanz der Klasse \jv{Response} erstellt.
+Als \jv{id} wird der Text des Elements \el{id} genommen.
+Dann wird bereits etwas Vorbereitung für die spätere Erstellung der ODM-Datei betrieben, es gibt in \jv{Response} nämlich eine Map namens \jv{answers}, welche vom Typ $<Integer, ArrayList<Answer>>$ ist.
+Dort wird ein Key/Value Paar für jede Fragegruppe erstellt, wobei der Integer die \jv{gid} ist.
+Als nächstes wird über alle Kind-Elemente von \el{row} iteriert und es wird nach Antworten auf Fragen gesucht.
+Diese sind an der Struktur des Element-Namens zu erkennen, sie besitzen fast den gleichen Aufbau wie der Inhalt des Elements \el{cfieldname} aus \cref{im:cond}, allerdings gibt es hier zusätzlich noch einen führenden Unterstrich.
+Wir nutzen also den regulären Ausdruck \enquote{\textasciicircum\textunderscore\textbackslash\textbackslash d+X(\textbackslash\textbackslash d+)X(.+?)\$}, um pasende Elemente zu finden und mittels der Capture Groups die \jv{gid} und \jv{qid} zu erhalten.
+
+Dann wird die Antwort aus dem Elementtext gezogen.
+Dann wird geprüft, ob die Antwort leer ist, in dem Fall wird sie ignoriert.
+Ist sie nicht leer, wird geschaut, ob es sich um eine \el{Datum/Zeit} Frage handelt, dann wird das Leerzeichen durch ein \enquote{T} ersetzt, damit das Format dem Datentyp \enquote{xsd:dateTime} entspricht.
+Dann wird eine neue Instanz der Klasse \jv{Answer} erstellt, dabei im Konstruktor \jv{gid} und \jv{qid} aus dem regulären Ausdruck und die Antwort aus dem Elementtext gesetzt und schließlich wird die Antwort mittels der Methode \jv{addToAnswers} zu \jv{answers} hinzugefügt.
+Diese Methode sortiert die Antwort dabei in die passende ArrayList ein, sodass am Ende alle Antworten zu Fragen aus der gleichen Fragegruppe in einer Liste sind.
+
+Dann wird die \jv{Response} zur Liste \jv{responses} hinzugefügt.
+Zuletzt werden die Antworten in das ODM Dokument übertragen, falls es bereits 1000 in Responses gibt und dann wird die Liste geleert.
+Dadurch soll die Menge an gebrauchtem RAM verringert werden.
 
 \subsection{Ausgabe als ODM-Datei}
+
+Mittels der Klasse \jv{ODMWriter} soll eine neue ODM-Datei erstellt werden. Der Konstruktor nimmt dabei eine \jv{Survey} entgegen.
+Die Methode \jv{createODMFile} dient vor allem als Caller für andere Methoden, welche die eigentlichen Funktionen ausführen.
+
+Zuerst erstellt \jv{createODMRoot} das Wurzelelement \el{ODM} mit allen benötigten Attributen.
+Als nächstes wird \jv{addStudyData} aufgerufen. Hier werden die Elemente \el{Study}, sowie die globalen Variablen mittels der Dummy-Werte aus der Properties-Datei erstellt.
+Weiterhin werden die Elemente \el{MetaDataVersion},\el{Protocol}, \el{StudyEventDef} und \el{Form} erstellt.
+Die \jv{meta\_data\_oid} besteht dabei aus dem Prefix in der Properties-Datei und der Studien-ID.
+\el{OID} und \el{Name} des \el{StudyEvent's} stammen aus der Properties-Datei, das Element \el{Form} wird gemäß des Mappings befüllt.
+
+Nun werden die Fragegruppen mittels \jv{addQuestionGroups} hinzugefügt. Wie in \cref{m:qg} beschrieben wird aus jeder \jv{QuestionGroup} ein Element \el{ItemGroupDef}.
+In der \el{Form} wird die entsprechende Referenz auf die Fragegruppe eingefügt.
+Gibt es eine Beschreibung, wird sie in ein neues Element \el{Description} in der \el{ItemGroupDef} eingefügt.
+In die Map \jv{question\_groups} der Klasse \jv{LsrParser} wird dann ein Eintrag mit der \jv{gid} und der Referenz auf das neu erstellte XML-Element eingefügt, sodass hier später einfach Referenzen auf Fragen eingefügt werden können.
+
+Danach werden alle Fragen eingefügt.
+%TODO
 
 % Dieses Kapitel sollte die Ergebnisse beinhalten, die mit den Methoden aus \autoref{ch:methodik} erstellt wurden.
 
@@ -142,9 +342,9 @@ Man kann bereits am Format sehen, dass es auch für die \enquote{other} und Komm
 % \begin{center}
 % 	\begin{tabular}{|c||c|c|}
 % 		\hline
-% 		Spalte1 & Spalte2 & Spalte3 \\ 
+% 		Spalte1 & Spalte2 & Spalte3 \\
 % 		\hline\hline
-% 		   1    &    2    &    3    \\ 
+% 		   1    &    2    &    3    \\
 % 		\hline
 % 	\end{tabular}
 % \end{center}
