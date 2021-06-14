@@ -1,0 +1,31 @@
+@startuml
+package parser{
+	package lsr{
+		class Answer{
+		#int gid
+		#String qid
+		#String answer
+		}
+
+		class Response{
+		#int id
+		#HashMap<Integer, ArrayList<Answer>> answers
+		+void addToAnswers(Answer a)
+		}
+		
+		class LsrParser{
+			#File lsr_file;
+			#Document doc;
+			#Element rows;
+			#ArrayList<QuestionGroup> qg_list;
+			#LinkedList<Response> responses;
+			#List<String> date_time_qids;
+			#ODMWriter writer;
+
+			+LsrParser(File lsr_file, ArrayList<QuestionGroup> qg_list, ArrayList<String> dt_qids, ODMWriter writer)
+			+void createDocument()
+			+void parseAnswers()
+		}
+	}
+}
+@enduml

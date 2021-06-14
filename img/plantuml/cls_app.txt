@@ -1,0 +1,9 @@
+@startuml
+package app {
+	class App {
+		+void main()
+		-void validateFile(File xmlFile, File xsdFile)
+		-void propsConfig()
+	}
+}
+@enduml

@@ -1,7 +1,7 @@
 \chapter{Einleitung}
 \label{ch:einleitung}
 
-Das Thema dieser Arbeit ist die Konvertierung von LimeSurvey Archiven in das Operational Data Model.
+Das Thema dieser Arbeit ist die Konvertierung von LimeSurvey Archiven in das Operational Data Model (ODM).
 LimeSurvey ist ein Werkzeug, mit dem man einfach Umfragen erstellen kann, welche dann wiederum von beliebig vielen Teilnehmern beantwortet werden können.
 Umfragewerkzeuge lassen sich sehr vielseitig einsetzen, um die Meinungen von Kunden, Patienten oder jedem anderen Menschen einzuholen.
 Gerade in den heutigen Zeiten, wo immer mehr Daten gesammelt und verarbeitet werden können, ist es wichtig, Kompatibilität zwischen verschiedenen Werkzeugen und Formaten herstellen zu können.
@@ -10,7 +10,7 @@ Das Institut für Medizinische Informatik an der WWU ist eine der vielen Institu
 \section{Problem}
 Der XML-Standard lässt dem Programmierer sehr viel Freiheit, was das Design eines XML-Formates angeht. Dadurch sind verschiedene XML-Formate im Regelfall nicht kompatibel beziehungsweise untereinander austauschbar.
 Das macht es notwendig, XML-Dokumente zu konvertieren, um ein Dokument in einem Format mit einem Werkzeug nutzen zu können, welches nur ein anderes XML-Format unterstützt.
-Als Zielformat wird ODM-XML von CDISC verwendet.
+Als Zielformat wird ODM-XML des \textit{Clinical Data Interchange Standards Consortium} (CDISC) verwendet.
 ODM wurde mit dem Ziel entwickelt, den Austausch und die Archivierung von Forschungsdaten und anderen damit verbundenen Daten zu ermöglichen.
 Durch die Unabhängigkeit des Formates von spezifischen Plattformen oder Firmen wird es durch weit mehr Werkzeuge unterstützt als ein Format wie LSA, welches von LimeSurvey selbst und zu deren eigenen Zwecken entwickelt wurde.
 Dies sieht man auch an dem Institut für Medizinische Informatik, welche dieses Projekt betreuen.
@@ -18,7 +18,7 @@ Dort wird ODM täglich zur Verwaltung klinischer Daten genutzt, gleichzeitig ist
 Diese gesammelten Daten müssen dann exportiert und konvertiert werden, um sie in bestehenden Systemen einpflegen zu können.
 
 \section{Ziel}
-Ziel der Arbeit ist es, genau darzustellen, wie man aus einem LimeSurvey Archiv in ein ODM Dokument umwandeln kann und einen Konverter zu implementieren, welcher das bewerkstelligt.
+Ziel der Arbeit ist es, genau darzustellen, wie man ein LimeSurvey Archiv (LSA) in ein ODM Dokument umwandeln kann und einen Konverter zu implementieren, welcher das bewerkstelligt.
 Es sollen so viele der Forschungsdaten wie möglich übertragen werden, zusätzliche Daten, welche z.B. die Darstellung der Daten betreffen, sollen nicht mit übertragen werden.
 
 % Im Einleitungskapitel werden dem Leser das Thema, die Grundlagen und vergleichbare Arbeiten präsentiert.

@@ -1,0 +1,8 @@
+@startuml
+package app{}
+package parser{
+	package lss{}
+	package lsr{}
+}
+package writer{}
+@enduml

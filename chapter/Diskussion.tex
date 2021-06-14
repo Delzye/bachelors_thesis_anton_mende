@@ -22,66 +22,101 @@ Auch wird der Fragetyp nicht häufig genutzt, was die Umsetzung noch unattraktiv
 
 \subsection{Browser-Detection, Language-Switch}
 
-- Es werden Infos gesammelt
-- Darstellung durch Frage + Antwort
+Beide Fragetypen sammeln Informationen über den Benutzer, man könnte also argumentieren, es sei sinnvoll, beides als Fragen zu übernehmen.
+Technisch wäre das ebenfalls kein Problem, man kann einfach einen festen Fragetext vorformulieren und die gesammelten Informationen als Antwort eintragen.
 
-- Ruft die Irreführende Darstellung hervor, der Nutzer habe geantwortet (Was nicht der Fall ist)
-- Die Information ist nicht Teil der Meinung/Ansicht des Teilnehmers, es sind eher Metainformationen über den Antwortenden
+Das wäre allerdings irreführend, da dies impliziert, der Nutzer habe ausdrücklich auf eine Frage geantwortet, wenn er in Wirklichkeit eventuell nicht einmal wusste, dass unter anderem Informationen über seinen Brower aufgenommen wurden.
+Auch eine Frage zur Sprache hätte weniger Sinn, gerade weil es auch hier eigentlich keine Antwort auf eine Frage war, sondern eher eine Einstellung in der Umfrage.
+Das Ziel einer Umfrage ist es ja eher, die Meinung oder Ansichten eines Teilnehmers einzuholen, Metainformationen wie die Sprache gehören da eher nicht zu.
+Keine Frage zur Sprache zu erstellen ist allerdings eher eine Designentscheidung, man könnte hier durchaus auch anderes machen und es wäre ein Informationsgewinn, zumal der Nutzer die Sprache ja auch wirklich selber eingestellt hat.
 
 \subsection{Text-Display}
 
-- Es werden keine Informationen gesammelt
-- Es ist nicht automatisiert feststellbar, wozu Infos des Textes gehören
-	- Nicht z.B. als Description irgendwo zuordnebar
+Dieser \enquote{Fragetyp} stellt nur einen Text dar. Es werden keine Informationen gesammelt.
+Da man den Inhalt des Textes auch nicht automatisch, irgendeiner Frage oder Fragegruppe als Beschreibung zum Beispiel, zuordnen kann, wird er gar nicht übernommen.
+
+\subsection{Gleichung}
+
+Da eine Gleichung keine neuen Informationen erfragt, sondern nur aus vorherigen Antworten einen Wert berechnet und diesen anzeigt, ist es keine Frage, sondern nur eine zusätzliche Information zum Darstellen.
+Diese werden entsprechend der Philosophie der ganzen Arbeit nicht übernommen.
+
 
 \section{Visuelle Darstellung der Fragen}
 \label{d:themes}
 
-- LimeSurvey speichert viele Infos über die Darstellung
-	- Themes
-	- CSS-Klassen
-	- Attribute für visuelle Elemente
-- Werden nicht übernommen in ODM
-- Ist kritisch, da die Darstellung von Fragen direkten Einfluss auf die Antworten hat
-	- So gehen evtl. Infos verloren, die ein gewisses Antwortverhalten erklären könnten
-- Infos sind Teil des .lsa-Archives
+In LimeSurvey gibt es zahlreiche Möglichkeiten, die Darstellung seiner Umfrage zu verändern.
+Darunter sind Themes für die ganze Umfrage, sowie Attribute für einzelne Fragen.
+Teils kann man auch ganze CSS-Klassen angeben, welche das Aussehen der Umfrage bestimmen.
+All diese Angaben sind selbstverständlich auch Teil des LSA-Archives, werden vom Konverter allerdings nicht übernommen.
 
-- ODM bietet keinen Weg, visuelle Darstellungen zu speichern
-	- Jede Lösung ist nicht im Standard definiert und daher potentiell für andere nicht verwendbar
-	- Es handelt sich weder um Fragen noch um Antworten, auch wenn die Informationen nicht egal sind, so sind sie doch auch nicht sehr relevant
-- Oft ist am wichtigsten, wie die Frage formuliert ist, die Formulierung wird hier übernommen
+Das ist prinzipiell nicht optimal, da die Art und Weise, wie eine Frage dargestellt wird, auch eine Auswirkung auf die Antwort haben kann. %TODO: Quotes?
+Ein bestimmtes Antwortverhalten lässt sich also potentiell nicht mehr nachvollziehen, da die Darstellung verloren gegangen ist.
+
+Dennoch ergibt es Sinn, die Informationen nicht zu übenehmen.
+Erstens hat der ODM-Standard keinen Weg, irgendwelche Attribute zur visuellen Darstellung zu speichern.
+Eine Übernahme erfordert also ein selbst definiertes Prinzip, was wiederum von anderen Programmen, welche ODM Dateien nutzen, nicht verstanden werden kann.
+Zweitens handelt es sich hierbei nicht um Informationen, welche von den Teilnehmern gewonnen wurden, das ist wohl auch einer der Gründe, warum es in ODM keinen Standard für visuelles gibt.
+Auch spielt die Darstellung zwar eine Rolle, jedoch keine übergeordnete, man verliert durch das Auslassen der Informationen keinen wesentlichen Teil der in LimeSurvey gewonnenen Informationen.
+Eigenschaften wie die Formulierung der Frage sind hier relevanter und diese wird übernommen.
 
 \subsection{Timings}
 
+Auch die Timings sind vorwiegend ein Weg, die Art und Weise zu beeinflussen, wie eine Frage oder Informationen über diese beim Teilnehmer dargestellt werden.
+Eigenschaften wie die Warnungen zu bestimmten Zeiten oder die Limitierung der Antwortzeit haben zwar einen Einfluss auf die Länge der Antwort zum Beispiel, aber dennoch sind sie nicht wirklich Teil der Frage im klassischen Sinn.
+
+Da ODM auch hier keinen Standard zum Darstellen der Informationen besitzt, werden Timings ebenfalls nicht übernommen.
+
 \section{Formatierung}
 
-- Nicht alle Fragen können in ihrer Ursprungsform dargestellt werden
-	- ODM bietet wenig Möglichkeiten, anzugeben, wie Fragen dargestellt werden sollen
-	- LimeSurvey hat wesentlich mehr Optionen
+Da LimeSurvey erheblich mehr Möglichkeiten hat, die Darstellung von Fragen zu beeinflussen, musste sich im Mapping überlegt werden, wie man diese Fragen so formatieren kann, dass sie in ODM übernehmbar sind.
+Mittels der \el{Presentation} %TODO: Name correct?
+kann eine Darstellung von Fragen definiert werden. Da hier allerdings auch keine standardisierte Form gibt, soll diese Möglichkeit zuerst nicht genutzt werden.
+Entsprechende Syntax könnte nämlich von keinem bestehenden Programm erkannt werden.
+Weitere Optionen in dieser Richtung werden in %TODO diskutiert.
+
+\subsection{Fragen mit Bildern im Fragetext}
+Bei dem Bild der \el{Image-Select-List} besteht das Problem, dass dieses nur mittels Link zum Bild auf dem LimeSurvey-Server eingebettet ist.
+Beim Übertragen der Fragen ist somit auch nur dieser Link enthalten.
 
 \subsection{Arrays}
 
-- Auseinanderziehen in Einzelne Single-Choice-Fragen ist nicht optimal
-	- Originale Struktur geht verloren
-- Bestimmtes Antwortverhalten tritt nur bei Arrays auf
-	- Antworten in Mustern
+Arrays werden in Einfachauswahl-Fragen auseinander gezogen.
+Die originale Struktur geht damit verloren, das ist problematisch.
+Unter anderem liegt das daran, dass sich das Antwortverhalten bei Umfrage-Teilnehmern unterscheiden kann, wenn die Fragen anders gestellt werden.
 
-- Darstellung der Antwortmöglichkeiten bleibt
-	- Änderungen sind nicht sehr groß
-	- Antwortverhalten wie oben ist nicht sehr häufig und bei Analyse größerer Datenmengen wohl ohnehin nicht feststellbar
+Aus eigener Erfahrung beeinflussen die anderen Antworten im Array die weiteren Antworten, zum Beispiel indem gewisse Muster beim Antworten befolgt werden.
+Auch haben die bisher gegebenen Antworten oft einen Einfluss, wenn man sich zwischen zwei Antwortmöglichkeiten entscheiden muss.
+Dieser Effekt ist so allerdings nicht wissenschaftlich nachgewiesen.
+
+Auf der anderen Seite ist dieser Weg - Unter Beachtung der Limitierungen von ODM - die Möglichkeit mit den geringsten Nebeneffekten.
+Fragetexte, Hilfen und Antwortmöglichkeiten werden korrekt übernommen.
+Auch ist nicht klar, inwiefern der oben beschriebene Effekt überhaupt regelmäßig auftritt.
 
 \subsection{Multiple Choice Fragen}
 
-- Auseinanderziehen in einzelne Ja/-Nein Fragen ist nicht optimal
-	- Man macht sich mehr Gedanken über einzelne Antwortmöglichkeiten
-	- Man überliest potentiell weniger Antworten
-	- Man ist weniger geneigt, mehrere Dinge zu antworten
-- Die IMI bietet eine eigene Syntax für die Darstellung von MC-Fragen
+Hier werden aus einer Multiple-Choice-Frage mehrere Ja/Nein-Fragen, das hat den Nebeneffekt, dass der Teilnehmer sich über einzelne Antwortmöglichkeiten potentiell weitaus mehr Gedanken macht, als in der ursprünglichen Darstellung.
 
-- ODM hat keine Optionen für MC-Fragen
-	- Ist eine bessere Alternative dazu, die gleiche Frage fünf Mal zu stellen
+Wenn man z.B. aus der Frage: \enquote{Nennen sie ihre Lieblingsfarben: Rot, Grün, Blau, Orange} die Frage \enquote{Ist Orange ihre Lieblingsfarbe?} macht, 
+wird sich der Teilnehmer bei letzterem weit genauer überlegen, ob er Orange wirklich so gerne mag, während man in der ersten Darstellung weit eher dazu geneigt ist, 
+das mit seiner eigentlichen Lieblingsfarbe, Grün zum Beispiel, anzukreuzen, weil die Farbe ja auch ganz nett ist und man eh mehrere nehmen kann.
+
+Dieses Verhalten kann dazu führen, dass man weniger Optionen anklickt (Hier zum Beispiel, hat man ja bereits eine Lieblingsfarbe angegeben, wieso noch eine zweite anwählen?)
+und dass man weniger Optionen überlesen kann, gerade bei Fragen mit vielen Antwortmöglichkeiten ist so die Gefahr geringer, eine Option zu überspringen.
+
+Mit den Limitierungen von ODM ist dies allerdings immer noch ein besserer Weg, als die Frage z.B. pro Antwortmöglichkeit einmal als Einfachauswahl einzufügen.
+Das würde wesentlich mehr Wiederholung bedeuten, die Auswertung unnötig kompliziert machen und wäre eine aus Teilnehmerperspektive sehr seltsame Darstellung.
 
 \section{Versionsabhängigkeit}
+
+In dieser Arbeit wurde mit der LimeSurvey-Datenbank-Version \textit{443} gearbeitet.
+Die Art und Weise, wie Fragen gespeichert werden, ändert sich allerdings potentiell immer wieder.
+So wurde in Version \textit{441} die Matrix noch anders gespeichert, es gab einen anderen Weg, zu unterscheiden, welche Subfrage auf der X-Achse und welche Subfrage auf der Y-Achse liegt.
+Derartige Änderungen würden den Konverter natürlich kaputt machen, dementsprechend kann es notwendig werden, versionsabhängige Arbeitsschritte in den Code einzubauen.
+
+Bisher wurde das nicht gemacht, unter anderem deshalb, weil es schwer ist, an LSA-Archive in alten Versionen zu kommen, hier müsste man potentiell weitere LimeSurvey-Instanzen aufsetzen.
+In dieser Hinsicht wäre es sicherlich sinnvoll, den Code noch besser und eindeutiger zu kommentieren, als es ohnehin geboten ist, sodass jeder später schnell und einfach kleinere Änderungen in Abhängigkeit der Datenbank-Version einbauen kann.
+
+Auch muss man sich überlegen, für welche Versionen der Konverter tatsächlich funktionieren soll, bei zu vielen Versionen und Änderungen wird der Code potentiell sehr unübersichtlich.
 
 \section{XSD Defintion}
 
@@ -97,39 +132,42 @@ Prinzipiell sollten diese Datentypen einer aus LimeSurvey exportierten Datei nie
 
 Auch das Design der hardgecodeten Elemente ist nicht optimal, da so in der Zukunft zum LSS-Format hinzugefügte Elemente als invalide erkannt werden.
 Man könnte sicherlich einen dynamischeren Weg kreieren, indem man die Liste an möglichen Elementen in dem \el{fields}-Element und Features von XSD 1.1 nutzt.
-Allerdings widerspricht das der Art und Weise, wie XSD verwendet werden sollte, das festhalten der genauen Elementnamen ist dort vorgesehen.
+Allerdings widerspricht das der Art und Weise, wie XSD verwendet werden sollte, das Festhalten der genauen Elementnamen ist dort vorgesehen.
 Auch ist es kein großes Problem, da der Konverter diese Felder dann sowieso nicht kennt, so wird man ebenfalls vor potentiellen Inkompatibilitäten gewarnt.
 
 \section{Implementierung}
 
 \subsection{Java}
 
-- Nicht die schnellste Sprache
-- Bietet viele praktische Funktionen anderer Sprachen nicht
-	- Optionale Parameter
+Es gibt eine Vielzahl an Gründen, warum Java als Sprache für dieses Projekt gewählt wurde.
+Einerseits soll der Konverter später am IMI eingesetzt werden, deren Systeme basieren größtenteils auf Java.
+Weiterhin ist Java dank der JVM unabhängig von Betriebsystem und es gibt eine Menge an Bibliotheken, welche das Programmieren vereinfachen.
+Mit \jv{log4j} bekommt man einen einfachen Überblick über alle Nachrichten des Programms, weiterhin spart man sich dank \jv{lombok} das Schreiben von Gettern, Settern und vielen Konstruktoren.
+Die Sprache ist schnell und es gibt sehr viele mächtige Werkzeuge, um mit XML arbeiten zu können.
 
-- Betriebssystemunabhängig
-- Einfache Mittel zur Programmierung
-	- Logging (log4j)
-	- Ordentlichen Code (Lombok)
-		- Keine Getter/Setter, kaum Konstruktoren im Code
-- Immer noch schneller als andere Sprachen (Python)
+Natürlich gibt es noch weitere Sprachen, mit welchen man den Job hätte erledigen können, wie Python oder Rust.
+Diese haben allerdings alle eigene Nachteile, Python ist oft langsamer als Java und die Bibliotheken in Rust haben teils gravierende Mängel, wie eine Unfähigkeit mit mehreren Attributen in einem Element umgehen zu können.
+Sie hätten aber auch Vorteile, mit Features wie optionalen Parametern hätten einige Funktionen übersichtlicher und kompakter gestaltet werden können.
 
 \subsection{Switch-Statement}
 
-- Eher C-Stil, für Objektorientierung nicht optimal
+Man könnte sagen, das \jv{switch}-Statement, welches Fragen anhand des Typs abhandelt, sei nicht der optimale Weg, um das Problem in einer objektorientierten Sprache zu lösen.
+Auch ist es unübersichtlich, wenn man wie hier fast 30 Fälle im gleichen \jv{switch} hat.
+Allerdings erfüllt es die benötigten Anforderungen perfekt:
 
-- Bietet sich an
-	- mehrere Fragetypen haben gleiche Verarbeitung
-	- Verarbeitung mancher Fragetypen ist Teil einer anderen Verarbeitung
-- => Switch Statement kann all diese Fälle gut verarbeiten
+Manche Fragen benötigen die selbe Verarbeitung und teils sind die Verarbeitungsschritte einer Frage Teil der Verarbeitungsschritte einer anderen Frage.
+Durch \jv{switch} wird das Problem effizient behandelt.
 
 \subsection{JAXB}
+
+Mit JAXB kann man aus XML-Elementen automatisch Klassen erstellen. Das ist ein schneller und wenig aufwändiger Weg, die gesamte Eingabedatei in Java zu übernehmen.
+Allerdings ist das hier nicht unbedingt zielführend, da die LSS-Struktur ja erheblich komplexer ist, als das auszugebende ODM.
+Daher war es Ziel, die LSS-Struktur so schnell wie möglich zu vereinfachen, das wurde direkt beim Einlesen des Archives gemacht.
 
 \section{Erweiterung der IMI-Syntax}
 \label{d:imi}
 
-In der IMI-Syntax wird keine Möglichkeit vorgestellt, reguläre Ausdrücke zu evaluieren. %TODO reference Refining the CDISC ODM-XML Standard
+In der IMI-Syntax wird keine Möglichkeit vorgestellt, reguläre Ausdrücke zu evaluieren.
 Daher wird in dieser Arbeit vorgeschlagen, eine Funktion \el{MATCH(REGEX, PATH)} einzuführen, welche reguläre Ausdrücke mit beginnendem und endendem Schrägstrich und potentiell Flags hinter dem endenden Schrägstrich entgegennimmt und prüft, ob die Antwort dem Muster entspricht.
 Mittels einer Custom-Funktion ließe sich so eine Syntax in \textit{expr-eval} und \textit{EvalEx} integrieren.
 

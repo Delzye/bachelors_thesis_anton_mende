@@ -1,0 +1,39 @@
+@startuml
+package writer {
+	class ODMWriter {
+	#Document doc
+	#Element root
+	#Element meta_data
+	#Element form
+	#Element code_lists
+	#Element clinical_data
+	#Properties prop
+	#String meta_data_oid
+	#HashMap<Integer, Element> question_groups
+	#ArrayList<String> written_cl_oids
+
+	+ODMWriter(Survey s)
+	+void createODMFile()
+	+void writeFile()
+
+	-void createODMRoot()
+	-void addStudyData()
+	-void addQuestionGroups()
+	-void addQuestions()
+	-void addConditions()
+	-void addClinicalDataElement()
+	+void addAnswers(LinkedList<Response> responses)
+
+	-Element addQuestion(Question q, String data_type)
+	-void addQuestionWithCL(Question q)
+	-void addQuestionRef(int gid, String qid, String mandatory)
+	-void addQuestionRefWithCond(int gid, String qid, String mandatory, String cond_oid)
+	}
+}
+package parser{
+	package lss{
+	class Survey
+	}
+}
+ODMWriter "1" -- "0..*" Survey : survey 
+@enduml

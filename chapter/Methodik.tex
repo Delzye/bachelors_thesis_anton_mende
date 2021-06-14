@@ -19,15 +19,6 @@
 \end{description}
 
 \section{LimeSurvey}
-% - Umfragewerkzeug, sammeln von Meinungen/Interessen/Entscheidungsgrundlagen
-% - Firma gleichen Namens aus D
-% - Wird von den Entwicklern in der Cloud-Edition angeboten
-% - 4 Pläne
-% 	- Free
-% 	- Basic (34 Euro/Monat)
-% 	- Expert (29Euro/Monat)
-% 	- Enterprise (74 Euro/Monat)
-% - Code auch Open-Source
 
 LimeSurvey ist ein von der gleichnamigen deutschen Firma entwickeltes Werkzeug für Umfragen.
 Laut ihrer Website ist LimeSurvey ein für Einsteiger und Profis sowie für Privatpersonen als auch Institutionen gut geeignetes Werkzeug, um die Meinungen, Interessen und Entscheidungsgrundlagen einer Zielgruppe herauszufinden.
@@ -53,17 +44,11 @@ Es können Warnmeldungen zu bestimmten Abschnitten innerhalb der Zeitperiode ang
 
 \subsection{Fragegruppen}
 
-% - Name/Beschreibung/Randomisierungsgruppe/Relevanz
-% - Kann beliebig viele Fragen enthalten
-
 Fragen in LimeSurvey sind in Fragegruppen unterteilt. Jede Frage ist genau einer Gruppe zugeordnet.
 Eine Gruppe kann beliebig viele Fragen enthalten, weiterhin hat sie einen Titel, eine Beschreibung, eine Randomisierungsgruppe und eine Relevanz-Gleichung, wo mittels ExpressionScript (siehe \cref{m:expr_script}) angegeben werden kann, wann die Fragen dieser Gruppe angezeigt werden sollen.
 Es darf beliebig viele Fragegruppen geben.
 
 \subsection{Fragetypen}
-
-% - 36 Fragetypen (manche sind keine "Fragen" per se, davon gibt es 28), 5 Gruppen
-% - Bedingungen
 
 Es gibt 36 Fragetypen in LimeSurvey, welche in fünf Kategorien unterteilt sind.
 Davon sind allerdings nicht alle tatsächlich Fragen, auf die der Teilnehmer antworten kann, insgesamt gibt es vier Fragetypen, welche nicht explizit Fragen sind.
@@ -84,8 +69,6 @@ Auf folgende Fragen kann man maximal eine Antwort geben.
 \end{itemize}
 
 \subsubsection{Matrix}
-
-% - Man kann aus einer Festen Liste an Möglichkeiten eine pro Subfrage Auswählen
 
 Pro Frage gibt es beliebig viele Subfragen, für jede Subfrage kann eine der vordefinierten Antworten ausgewählt werden.
 Subfragen werden typischerweise als Zeilen dargestellt, die Antworten als Spalten
@@ -157,18 +140,10 @@ Weitere optionale Dateien sind eine Token-Datei, welche Daten über die % TODO
 	\item[VV] Durch \enquote{vertical verfication} ist es möglich, die Antworten zu modifizieren und die modifizierte Datei dann wieder zu importieren
 \end{itemize}
 
-\section{ODM}
+\section{Operational Data Model}
 \label{m:odm}
 
-% - Ein Datenstandard im XML-Format
-% - entwickelt von der CDISC
-% - Ziel: Ein klares, einheitliches Format für Klinische Daten
-% - Zusätzliche Daten wie Metadaten oder admin. Daten werden auch gespeichert
-% - Plattform-unabhängig
-% - Unabhängig von spezifischen Firmen
-% - Mittlerweile viel genutzt in EDC Tools
-
-ODM ist einer der Standards, welcher von CDISC entwickelt wurde, um den gesamten Zyklus einer Studie in ihren verschiedensten Formen zu standardisieren.
+Das Operational Data Model (ODM) ist einer der Standards, welcher von CDISC entwickelt wurde, um den gesamten Zyklus einer Studie in ihren verschiedensten Formen zu standardisieren.
 Es dient dazu, sowohl Metadaten als auch klinische Daten einer Studie zu erfassen. Auch administrative Daten sind im Standard enthalten.
 ODM ist unabhängig von spezifischen Firmen und Plattformen und daher gut zum Austausch zwischen verschiedensten Werkzeugen und Gruppierungen geeignet.
 Bereits 2006 hat ODM im internationalen Raum Anklang gefunden, in Deutschland allerdings noch nicht.
@@ -201,20 +176,25 @@ Die komplexe Liste hat dieses Attribut ebenfalls, in Elementen des Typs \el{Code
 
 \el{ItemDef} enthält ein Element \el{Question}, in welchem eine Frage festgehalten wird.
 Mit \el{ConditionDef} kann eine Bedingung festgelegt werden.
-Referenziert eine Frage ein Element dieses Typs und evaluiert der Ausdruck zu \enquote{true}, wird die Frage nicht angezeigt.
+Eine Bedingung hat ein Kind-Element \el{FormalExpression}, dessen Text die Bedingung selber enthält.
+Das Attribut \el{Context} gibt an, in welcher Sprache die Bedingung verfasst wurde.
+Referenziert eine Frage eine Bedingung und evaluiert der Ausdruck zu \enquote{true}, wird die Frage nicht angezeigt.
 
 \subsubsection{ClinicalData}
 
 In der \el{ClinicalData} gibt es für jeden Teilnehmer der Studie ein Element des Typs \el{SubjectData}.
 Ab hier ist dann die Stuktur der Studie abgebildet, wobei die \el{ItemData} das unterste Element ist und die Antwort auf eine Frage beinhaltet.
 
-\section{IMI Syntaxerweiterung für ODM}
+\section{Syntaxerweiterung des Instituts für Medizinische Infomatik}
+
+ODM besitzt eine sehr loose Definition dessen, was als Bedingung gilt. Daher kann man eine extra Syntax/Sprache angeben, in welcher die Bedingung verfasst ist.
+Das Institut für Medizinische Informatik der WWU (IMI) hat in einem internen Dokument eine eigene Syntax für Bedingungen entwickelt.
+Die Antwort auf eine Frage wird mit dem folgenden Ausdruck referenziert: \enquote{SE-\{SeOID\}/F-\{FOID\}/IG-\{IGOID\}/I-\{IOID\}}.
+Diese Selektoren werden wie Variablen in der sh-Syntax mit einem Dollarsymbol und runden Klammern umschlossen.
+Durch Angabe des ganzen Pfades wird sichergestellt, dass die Referenz eindeutig ist. Auch eine bestimmte Wiederholung kann angegeben werden.
+Sonst gibt es logische Operatoren wie \enquote{==,!=,<=,>=,AND,OR,NOT,IN,...} und mathematische Operatoren wie \enquote{+,-,*,/,MIN,MAX,SUM,MEDIAN,MEAN,...}.
 
 \section{dom4j}
-
-% - API für den Zugriff und die Verarbeitung von XML-Dokumenten
-% - Bietet simple Wege, um existierende Funktionen wie XPath oder Parsing mittels DOM/SAX zu nutzen
-% - Auch Dokumente erstellen möglich
 
 Dom4j ist eine API, welche die bestehenden Funktionen der \jv{javax}-Bibliothek abstrahiert und so wesentlich simplere Wege bietet, diese zu nutzen.
 Unter anderem ist es möglich, Elemente in einem XML-Dokument mittels XPath-Ausdrücken zu finden und DOM/SAX-Parser zu nutzen, um ein Dokument zu verarbeiten.
