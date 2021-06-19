@@ -7,7 +7,7 @@
 	\item \textbf{EDC} \el{Electronic Data Capture} Das Sammeln und Verarbeiten von Daten
 	\item \textbf{RegEx} \el{Regular Expression} Ein Ausdruck, der genutzt werden kann, um Zeichenketten auf eine bestimmte Struktur zu überprüfen
 	\item \textbf{IMI} \el{Institut für Medizinische Informatik} Eines der Institute der WWU. Diese Arbeit ist in Kooperation mit ihnen entstanden
-	\item \textbf{XML} \el{Extensible Markup Language}
+	\item \textbf{XML} \el{eXtensible Markup Language}
 	\item \textbf{XSD} \el{XML Schema Definition} Eine Datei, welche beschreibt, wie ein XML-Dokument aufgebaut sein sollte, um einer bestimmten Definition zu entsprechen.
 	\item \textbf{SAX} \el{Simple API for XML} Ein Standard, welcher beschreibt, wie man ein XML-Dokument parsen kann. Dieses wird sequentiell eingelesen und für definierte Ereignisse wird eine vorgegebene Rückruf-Funktion aufgerufen. Ein Programm kann eigene Funktionen registrieren und so das Dokument verarbeiten.
 	\item \textbf{DOM} \el{Document Object Model} Bietet die Möglichkeit, die Hierarchie der XML-Knoten in Baumform darzustellen und so zu navigieren/ den Baum zu bearbeiten
@@ -22,12 +22,19 @@
 
 LimeSurvey ist ein von der gleichnamigen deutschen Firma entwickeltes Werkzeug für Umfragen.
 Laut ihrer Website ist LimeSurvey ein für Einsteiger und Profis sowie für Privatpersonen als auch Institutionen gut geeignetes Werkzeug, um die Meinungen, Interessen und Entscheidungsgrundlagen einer Zielgruppe herauszufinden.
-Es wird seit 2006 an der Software entwickelt und sie ist sowohl als Cloud-Edition über die Firma erhältlich, sowie auch als OpenSource-Projekt.\\
+Es wird seit 2006 an der Software entwickelt und sie ist sowohl als Cloud-Edition über die Firma erhältlich, sowie auch als OpenSource-Projekt in der Community-Edition.\\
 
 Falls man die Cloud-Edition nutzen will, hat man fünf Optionen: \textit{Free}, \textit{Basic}, \textit{Expert}, \textit{Enterprise} und \textit{Corporate}.
 Diese unterscheiden sich vor allem durch die Zahl an Antworten pro Monat, die Menge an Upload-Speicher, E-Mail-Support, White-Label-Umfragen, Alias-Domains und die Entfernung des LimeSurvey-Brandings.
-Innerhalb der \textit{Corporate}-Lösung kann man noch dedizierte Server und die Nutzung von SAML beantragen.
+Innerhalb der \textit{Corporate}-Lösung kann man noch dedizierte Server und die Nutzung der Security Assertion Markup Language (SAML) beantragen.
 Preislich bewegt man sich in einem Rahmen von 0€-74€ für die normalen Lösungen und einem individuell absprechbaren Preis für die \textit{Corporate}-Lösung.
+
+\subsection{Community-Edition}
+
+Zum Erstellen von Umfragen, welche in dieser Arbeit gebraucht werden, wird eine Version der Community-Edition genutzt.
+Diese nutzt Docker, um die Website möglichst separat vom restlichen System zu halten.
+So muss man Abhängigkeiten nicht auf dem eigenen System installieren und verwalten.
+Zur Verwaltung der Docker-Version des \enquote{Australian Consortium for Social \& Political Research Inc.} (ACSPRI) wird eine Docker-Compose-Datei genutzt, welche kostenfrei online zur Verfügung steht \cite{docker_comp}.
 
 \subsection{Features}
 \subsubsection{ExpressionScript}
@@ -200,6 +207,21 @@ Dom4j ist eine API, welche die bestehenden Funktionen der \jv{javax}-Bibliothek 
 Unter anderem ist es möglich, Elemente in einem XML-Dokument mittels XPath-Ausdrücken zu finden und DOM/SAX-Parser zu nutzen, um ein Dokument zu verarbeiten.
 Auch ein \jv{XMLWriter} existiert, welcher unter anderem Standardelemente von XML automatisch an ein Dokument anhängt und das Format des Dokuments mittels eines einzeiligen Befehls so anpassen kann, dass es leicht für einen Menschen lesbar ist.
 
+\section{Reguläre Ausdrücke}
+
+Reguläre Ausdrücke (RegEx) sind ein beliebtes Mittel, um in verschiedensten Anwendungsgebieten der Informatik Zeichenketten zu analysieren.
+Sie sind sehr mächtig und haben verschiedenste Funktionen.
+Die Hauptfunktion ist es, zu überprüfen, ob eine Zeichenkette einem bestimmten Format entspricht (Ob es ein Match gibt).
+
+Dabei gibt es eine eigene Syntax, in welcher ein Format spezifiziert werden kann.
+Der Zeilenanfang wird mit \enquote{\textasciicircum} markiert, das Zeilenende mit \enquote{\$}.
+Weiterhin steht zum Beispiel \enquote{\textbackslash d} für eine beliebige Zahl oder \enquote{.} für jedes beliebige Zeichen.
+Dann gibt es Quantoren, mit denen die Häufigkeit eines Ausdrucks bestimmt werden kann.
+Hier steht \enquote{?} für Null oder ein Vorkommnis, \enquote{*} für beliebig viele oder \enquote{+} für mindestens ein Vorkommen.
+In eckigen Klammern können Zeichen angegeben, welche gematcht werden sollen. So verlangt \enquote{[abc]} zum Beispiel, dass ein Zeichen an einer Stelle a, b oder c sein muss.
+
+Es gibt auch Capture Groups. Hiermit kann man, nachdem ein Match gefunden wurde, einen Teil der Zeichenkette erhalten, welcher dem Muster in der Capture Group entspricht. Diese wird mit runden Klammern markiert.
+Hat man also den Ausdruck \enquote{X(\textbackslash d+)X} und die Zeichenkette \enquote{X0135X}, dann kann man durch Zugriff auf die Gruppe die Zeichenkette \enquote{135} erhalten.
 
 %%
 %\section{Mathematische Notation}

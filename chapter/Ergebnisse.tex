@@ -3,14 +3,9 @@
 
 \section{Analyse des LSS- und LSR-Formates}
 
-% - Keine Dokumentation zum Aufbau des XML vorhanden
-% - Lösung: Testdokumente erstellen und von da aus Format herausfinden
-% 	- Erst simples Dokument mit Textfragen und zwei Fragegruppen
-
 In der Online-Dokumetation von LimeSurvey gibt es zwar eine Sektion zum Thema Export und Export-Formate, dieses Kapitel war aber bis vor kurzem leer.
 Auch jetzt enthält das Kapitel nur eine oberflächliche Beschreibung der Formate, die genaue Struktur wird nicht erklärt.
 Da diese allerdings benötigt wird, um eine Konvertierung vornehmen zu können, muss zunächst ermittelt werden, wie die .lss- und .lsr-Dateien genau aufgebaut sind.
-
 
 Dies wurde bewerkstelligt, indem zunächst ein simples Dokument erstellt wurde, welches eine Fragegruppe und drei Freitextfragen enthält.
 Dafür wurde eine Instanz der LimeSurvey Community Edition benötigt, diese aufzusetzen war dank existierenden Docker-Compose-Dateien relativ simpel.
@@ -73,12 +68,14 @@ Die Ergebnisse sind wie folgt:
 Das Hauptelement ist wieder \el{Document}, zuerst gibt es wieder einige Metadaten wie der Typ des Dokuments, die Datenbank-Version und die Sprache.
 Dann gibt es ein \el{responses} Element, welches dieselbe grundlegende Struktur wie die Elemente in der LSS-Datei besitzt.
 Für jeden Teilnehmer der Umfrage gibt es ein Element vom Typ \el{row}.
-Dies enthält eine ID, das Absendedatum, die Sprache und einen Seed.
-Dann kommen die Antworten, wobei es für jede Frage bzw. Subfrage ein Element mit folgendem Namensschema gibt: \el{\_\{Survey-ID\}X\{GID\}X\{QID\}\{SQID\}?\{ext\}?}, wobei \el{ext} folgendes sein kann (\enquote{other}$\vert$\enquote{comment}).
+Dies enthält eine ID, ein Token, das Absendedatum, die Sprache, einen Seed und die Antworten.
+Wenn ein Teilnehmer die Umfrage mehrmals ausfüllt, sind die IDs verschieden, die Tokens aber gleich.
+Bei den Antworten gibt es für jede Frage bzw. Subfrage ein Element mit folgendem Namensschema: 
+\el{\_\{Survey-ID\}X\{GID\}X\{QID\}\{SQID\}?\{ext\}?}, wobei \el{ext} folgendes sein kann (\enquote{other}$\vert$\enquote{comment}).
 Man kann bereits am Format sehen, dass es auch für die \enquote{other} und Kommentar-Felder hier eine separate Antwort gibt.
 
 \subsection{Erstellung eines XML-Schemas}
-
+\label{an:xsd}
 Da die Struktur der Umfrage nun bekannt ist, wird ein XML-Schema für das LSS-Format erstellt.
 Das sorgt einerseits für eine wesentlich bessere Übersicht über den Aufbau, das kann für zukünftige Arbeit nützlich sein.
 Andererseits lässt sich dieses Schema später verwenden, um zu überprüfen, ob es sich bei der Eingabedatei um eine valide LSS-Datei handelt.
@@ -89,10 +86,6 @@ Da der Aufbau beider Formate nun bekannt ist, muss überlegt werden, wie man bei
 Der Text wird dabei das Vorgehen beschreiben, die exakten Elementnamen können in den Grafiken nachgesehen werden.
 
 \subsection{Dummy Elemente in ODM}
-
-% - ODM kann mehr Beziehungen in Studien darstellen
-% - Es müssen Dummy-Elemente angelegt werden, weil LimeSurvey diese Elemente nicht hat, sie aber in ODM vorkommen müssen
-% - Betroffen: GlobalVariables, StudyEvent
 
 ODM besitzt mehr Möglichkeiten, mögliche Abläufe einer Studie oder Umfrage darzustellen, da es als generisches Format natülich mehr Einsatzzwecke abdecken soll, als das LSS-Format.
 Dementsprechend gibt es mehrere Wege, LSS auf ODM abzubilden.
@@ -106,16 +99,16 @@ Die \el{OID} der \el{MetaDataVersion} soll die Studien-ID behinhalten, da die Ve
 \label{m:survey_meta}
 
 Innerhalb unseres Dummy-\el{StudyEvent's} gibt es nun ein Formular, dieses soll die Umfrage repräsentieren.
-Das \el{Repeating} Attribut wird auf \enquote{No} gesetzt, da die Umfrage nur einmal pro Teilnehmer ausgefüllt werden soll, füllt jemand sie mehrmals aus, gerade wenn es keine vorher festgelegten Nutzer gibt, gilt das als zwei verschiedene Teilnehmer %TODO: Wenn man eine feste Teilnehmer-Liste hat, kann man dann eine Umfrage mehrmals ausfüllen?
+Das \el{Repeating} Attribut wird auf \enquote{No} gesetzt, da die Umfrage nur einmal pro Teilnehmer ausgefüllt werden soll.
+Füllt ein Teilnehmer die Umfrage mehrmals aus, gilt das als zwei verschiedene Teilnehmer.
 Da das Formular die Umfrage repräsentiert, sollen sie dieselbe ID nutzen, als \el{Name} wird der Titel der Umfrage gesetzt. Die Beschreibung wird ebenfalls in das Formular übernommen.
 
 \subsection{Fragegruppen}
 \label{m:qg}
 Fragegruppen in LimeSurvey sind fast äquivalent zu \el{ItemGroup's} in ODM.
-Entsprechend wird für jede Fragegruppe eine \el{ItemGroupDef} erstellt, die ID wird direkt in ODM übernommen, der Titel wird als Name verwendet.
-Der Hilfetext der Frage wird zur Beschreibung in ODM.
+Entsprechend wird für jede Fragegruppe eine \el{ItemGroupDef} erstellt, die ID wird direkt in ODM übernommen, der Titel wird als Name verwendet, die Beschreibung kann ebenfalls direkt übernommen werden.
 Das Attribut \el{Repeating} wird wieder auf \enquote{No} gesetzt. %TODO: Korrekt?
-Entsprechende Referenzen auf die Fragegruppen werden zur \el{FormDef} hinzugefügt.
+Entsprechende Referenzen auf die Fragegruppen werden zum Formular hinzugefügt.
 
 \begin{figure}[h]
 	\makebox[\linewidth][c]{%
@@ -134,9 +127,6 @@ Entsprechende Referenzen auf die Fragegruppen werden zur \el{FormDef} hinzugefü
 
 \subsection{Fragen}
 
-% - Aus einer Frage in LS werden pot. mehrere ItemDef's in ODM (fragetypabhängig)
-% - Elemente aus \el{Questions} und \el{Subquestions} und \el{Question\_l10ns} werden genutzt
-
 Grob gesprochen wird die Frage aus LimeSurveys \el{question\_l10ns} Element bei ODM in \el{Question/TranslatedText} der Fragendefinition eingetragen, die Sprache aus \el{language} wird im Attribut \el{xml:lang} des \el{TranslatedText} eingetragen.
 Wie schon bei den Fragegruppen wird die ID übernommen und der Titel wird zum Namen.
 Der Hilfstext der Frage wird zur Beschreibung in ODM.
@@ -149,6 +139,12 @@ Zum Beispiel werden die Fragetexte der Hauptfrage und der Subfrage konkateniert,
 Für die Festlegung der \el{OID} von Subfragen wird die \el{qid} der Hauptfrage mit dem Titel der Subfrage konkateniert.
 Gründe dafür werden in \cref{im:ans} dargelegt.
 Im folgenden werden alle Behandlungen erklärt, mit einer Angabe, für welche Fragetypen diese genutzt werden.
+
+\begin{figure}[h]
+			\centering
+			\includegraphics[width=.80\textwidth]{./img/m_questions.png}
+			\caption{Mapping der Fragen}
+\end{figure}
 
 \subsubsection{Einfachauswahl}
 \label{e:sc}
@@ -189,6 +185,11 @@ Es gibt mehrere Typen, bei denen es feste Antwortmöglichkeiten gibt und daher e
 
 \subsection{Antwortmöglichkeiten}
 
+\begin{figure}[h]
+			\centering
+			\includegraphics[width=.80\textwidth]{./img/m_answers.png}
+			\caption{Mapping der Antwortmöglichkeiten}
+\end{figure}
 
 Grundsätzlich wird jedes Mal, wenn es eine vordefinierte Liste an Antwortmöglichkeiten gibt, eine CodeList genutzt, um diese Liste in ODM darzustellen.
 Für die Fragen, wo man mit 1 bis 5 oder 1 bis 10 antworten kann, wird eine simple Liste genutzt, für alle weiteren Fragen eine komplexe Liste.
@@ -208,9 +209,6 @@ Da die OIDs der Fragen vorher bereits so gewählt wurden, dass sie mit dieser St
 
 \subsection{Themes und Frageattribute}
 
-% - Werden nicht übernommen
-% 	- ODM dient zum Austausch der Fragen/Antworten, nicht die Art und Weise, wie sie dargestellt werden
-
 Die Themes werden nicht in ODM übernommen. Weitere Informationen gibt es in \cref{d:themes}.
 Auch von den Frageattributen werden fast keine übernommen, da die meisten der visuellen Darstellung dienen.
 
@@ -218,31 +216,62 @@ Auch von den Frageattributen werden fast keine übernommen, da die meisten der v
 
 \subsection{Java}
 
-- Bietet sehr mächtige Werkzeuge zur Bearbeitung von XML
-	- Kann z.B. mit mehreren Attributen in einem Element umgehen
-	- Unterstützt XSD-1.1
-- Wird beim IMI bereits viel genutzt
+Nun stellt sich die Frage, welche Programmiersprache genutzt werden soll, um den Konverter zu implementieren.
+Java bietet sich dabei aus verschiedenen Gründen an.
+Einerseits gibt es viele Bibliotheken für Java, welche das Bearbeiten von XML stark vereinfachen, diese Bibliotheken sind auch sehr mächtig und können quasi alles, was man brauchen könnte, um die Aufgabe zu erfüllen.
+Darunter sind zum Beispiel Validatoren, die XSD 1.1 unterstützen und Parser, welche mit mehreren Attributen in einem Element umgehen können.
+Andererseits wird die Sprache bereits viel am IMI genutzt, der Konverter kann also sehr leicht als JAR in andere Programme eingebunden und von dort aus aufgerufen werden.
+
+\begin{figure}[h]
+	\makebox[\linewidth][c]{%
+		\begin{subfigure}[b]{.6\textwidth}
+			\centering
+			\includegraphics[width=.95\textwidth]{./img/cls_app.png}
+			\caption{Klassendiagramm für das Paket \jv{app}}
+		\end{subfigure}%
+		\begin{subfigure}[b]{.6\textwidth}
+			\includegraphics[width=.95\textwidth]{./img/cls_utils.png}
+			\caption{Klassendiagramm für das Paket \jv{utils}}
+		\end{subfigure}%
+		}
+		\caption{Klassendiagramme für mehrere Pakete, welche am Anfang der Ausführung gebraucht werden}
+\end{figure}
 
 \subsection{Programmaufbau}
 
-Das Programm trägt den Namen \enquote{lsa2odm} und besteht aus drei Paketen, \jv{app}, \jv{parser} und \jv{writer}, wobei \jv{parser} in zwei weitere Pakete aufgeteilt ist, \jv{lss} und \jv{lsr}.
+Das Programm trägt den Namen \enquote{lsa2odm} und besteht aus vier Paketen, \jv{app}, \jv{utils}, \jv{parser} und \jv{writer}, wobei \jv{parser} in zwei weitere Pakete aufgeteilt ist, \jv{lss} und \jv{lsr}.
 in \jv{app} befindet sich die Klasse \jv{App}, welche die \jv{main}-Methode enthält.
+Diese erstellt eine Instanz des Konverters \jv{LsaConverter}, auch die Methoden aus \jv{ZipUtils} und \jv{LssValidator} werden hier gebraucht.
+
+\begin{figure}[h]
+			\centering
+			\includegraphics[width=.50\textwidth]{./img/i_package.png}
+			\caption{Paketdiagramm für lsa2odm}
+\end{figure}
 
 \subsection{Eingabe}
 
-- Archiv
-	- muss entpackt werden
+Das Programm erwartet entweder eine oder zwei Eingaben. Der erste Parameter muss dabei der Pfad zum LSA-Archiv sein, der zweite, optionale Parameter ist dabei ein Pfad, wo die ODM-Datei am Ende geschrieben werden soll.
+Anschließend wird der erste Parameter mit dem Regulären Ausdruck \enquote{\textasciicircum/?[.*/]*(.*?)\textbackslash\textbackslash.lsa\$} getestet.
+Ist der Parameter ein gültiger Pfad zu einer Eingabedatei, wird \jv{unzipFile} auferufen.
+Die Funktion beinhaltet relativ generischen Code, welcher ein Zip-Archiv auspackt.
+Wenn die Funktion fertig ist, wurden alle Dateien ausgepackt und es kann mit den nächsten Aufgaben weiter gemacht werden.
 
 \subsection{Properties}
 
+Es gibt eine Reihe an Strings, welche im Programm gesetzt werden, besonders die Namen der Dummy-Elemente.
+Aber auch Suffixe für manche Namen oder der Name der IMI-Syntax ist nicht festgelegt.
+Daher sollen all diese Dinge von außerhalb des Codes geändert werden können.
+Gibt es noch keine, wird eine Properties-Datei erstellt, welche all diese Informationen beinhaltet.
+
 \subsection{XSD-Validierung}
 
-- Nutze Xerces zusammen mit der erstellten XSD um eine Eingabedatei zu prüfen
-- Prüfung ist nicht bindend
-	- Auch invalide Datei wird weiter verarbeitet
-	- Grund: Starke Versionsabhängigkeit
-		- Invalide lss-Datei kann eventuell trotzdem erfolgreich umgewandelt werden
-	- Zur Information für Anwender: Potentiell problematisch/inkompatibel mit Konverter
+
+Das in \cref{an:xsd} erstellte Schema wird nun genutzt, um zu überprüfen, ob die Eingabedatei valide ist.
+Das Ergebnis der Prüfung wird dem Nutzer angezeigt, allerdings ist es nicht bindend, auch eine invalide Datei wird konvertiert.
+Das liegt vor allem daran, dass sich das Format schnell ändern kann, mehr dazu in \cref{d:version}.
+Da diese Änderungen aber oft klein sind, besteht eine hohe Chance, dass der Konverter den Großteil des Dokumentes dennoch verarbeiten kann.
+Der Anwender bekommt dennoch die Information, dass der Konverter potentiell nicht mit dieser LimeSurvey-Version funktioniert.
 
 \subsection{Parsing der LimeSurvey Struktur}
 
@@ -251,6 +280,13 @@ Die Klasse \jv{Survey} dient zum speichern aller gesammelten Informationen, alle
 
 Zunächst werden die drei in \cref{a:survey_meta} angesrochenen Elemente mit Metadaten der Studie in die \jv{survey} übernommen.
 Dann werden die Fragegruppen übernommen, hierbei werden alle für das Mapping relevante Informationen gespeichert.
+
+\begin{figure}[h]
+	\label{im:fig:lss}
+			\centering
+			\includegraphics[width=0.99\textwidth]{./img/cls_lss.png}
+			\caption{Klassendiagramm für das Paket \textit{lss}}
+\end{figure}
 
 \subsubsection{Parsing der Fragen}
 \label{im:q}
@@ -262,24 +298,65 @@ Am Ende dieser Verarbeitung soll es noch vier Fragetypen geben:
 
 \begin{enumerate}
 \item[T] Eine Frage, auf die mit einem Freitext geantwortet werden kann
-\item[N] Bei dieser Frage muss mit einer Zahl geantwortet werden
+\item[N] Bei dieser Frage muss mit einer Zahl im float-Format geantwortet werden
+\item[I] Bei dieser Frage muss mit einer Zahl im integer-Format geantwortet werden
 \item[A] Bei dieser Frage muss aus einer vordifinierten Liste an Antwortmöglichkeiten gewählt werden
 \item[D] Diese Frage hat ein Datum und eine Uhrzeit als Antwort
 \end{enumerate}
 
 Zuerst wird eine Liste aller \el{row} Elemente des Frage-Elements erstellt, durch welche im Anschluss iteriert wird.
 Die Klasse \jv{Question} soll alle Informationen über eine Frage speichern, entsprechend wird diese genutzt, um die Informationen jeder Reihe zu speichern.
-Eine Liste der Daten ist in %TODO Bild des Konstruktors
-zu sehen.
+Eine Liste der Daten ist in \cref{im:fig:lss} zu sehen.
 Nicht in jedem Fall wird diese Frage auch zur Umfrage hinzugefügt, wenn es sich zum Beispiel um eine Matrix-Frage handelt, wird diese Instanz nur zum Erstellen neuer Fragen genutzt.
 Dann werden potentiell existierende Bedingungen hinzugefügt, dieser Vorgang wird in \cref{im:cond} beschrieben.
 
 Anschließend gibt es ein \jv{switch}-Statement, welches einen passenden Weg zum Parsen der Frage abhängig vom Typ ausführt.
 
-Für Textfragen wird hier nur der Typ geändert.
-Bei Datum/Zeit-Fragen wird die \el{qid} zu einer Liste hinzugefügt, welche später in \cref{im:ans} gebraucht wird.
-Eine numerische Frage braucht keine weitere Bearbeitung.
+\subsubsection{Textfragen}
+Für Textfragen wird hier nur der Typ geändert, sodass alle Arten von Textfragen \enquote{T} als Typ haben.
 
+\subsubsection{Datum/Zeit}
+Bei Datum/Zeit-Fragen wird die \el{qid} zu einer Liste hinzugefügt, welche später in \cref{im:ans} gebraucht wird.
+
+\subsubsection{Numerische Eingaben}
+Wenn es sich um eine Frage mit numerischer Antwort handelt, wird geprüft, ob die Antwort nur ganzzahlige Werte enthalten darf. In dem Fall wird der Typ auf \enquote{I} gesetzt. 
+Dann wird überprüft, ob es Minimal- und Maximalwerte für die Antwort gibt, wenn ja werden entsprechende Werte in der Frage-Klase gesetzt.
+
+\subsubsection{Listen}
+Handelt es sich um eine Frage vom Typ \el{Liste mit Kommentar}, wird zuerst eine weitere Frage hinzugefügt, welche den Kommentar speichern soll.
+Dann wird mit der Behandlung für die anderen \el{Listen}-Fragen fortgefahren.
+Bei selbiger wird geschaut, ob die Option für \jv{Anderes} aktiviert ist, wenn ja, wird auch dafür eine Frage hinzugefügt.
+Dann wird eine Liste mit Antwortmöglichkeiten an die eigentliche Frage angehangen und selbige wird hinzugefügt.
+
+\subsubsection{Restliche Einfachauswahl}
+Für die Fragetypen \el{Fünf Punkte Auswahl}, \el{Ja/Nein} und \el{Geschlecht} wird der Typ geändert und eine entsprechende Antwort-Liste mittels der dafür erstellten Hilfsfunktionen generiert.
+
+\subsubsection{Multiple Antworten}
+
+Wird nach Zahlen verlangt, werden erst potentielle Constraints ermittelt und hinzugefügt, dann wird der Typ angepasst, je nach Gleitkomma- oder Ganzzahl-Antworten.
+Dann wird bei beiden die Funktion \jv{addSubquestions} aufgerufen.
+Diese sucht die IDs aller Subfragen und fügt dann entsprechende Kopien der Hauptfrage ein, Änderungen werden wie oben beschrieben durchgeführt.
+
+\subsubsection{Duale Skalen}
+
+Geht es um diesen Typ, werden erst beide Listen mit Antworten angelegt, dann wird die Funktion \jv{addSubquestionsWithCL} zwei Mal aufgerufen, einmal mit jeder Skala.
+Beim ersten Mal wird \enquote{-0} an die Frage-ID angehangen, beim zweiten Mal \enquote{-1}.
+
+\subsubsection{Matrizen (Text, Numerisch)}
+
+In beiden Fällen werden hier die Antwortmöglichkeiten auf den Achsen gesammelt, dann wird für jede Kombination eine neue Frage erstellt, der Inhalt wird angepasst.
+
+\subsubsection{Arrays}
+
+Für alle Array-Fragen wird die Funktion \jv{addSubquestionWithCL} aufgerufen, die Liste an Antworten, deren Name un der Datentyp wird jeweils angepasst.
+
+\subsubsection{Mehrfachauswahl}
+
+Hier werden auch alle Subfragen mit einer Antwortliste eingefügt, die Liste enthält \enquote{Y} für Ja und énquote{} für Nein.
+Dann wird noch eine potentielle \jv{Anderes}-Frage eingefügt.
+Hat die Auswahl noch Kommentare, wird eine spezielle Funktion aufgerufen.
+Diese hat fsat gleichen Inhalt, allerdings wird noch ein Kommentar für jede Frage eingefügt.
+Eine passende Bedingung wird auch eingefügt, sodass die Kommentar-Frage nur angezeigt wird, wenn die Möglichkeit auch ausgewählt wurde.
 
 Dabei wird die Frage-ID wie folgt aufgebaut: \enquote{\{Parent\_QID\} + \{Title(y-Axis)\}\_\{Title(x-Axis)\}}.
 
@@ -314,6 +391,12 @@ Die Klasse \jv{LsrParser}, zusammen mit den Klassen \jv{Response} und \jv{Answer
 Zuerst wird in \jv{createDocument} ein neuer SAXReader erstellt, welcher die LSR-Datei in eine Instanz der Klasse Document einliest.
 Selbige wird dann in \jv{parseAnswers} weiterverwendet.
 
+\begin{figure}[h]
+			\centering
+			\includegraphics[width=.98\textwidth]{./img/cls_lsr.png}
+			\caption{Klassendiagramm des Paketes \textit{lsr}}
+\end{figure}
+
 Alle für das Parsing relevanten Felder stehen in \el{document/responses/rows}. Dort gibt es eine Reihe pro Beantwortung des Fragebogens.
 Die Klasse \jv{Response} dient zum Speichern einer Reihe, daher werden Instanzen erstellt, um alle Informationen der LSR-Datei zu übertragen.
 Als nächstes wird über alle Kind-Elemente der Reihe iteriert und es wird nach Antworten gesucht.
@@ -336,19 +419,53 @@ Dadurch soll die Menge an gebrauchtem RAM verringert werden.
 Mittels der Klasse \jv{ODMWriter} soll eine neue ODM-Datei erstellt werden. Der Konstruktor nimmt dabei die beim Parsing erstellte \jv{Survey} entgegen.
 Die Methode \jv{createODMFile} dient vor allem als Caller für andere Methoden, welche die eigentlichen Funktionen ausführen.
 
+\begin{figure}[h]
+			\centering
+			\includegraphics[width=.98\textwidth]{./img/cls_writer.png}
+			\caption{Klassendiagramm des Pakets writer}
+\end{figure}
+
+\subsubsection{Studienstruktur}
+
 Zuerst erstellt \jv{createODMRoot} das Wurzelelement \el{ODM} mit allen benötigten Attributen.
 Als nächstes wird \jv{addStudyData} aufgerufen. Hier werden die Elemente \el{Study}, sowie die globalen Variablen mittels der Dummy-Werte aus der Properties-Datei erstellt.
 Weiterhin werden die Elemente \el{MetaDataVersion},\el{Protocol}, \el{StudyEventDef} und \el{Form} erstellt.
 Die \jv{meta\_data\_oid} besteht dabei aus dem Prefix in der Properties-Datei und der Studien-ID.
-\el{OID} und \el{Name} des \el{StudyEvent's} stammen aus der Properties-Datei, das Element \el{Form} wird gemäß des Mappings befüllt.
+Die Attributwerte für die \el{StudyEventDef} stammen aus der Properties-Datei, das Formular wird gemäß des Mappings befüllt.
 
-Nun werden die Fragegruppen mittels \jv{addQuestionGroups} hinzugefügt. Wie in \cref{m:qg} beschrieben wird aus jeder \jv{QuestionGroup} eine \el{ItemGroupDef}.
+\subsubsection{Fragetypen}
+
+Nun werden die Fragegruppen mittels \jv{addQuestionGroups} hinzugefügt. Wie in \cref{m:qg} beschrieben wird aus jeder Fragegruppe eine \el{ItemGroupDef}.
 Im Formular wird die entsprechende Referenz auf die Fragegruppe eingefügt.
 Gibt es eine Beschreibung, wird sie in eine Beschreibung in der \el{ItemGroupDef} eingefügt.
 Die Fragen brauchen später Referenzen in den Fragegruppen, daher werden Referenzen auf alle Fragegruppen gespeichert, sodass man später einfach Elemente hinzufügen kann.
 
-Danach werden alle Fragen eingefügt.
-%TODO
+\subsubsection{Fragen}
+
+Danach werden alle Fragen in der Methode \jv{addQuestions} eingefügt.
+Zuerst wird ein zweites Dokument mit einem Wurzelelement erstellt, um alle \el{CodeList} Elemente zu speichern.
+Dies wird gemacht, da die Listen mit den Antworten hinter allen Fragen stehen sollen, eine Frage zwischen der letzten Frage und der ersten Antwortliste einzufügen ist allerdings nicht unbedingt einfach.
+Theoretisch kann man mittels der Methode \jv{add} einen Index angeben und so ein Element an einer beliebigen Stelle einfügen.
+Da sich der Index hier allerdings mit jedem Einfügen einer neuen Frage verändert, ist es simpler, die Listen einfach erst auszulagern und später mit \jv{appendContent} einfach alle Elemente zu übertragen.
+
+Anschließend wird über den Typ entschieden, welche Methode zum Einfügen der Frage aufgerufen wird. Dabei gibt es hier nur noch die fünf Typen, auf welche alle Fragen in \cref{im:q} reduziert wurden.
+Bei einer Array-Frage wird \jv{addQuestionWithCL} aufgerufen, was die Frage und die Antwortliste einfügt.
+In allen anderen Fällen wird \jv{addQuestion} aufgerufen, der übergebene Datentyp variiert dabei entsprechend.
+Zuletzt wreden alle Antwortlisten übertragen.
+
+\subsubsection{Klinische Daten}
+
+Zuerst muss das Element für Klinische Daten im Wurzelelement erstellt werden.
+Anschließend ist \jv{createODMFile} fertig, die Antworten werden jetzt durch eine öffentliche Methode hinzugefügt.
+Diese wird im LSR-Parser aufgerufen, die Rationale dafür wurde bereits in \cref{im:ans} erklärt.
+
+\subsubsection{Ausgabe}
+
+Mittels \jv{writeFile} wird nun das vorher erstellte Dokument geschrieben.
+Der Name der Ausgabe-Datei ist \enquote{\{Survey-ID\}.xml}, sie wird am Ausgabepfad geschrieben, falls einer angegeben wurde.
+Zusätzlich wird das Dokument formatiert, sodass es auch von Hand lesbar ist. Dazu reicht in \jv{dom4j}
+\[OutputFormat format = OutputFormat.createPrettyPrint();\]
+Das erstellte Format kann dann an den \jv{XMLWriter} gegeben werden.
 
 % Dieses Kapitel sollte die Ergebnisse beinhalten, die mit den Methoden aus \autoref{ch:methodik} erstellt wurden.
 
