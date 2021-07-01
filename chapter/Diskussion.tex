@@ -221,24 +221,24 @@ Das wird allerdings nur von \textit{EvalEx} unterstützt, nicht durch \textit{ex
 % 	- Bevorzugt direktes mapping, dann workarounds
 
 Es gibt eine ganze Reihe an Konvertern, welche entweder von ODM zu einem anderen Format oder von einem anderen Format zu ODM konvertieren können.
-Viele dieser wurden von Mitarbeitern des IMI geschrieben, entsprechende Veröffentlichungen gibt es unter ihren Publikationen.
+Viele dieser wurden von Mitarbeitern des IMI geschrieben, entsprechende Veröffentlichungen gibt es unter ihren Publikationen.\\
 
 Zuerst gibt es einen Konverter von ODM zu Simply.MDR \cite{odm2mdr} und einen Konverter zwischen ODM und openEHR\cite{odm2openehr}.
 Beide mappen Metadaten von ODM in das jeweils andere Format und nutzen XSLT, um die Konvertierung zu realisieren.
 Das ist der simpelste Weg, da beide Formate in XML geschrieben sind und die Formate große Ähnlichkeiten besitzen.
-Entsprechend mussten auch nur wenige Elemente weggelassen werden, wie die Protokolle und Studienevents in openEHR.
+Entsprechend mussten auch nur wenige Elemente weggelassen werden, wie die Protokolle und Studienevents in openEHR.\\
 
 Dann gibt es noch zwei weitere Konverter, welche Java nutzen. Der erste wandelt ODM Metadaten in FHIR \cite{odm2fhir} um, der zweite wandelt die Ergebnisse einer Studie, die \enquote{Study of Health in Pomerania} (SHIP) zu ODM um\cite{ship2odm}.
 Beide sind in ihrer Arbeit erfolgreich gewesen, auch wenn das SHIP-Format eine nur vage ähnliche Struktur zu ODM hatte.
-Der FHIR-Konverter nutzt aus dem ODM-XML-Schema gewonnene Klassen zum Zwischenspeichern der Daten.
+Der FHIR-Konverter nutzt aus dem ODM-XML-Schema gewonnene Klassen zum Zwischenspeichern der Daten.\\
 
 Weitere zwei Konverter wurden nur in Theorie implementiert, es gibt also nur ein Mapping.
 Dazu zählt die Konvertierung zwischen ODM und EN 13606 EHR\cite{odm2ehr}, was mit kleinen Limitierungen möglich war, sowie die Konvertierung von ODM zu OpenClinica\cite{odm2oc}.
 OpenClinica besitzt eine sehr ähnliche Struktur, ist aber kein XML-Format, sondern ein Excel-Template.
-Auch hier werden nur Metadaten gemappt.
+Auch hier werden nur Metadaten gemappt.\\
 
 Zuletzt wurde noch ein Konverter zwischen der \enquote{Clinical Document Architecture} (CDA) und ODM in \jv{R} implementiert\cite{odm2cda}.
-Dieser ist ebenfalls Open-Source, unter der GPL-Lizenz.
+Dieser ist ebenfalls Open-Source, unter der GPL-Lizenz.\\
 
 Weiterhin gibt es noch ein Werkzeug zur Erstellung von Konvertern, die \enquote{ODMToolBox}\cite{odmtoolbox}.
 Dies ist ein in Java geschriebenes Programm, welches mittels Spring und einer REST-API Möglichkeiten bereitstellt, eigene Konverter zu bauen.

@@ -1,8 +1,37 @@
 \chapter{Fazit}
 \label{ch:fazit}
 
-Dieses Kapitel bildet die abschließende Zusammenfassung der Arbeit. Dazu können die folgende Punkte behandelt werden:
+% Dieses Kapitel bildet die abschließende Zusammenfassung der Arbeit. Dazu können die folgende Punkte behandelt werden:
+% \begin{itemize}
+% 	\item Reflexion: wurden die Ziele der Arbeit erreicht?
+% 	\item mögliche Erweiterungen und Verbesserungen (\glqq future work\grqq)
+% \end{itemize}
+
+Eine Umwandlung von LimeSurvey-Archiven in das Operational Data Model ist grundsätzlich mit kleineren Einschränkungen möglich.
+Das in dieser Arbeit erstellte Mapping wurde implementiert und seine Praxistauglichkeit damit bewiesen.
+
+Das Arbeiten mit dem LSA-Format, was außerhalb von LimeSurvey durch mangelnde Dokumentation früher anstrengend gewesen sein muss, wurde nun erleichtert.
+Einerseits kann jeder nun sehr schnell ein Verständnis für den Format-Aufbau erlangen, da selbiger in dieser Arbeit präzise analysiert wurde, andererseits kann jeder den implementierten Konverter nutzen, um seine Daten direkt im ODM-Format vorliegen zu haben.
+
+Da ODM eigentlich dazu gedacht ist, wesentlich komplexere Studien-Strukturen darzustellen, bleiben einige Features hier ungenutzt, 
+gleichzeitig besitzt LimeSurvey erheblich mehr Möglichkeiten, die visuelle Darstellung und andere Eigenschaften einer Frage zu beeinflussen.
+Das macht es notwendig, vieles entweder zu simplifizieren oder wegzulassen, wenn man eine Konvertierung vornehmen möchte.
+
+Dennoch ist es in dieser Arbeit gelungen, alle relevanten Metadaten und klinischen Daten aus LimeSurvey zu extrahieren und ohne einen größeren Verlust an Informationen in ODM einzupflegen.
+Das hier erstellte Formular kann nun entweder für sich genutzt werden oder in anderen ODM-Dateien mit größeren Studien eingebunden werden.
+
+Dadurch wird die Interoperabilität erheblich erhöht und der Austausch von Daten zwischen verschiedenen Systemen stark simplifiziert.
+Dieser Konverter reiht sich in eine längere Reihe an Konvertern ein, welche andere Formate zum Speichern medizinischer und klinischer Daten entweder zu oder von ODM umwandeln.
+Durch dieses sich ständig erweiternde Netzwerk wird es in Zukunft immer einfacher, ein beliebiges Datenformat in ein anderes umzuwandeln, indem man einen Mittelweg über ODM geht.
+Auch wird das Speichern der Daten immer einfacher, wenn alles in einem einzigen Format gespeichert werden kann.
+Dafür ist unter anderem auch die Qualität des Konverters entscheidend, da der Datenverlust beim Konvertieren minimal sein soll.
+
+Die bisherige Implementierung macht hier bereits einen guten Job, allerdings kann man, mit genügend Zeit und wenn man die Notwendigkeit sieht, noch weitere Features hinzufügen:
+
 \begin{itemize}
-	\item Reflexion: wurden die Ziele der Arbeit erreicht?
-	\item mögliche Erweiterungen und Verbesserungen (\glqq future work\grqq)
+	\item Mehrere Umfragen in einer LSS-Datei unterstützen
+	\item Fragen in verschiedenen Sprachen in einem ItemDef Element unterbringen
+	\item Unterstützung für mehr Formate bei \el{Datum/Zeit-Fragen}
+	\item Übernahme von regulären Ausdrücken zur Validierung der Antwort-Struktur als \el{RangeCheck}
+	\item Übernehmen, wie viele Ziffern eine Zahl bei einer Antwort lang sein darf
 \end{itemize}

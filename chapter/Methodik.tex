@@ -21,7 +21,7 @@
 \section{LimeSurvey}
 
 LimeSurvey ist ein von der gleichnamigen deutschen Firma entwickeltes Werkzeug für Umfragen.
-Laut ihrer Website ist LimeSurvey ein für Einsteiger und Profis sowie für Privatpersonen als auch Institutionen gut geeignetes Werkzeug, um die Meinungen, Interessen und Entscheidungsgrundlagen einer Zielgruppe herauszufinden.
+Laut ihrer Website\cite{ls} ist LimeSurvey ein für Einsteiger und Profis sowie für Privatpersonen als auch Institutionen gut geeignetes Werkzeug, um die Meinungen, Interessen und Entscheidungsgrundlagen einer Zielgruppe herauszufinden.
 Es wird seit 2006 an der Software entwickelt und sie ist sowohl als Cloud-Edition über die Firma erhältlich, sowie auch als OpenSource-Projekt in der Community-Edition.\\
 
 Falls man die Cloud-Edition nutzen will, hat man fünf Optionen: \textit{Free}, \textit{Basic}, \textit{Expert}, \textit{Enterprise} und \textit{Corporate}.
@@ -34,7 +34,7 @@ Preislich bewegt man sich in einem Rahmen von 0€-74€ für die normalen Lösu
 Zum Erstellen von Umfragen, welche in dieser Arbeit gebraucht werden, wird eine Version der Community-Edition genutzt.
 Diese nutzt Docker, um die Website möglichst separat vom restlichen System zu halten.
 So muss man Abhängigkeiten nicht auf dem eigenen System installieren und verwalten.
-Zur Verwaltung der Docker-Version des \enquote{Australian Consortium for Social \& Political Research Inc.} (ACSPRI) wird eine Docker-Compose-Datei genutzt, welche kostenfrei online zur Verfügung steht \cite{docker_comp}.
+Zur Verwaltung der Docker-Version des \enquote{Australian Consortium for Social \& Political Research Inc.} (ACSPRI) wird eine Docker-Compose-Datei genutzt, welche online zur Verfügung steht \cite{docker_comp}.
 
 \subsection{Features}
 \subsubsection{ExpressionScript}
@@ -58,7 +58,7 @@ Es darf beliebig viele Fragegruppen geben.
 \subsection{Fragetypen}
 
 Es gibt 36 Fragetypen in LimeSurvey, welche in fünf Kategorien unterteilt sind.
-Davon sind allerdings nicht alle tatsächlich Fragen, auf die der Teilnehmer antworten kann, insgesamt gibt es vier Fragetypen, welche nicht explizit Fragen sind.
+Davon sind allerdings nicht alle tatsächlich Fragen, auf die der Teilnehmer antworten kann, insgesamt gibt es vier Fragetypen, welche nicht explizit Fragen sind. %TODO: wirklich vier?
 Die möglichen Antworten auf Freitext- und Zahlenfragen lassen sich mittels RegEx limitieren.
 Es gibt pro Frage einen optionalen Hilfstext.
 Fragen mit vordefinierten Antworten erhalten eine \enquote{Keine Antwort}-Option, wenn sie nicht verpflichtend sind.
@@ -135,7 +135,8 @@ Ein solches Archiv ist eine komprimierte Datei im .lsa-Format, welche mehrere ex
 Die Zahl und Art der Dateien ist dabei abhängig von den Einstellungen. Zwei Dateien sind immer enthalten:\\
 Die erste Datei enthält die Umfrage-Struktur sowie Informationen über die Art und Weise, wie die Fragen darstellt werden sollen (die .lss-Datei), die zweite Datei enthält die Antworten der Teilnehmer (.lsr-Datei).
 Ausdrücklich erwähnt wird dabei, dass Dateien, die als Antwort auf eine Frage hochgeladen wurden, nicht Teil des Archivs sind.
-Weitere optionale Dateien sind eine Token-Datei, welche Daten über die % TODO
+Eine weitere optionale Datei ist eine Token-Datei (.lst), welche nur enthalten ist, wenn mögliche Teilnehmer der Umfrage im Vorhinein festgelegt wurden.
+Hier sind Informationen über den Teilnehmer gespeichert, in den Antworten wird pro Teilnehmer ein Token referenziert, sodass man die Antworten einem Teilnehmer zuordnen kann.
 
 \subsubsection{Weitere Exportmöglichkeiten}
 \begin{itemize}
@@ -153,7 +154,7 @@ Weitere optionale Dateien sind eine Token-Datei, welche Daten über die % TODO
 Das Operational Data Model (ODM) ist einer der Standards, welcher von CDISC entwickelt wurde, um den gesamten Zyklus einer Studie in ihren verschiedensten Formen zu standardisieren.
 Es dient dazu, sowohl Metadaten als auch klinische Daten einer Studie zu erfassen. Auch administrative Daten sind im Standard enthalten.
 ODM ist unabhängig von spezifischen Firmen und Plattformen und daher gut zum Austausch zwischen verschiedensten Werkzeugen und Gruppierungen geeignet.
-Bereits 2006 hat ODM im internationalen Raum Anklang gefunden, in Deutschland allerdings noch nicht.
+Bereits 2006 hat ODM im internationalen Raum Anklang gefunden, in Deutschland allerdings noch nicht\cite{odm_art}.
 Das ändert sich mittlerweile, das IMI der WWU zum Beispiel nutzt das Format bereits in mehreren Werkzeugen.
 
 \subsection{Aufbau}
@@ -167,12 +168,12 @@ Grundlegend werden andere Elemente mittels einer OID referenziert, ein Attribut,
 
 Eine Studie hat globale Variablen und grundlegende Definitionen.
 Weiterhin gibt es die \el{MetaDataVersion}, wo die Struktur der Umfrage festgelegt wird.
-In der einer Version der Metadaten sind alle Elemente in Referenzen und Definitionen aufgeteilt, wobei die Referenzen immer zuerst im nächst \enquote{höhergelegenen} Element vorkommen.\\
+In der einer Version der Metadaten sind alle Elemente in Referenzen und Definitionen aufgeteilt, wobei die Referenzen immer zuerst im nächst \enquote{höhergelegenen} Element vorkommen.
 
 Das Basiselement einer Studie ist das \el{Protocol}.
 Dies enthält Elemente des Typs \el{StudyEventRef}.
 Dann folgen Elemente des Typs \el{StudyEventDef}, welche wiederum Referenzen auf Elemente des Typs \el{FormDef} beinhalten.
-Dieses Schema setzt sich noch mit den Elementen \el{ItemGroupDef} und \el{ItemDef} fort.\\
+Dieses Schema setzt sich noch mit den Elementen \el{ItemGroupDef} und \el{ItemDef} fort.
 
 Als weitere Elemente gibt es noch die \el{CodeList} und die \el{Condition}.
 In einer \el{CodeList} werden Antwortmöglichkeiten festgehalten, welche auf eine Frage (Element des Typs \el{ItemDef}) gegeben werden können.
@@ -211,51 +212,16 @@ Auch ein \jv{XMLWriter} existiert, welcher unter anderem Standardelemente von XM
 
 Reguläre Ausdrücke (RegEx) sind ein beliebtes Mittel, um in verschiedensten Anwendungsgebieten der Informatik Zeichenketten zu analysieren.
 Sie sind sehr mächtig und haben verschiedenste Funktionen.
-Die Hauptfunktion ist es, zu überprüfen, ob eine Zeichenkette einem bestimmten Format entspricht (Ob es ein Match gibt).
+Die Hauptfunktion ist es, zu überprüfen, ob eine Zeichenkette einem bestimmten Format entspricht (Ob es ein Match gibt).\\
 
 Dabei gibt es eine eigene Syntax, in welcher ein Format spezifiziert werden kann.
-Der Zeilenanfang wird mit \enquote{\textasciicircum} markiert, das Zeilenende mit \enquote{\$}.
-Weiterhin steht zum Beispiel \enquote{\textbackslash d} für eine beliebige Zahl oder \enquote{.} für jedes beliebige Zeichen.
+Nennenswert hier ist, dass es verschiedne Syntx gibt, je nachdem in welcher Programmiersprache man arbeitet.
+Am bekanntesten und am weitesten verbreitet ist die \jv{Perl-Syntax}, Java hat jedoch eine leicht abweichende Syntax.
+Der Anfang einer Zeichenkette wird mit \enquote{\textasciicircum} markiert, das Ende selbiger mit \enquote{\$}.
+Weiterhin steht zum Beispiel \enquote{\textbackslash d} für eine beliebige Zahl (\textbackslash\textbackslash d in Java) oder \enquote{.} für jedes beliebige Zeichen.
 Dann gibt es Quantoren, mit denen die Häufigkeit eines Ausdrucks bestimmt werden kann.
 Hier steht \enquote{?} für Null oder ein Vorkommnis, \enquote{*} für beliebig viele oder \enquote{+} für mindestens ein Vorkommen.
-In eckigen Klammern können Zeichen angegeben, welche gematcht werden sollen. So verlangt \enquote{[abc]} zum Beispiel, dass ein Zeichen an einer Stelle a, b oder c sein muss.
+In eckigen Klammern können Zeichen angegeben, welche gematcht werden sollen. So verlangt \enquote{[abc]} zum Beispiel, dass ein Zeichen an einer entsprechenden Stelle a, b oder c sein muss.
 
 Es gibt auch Capture Groups. Hiermit kann man, nachdem ein Match gefunden wurde, einen Teil der Zeichenkette erhalten, welcher dem Muster in der Capture Group entspricht. Diese wird mit runden Klammern markiert.
-Hat man also den Ausdruck \enquote{X(\textbackslash d+)X} und die Zeichenkette \enquote{X0135X}, dann kann man durch Zugriff auf die Gruppe die Zeichenkette \enquote{135} erhalten.
-
-%%
-%\section{Mathematische Notation}
-%\label{s:notation}
-
-%Mathematische Formeln können mittels der \verb+\begin{align}...\end{align}+ Umgebung gesetzt werden:
-
-%\begin{align}
-%f(n) & =
-%	\begin{cases}
-%		n/2, & \text{wenn }n\text{ gerade,}\\
-%		3n+1, & \text{wenn }n\text{ ungerade.}
-%	\end{cases}
-%\label{eq:f} \\
-%%
-%g(n) & = \frac{n}{2} \label{eq:g}
-%\end{align}
-%
-%\section{Algorithmus}
-%\label{s:algorithmus}
-%
-%Eigene Algorithmen beschreibt man am Besten mit Hilfe von Pseudo-Code und dem Paket \verb+algorithm+.
-%
-%\begin{algorithm}
-%\caption{Algorithmus}
-%\label{alg:alg}
-%\begin{algorithmic}
-%\algsetup{indent=2em}
-%
-%\REQUIRE Argument $n\in\mathbb{N}$
-%\STATE $a = 0$
-%\FOR{ $i=0,\dots,n$}
-%	\STATE $a = a + 1$
-%\ENDFOR
-%\RETURN $a$
-%\end{algorithmic}
-%\end{algorithm}
+Hat man also den Ausdruck \enquote{X(\textbackslash d+)X}, also ein Ausdruck, der verlangt, dass die Zeichenkette mit einem \jv{X} beginnen muss, dann mindestens eine Ziffer hat und auf einem \jv{X} endet, und die Zeichenkette \enquote{X0135X}, dann kann man durch Zugriff auf die Gruppe die Zeichenkette \enquote{135} erhalten.
