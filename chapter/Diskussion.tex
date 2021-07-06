@@ -5,11 +5,11 @@
 
 % Verwandte Arbeiten hier
 
-\section{Weglassen von Fragetypen}
+\section{Auslassen von Fragetypen}
 \label{d:leave}
 
-Auch wenn mit diesem Konverter eine vollständige Umsetzung der LimeSurvey Archiv-Daten angestrebt wird, so wurden doch einige Fragetypen bewusst nicht umgesetzt.
-Im Folgenden soll erläutert werden, welche Fragetypen nicht konvertiert wurden, wie diese Fragetypen hätten umgesetzt werden können und warum die Entscheidung getroffen wurde, dies nicht zu tun.
+Auch wenn mit diesem Konverter eine vollständige Umsetzung der LimeSurvey Archiv-Daten angestrebt wird, so werden doch einige Fragetypen bewusst nicht umgesetzt.
+Im Folgenden soll erläutert werden, welche Fragetypen nicht konvertiert werden, wie diese Fragetypen hätten umgesetzt werden können und warum die Entscheidung getroffen wurde, dies nicht zu tun.
 
 \subsection{Datei-Upload}
 
@@ -17,23 +17,22 @@ Der Fragetyp \el{Datei-Upload} kann genutzt werden, um den Nutzer auf eine Frage
 In ODM hätte man diese Datei einbinden können, indem man sie in \el{hexBinary} umwandelt, ein Datentyp in ODM, welcher Stream-Daten in einem hexacodierten Binärformat sammelt.
 Trotzdem wurde dieser Fragentyp im Konverter nicht umgesetzt.
 Das liegt zum einen daran, dass die hochgeladenen Dateien nicht Teil des Archives sind (siehe \cref{m:lsa}) und andererseits daran, dass die Praktikabilität dieses Vorgehens eher fragwürdig ist.
-Unter anderem wird eine Rekonstruktion zur Originaldatei schwer, da es zum Beispiel keine Informationen über den ursprünglichen Dateityp gibt, auch wird die XMl-Datei nur noch sehr unangenehm von Hand lesbar, wenn man diese Stream-Daten in Antworten einbinden würde. 
-Auch wird der Fragetyp nicht häufig genutzt, was die Umsetzung noch unattraktiver macht.
+Unter anderem wird eine Rekonstruktion zur Originaldatei schwer, da es zum Beispiel keine Informationen über den ursprünglichen Dateityp gibt, auch wird die XML-Datei nur noch sehr unangenehm durch einen Menschen lesbar, wenn man diese Stream-Daten in Antworten einbinden würde. 
 
 \subsection{Browser-Detection, Language-Switch}
 
-Beide Fragetypen sammeln Informationen über den Benutzer, man könnte also argumentieren, es sei sinnvoll, beides als Fragen zu übernehmen.
+Beide Fragetypen sammeln Informationen über den Benutzer, Man könnte also argumentieren, es sei sinnvoll, beide als Fragen zu übernehmen.
 Technisch wäre das ebenfalls kein Problem, man kann einfach einen festen Fragetext vorformulieren und die gesammelten Informationen als Antwort eintragen.
 
 Das wäre allerdings irreführend, da dies impliziert, der Nutzer habe ausdrücklich auf eine Frage geantwortet, wenn er in Wirklichkeit eventuell nicht einmal wusste, dass unter anderem Informationen über seinen Brower aufgenommen wurden.
-Auch eine Frage zur Sprache hätte weniger Sinn, gerade weil es auch hier eigentlich keine Antwort auf eine Frage war, sondern eher eine Einstellung in der Umfrage.
+Auch eine Frage zur Sprache hätte wenig Sinn, gerade weil es auch hier eigentlich keine Antwort auf eine Frage war, sondern eher eine Einstellung in der Umfrage.
 Das Ziel einer Umfrage ist es ja eher, die Meinung oder Ansichten eines Teilnehmers einzuholen, Metainformationen wie die Sprache gehören da eher nicht zu.
-Keine Frage zur Sprache zu erstellen ist allerdings eher eine Designentscheidung, man könnte hier durchaus auch anderes machen und es wäre ein Informationsgewinn, zumal der Nutzer die Sprache ja auch wirklich selber eingestellt hat.
+Keine Frage zur Sprache zu erstellen ist allerdings eher eine Designentscheidung, man könnte hier durchaus auch anders argumentieren und es wäre ein Informationsgewinn, zumal der Nutzer die Sprache ja auch wirklich selber eingestellt hat.
 
 \subsection{Text-Display}
 
-Dieser \enquote{Fragetyp} stellt nur einen Text dar. Es werden keine Informationen gesammelt.
-Da man den Inhalt des Textes auch nicht automatisch, irgendeiner Frage oder Fragegruppe als Beschreibung zum Beispiel, zuordnen kann, wird er gar nicht übernommen.
+Dieser Fragetyp stellt nur einen Text dar. Es werden keine Informationen gesammelt.
+Da man den Inhalt des Textes auch nicht automatisch irgendeiner Frage oder Fragegruppe, zum Beispiel als Beschreibung, zuordnen kann, wird er nicht übernommen.
 
 \subsection{Gleichung}
 
@@ -169,7 +168,9 @@ Daher war es Ziel, die LSS-Struktur so schnell wie möglich zu vereinfachen, das
 \label{d:imi}
 
 In der IMI-Syntax wird keine Möglichkeit vorgestellt, reguläre Ausdrücke zu evaluieren.
-Daher wird in dieser Arbeit vorgeschlagen, eine Funktion \el{MATCH(REGEX, PATH)} einzuführen, welche reguläre Ausdrücke mit beginnendem und endendem Schrägstrich und potentiell Flags hinter dem endenden Schrägstrich entgegennimmt und prüft, ob die Antwort dem Muster entspricht.
+Daher wird in dieser Arbeit vorgeschlagen, eine Funktion
+\reg{MATCH(REGEX, PATH)}
+\noindent einzuführen, welche reguläre Ausdrücke mit beginnendem und endendem Schrägstrich und potentiell Flags hinter dem endenden Schrägstrich entgegennimmt und prüft, ob die Antwort dem Muster entspricht.
 Mittels einer Custom-Funktion ließe sich so eine Syntax in \textit{expr-eval} und \textit{EvalEx} integrieren.
 
 Auch wird keine Möglichkeit geboten, die Abwesenheit einer Antwort zu überprüfen. Dafür wird ein Vergleich mit \enquote{NULL} vorgeschlagen.
@@ -221,10 +222,9 @@ Das wird allerdings nur von \textit{EvalEx} unterstützt, nicht durch \textit{ex
 % 	- Bevorzugt direktes mapping, dann workarounds
 
 Es gibt eine ganze Reihe an Konvertern, welche entweder von ODM zu einem anderen Format oder von einem anderen Format zu ODM konvertieren können.
-Viele dieser wurden von Mitarbeitern des IMI geschrieben, entsprechende Veröffentlichungen gibt es unter ihren Publikationen.\\
 
 Zuerst gibt es einen Konverter von ODM zu Simply.MDR \cite{odm2mdr} und einen Konverter zwischen ODM und openEHR\cite{odm2openehr}.
-Beide mappen Metadaten von ODM in das jeweils andere Format und nutzen XSLT, um die Konvertierung zu realisieren.
+Beide bilden Metadaten von ODM in das jeweils andere Format ab und nutzen XSLT, um die Konvertierung zu realisieren.
 Das ist der simpelste Weg, da beide Formate in XML geschrieben sind und die Formate große Ähnlichkeiten besitzen.
 Entsprechend mussten auch nur wenige Elemente weggelassen werden, wie die Protokolle und Studienevents in openEHR.\\
 
@@ -241,5 +241,5 @@ Zuletzt wurde noch ein Konverter zwischen der \enquote{Clinical Document Archite
 Dieser ist ebenfalls Open-Source, unter der GPL-Lizenz.\\
 
 Weiterhin gibt es noch ein Werkzeug zur Erstellung von Konvertern, die \enquote{ODMToolBox}\cite{odmtoolbox}.
-Dies ist ein in Java geschriebenes Programm, welches mittels Spring und einer REST-API Möglichkeiten bereitstellt, eigene Konverter zu bauen.
+Dies ist ein in Java geschriebenes Programm, welches mittels Spring und einer REST-API Möglichkeiten bereitstellt, um eigene Konverter zu bauen.
 Dabei wird bevorzugt ein direktes Mapping verwendet, ist das nicht möglich, wird nach Workarounds gesucht.

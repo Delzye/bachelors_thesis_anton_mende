@@ -3,18 +3,19 @@
 
 \section{Analyse des LSS- und LSR-Formates}
 
-In der Online-Dokumetation von LimeSurvey gibt es zwar eine Sektion zum Thema Export und Export-Formate, dieses Kapitel war aber bis vor kurzem leer.
+In der Online-Dokumetation von LimeSurvey gibt es zwar eine Sektion zum Thema Export und Export-Formate, der Abschnitt war aber bis vor kurzem leer.
 Auch jetzt enthält das Kapitel nur eine oberflächliche Beschreibung der Formate, die genaue Struktur wird nicht erklärt.
 Da diese allerdings benötigt wird, um eine Konvertierung vornehmen zu können, muss zunächst ermittelt werden, wie die .lss- und .lsr-Dateien genau aufgebaut sind.
 
 Dies wurde bewerkstelligt, indem zunächst eine simple Umfrage erstellt wurde, welches eine Fragegruppe und drei Freitextfragen enthält.
 Dafür wurde eine Instanz der LimeSurvey Community Edition benötigt, diese aufzusetzen war dank existierenden Docker-Compose-Dateien relativ simpel.
 
-Nachdem die Struktur der Umfrage selbst, sowie der Fragegruppen so ermittelt wurde, wurden komplexere Dateien erstellt.
+Nachdem die Struktur der Umfrage selbst, sowie der Fragegruppen so ermittelt werden konnte, wurden komplexere Dateien erstellt.
 Diese enthielten zunächst Fragen mit festen Antwortmöglichkeiten, also vor allem Maskenfragen und Multiple Choice Fragen.
 Nachdem so auch die Struktur der Antworten deutlich geworden war, wurden zuletzt die Matrixfragen eingebaut und die Struktur der Subfragen ermittelt.
-Das Ergebis dieser Analyse wird im Folgenden dargestellt (Es werden nicht alle existierenden Elemente angesprochen, sondern nur die für diese Arbeit relevanten, eine vollständige Auflistung kann im \cref{app:lss}
-gefunden werden):
+Zuletzt wurden Anzeigebedingungen in die Umfragen eingebracht und deren Struktur ermittelt.
+
+Das Ergebis dieser Analyse wird im Folgenden dargestellt (Es werden nicht alle existierenden Elemente angesprochen, sondern nur die für diese Arbeit relevanten, eine vollständige Auflistung kann im \cref{app:lss} gefunden werden):
 
 \subsection{Grundlegende Struktur}
 
@@ -22,7 +23,7 @@ Das Wurzel-Element in LSS ist \el{document}.
 Hier sind zuerst grundlegende Informationen wie die Datenbank-Version und den Typ des Dokuments enthalten.
 Jedes der größeren direkten Kind-Elemente in \el{document} hat die gleiche Struktur.
 Es gibt dort zwei Kind-Elemente, \el{fields} und \el{rows}. In \el{rows} gibt es \el{row} Elemente, welche die Informationen selbst in weiteren Elementen enthalten.
-In \el{fields} gibt es \el{fieldname} Elemente, wobei es für jedes mögliche Element in \el{//rows/row} ein \el{fieldname} Element mit dem Namen als Text gibt.
+In \el{fields} gibt es \el{fieldname} Elemente, wobei es für jedes mögliche Kind-Element von \el{row} ein \el{fieldname} Element mit dem Namen des Kindelements als Text gibt.
 In den Feldern werden also einmal alle Elemente genannt, die sich innerhalb einer Reihe befinden können.
 
 \subsection{Fragegruppen}
@@ -154,7 +155,7 @@ Im folgenden werden alle Behandlungen erklärt, mit einer Angabe, für welche Fr
 
 \begin{figure}[h]
 			\centering
-			\includegraphics[width=.80\textwidth]{./img/m_questions.png}
+			\includegraphics[width=.95\textwidth]{./img/m_questions.png}
 			\caption{Mapping der Fragen}
 \end{figure}
 
@@ -200,7 +201,7 @@ Es gibt mehrere Typen, bei denen es feste Antwortmöglichkeiten gibt und daher e
 
 \begin{figure}[h]
 			\centering
-			\includegraphics[width=.65\textwidth]{./img/m_answers.png}
+			\includegraphics[width=.9\textwidth]{./img/m_answers.png}
 			\caption{Mapping der Antwortmöglichkeiten}
 \end{figure}
 
@@ -214,7 +215,7 @@ Für selbstdefinierte Antwortmöglichkeiten ist ohnehin eine komplexe Liste notw
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=.80\textwidth]{./img/m_lsr.png}
+	\includegraphics[width=1\textwidth]{./img/m_lsr.png}
 	\caption{Mapping des LSR-Formates}
 \end{figure}
 
@@ -318,7 +319,7 @@ Das wird gemacht, um die Gesamtstruktur so früh wie möglich zu simplifizieren 
 Da sich viele Fragen im Aufbau stark ähneln, ist dies ein simpler und schneller Weg, das Ziel zu erreichen.
 Am Ende dieser Verarbeitung soll es noch vier Fragetypen geben:
 
-\begin{enumerate}
+\begin{enumerate}[leftmargin=0.5cm]
 \item[T] Eine Frage, auf die mit einem Freitext geantwortet werden kann
 \item[N] Bei dieser Frage muss mit einer Zahl im float-Format geantwortet werden
 \item[I] Bei dieser Frage muss mit einer Zahl im integer-Format geantwortet werden
@@ -392,18 +393,22 @@ Der fertige Ausruck muss am Ende also negiert werden.
 Dann werden alle Bedingungen rausgesucht, welche zur \el{qid} gehören.
 Diese sollen nun durch ein logisches \enquote{Und} verknüpft werden.
 
-Die Frage aus \el{cfieldname} wird mittels des regulären Ausdrucks \enquote{\textasciicircum\textbackslash\textbackslash d+X(\textbackslash\textbackslash d+)X(.+?)\$} so verarbeitet, dass wir die darin enthaltene \el{gid} und \el{qid} der Frage enthalten.
+Die Frage aus \el{cfieldname} wird mittels des regulären Ausdrucks
+\reg{\textasciicircum\textbackslash\textbackslash d+X(\textbackslash\textbackslash d+)X(.+?)\$}
+\noindent so verarbeitet, dass wir die darin enthaltene \el{gid} und \el{qid} der Frage enthalten.
 Mit diesen, der Dummy-ID für das \jv{StudyEvent} und der Umfragen-ID wird dann ein Pfad gemäß der IMI-Syntax erstellt.
 
-Handelt es sich nicht um einen Regulären Ausdruck, der als Operator genutzt wird, werden folgende drei Teile in dieser Reihenfolge aneinander gehangen: \el{\{PATH\} \{OPERATOR\} \{VALUE\}}.
-Wobei das Element \el{method} den Operator enthält und \el{value} den Wert. \jv{PATH} ist der vorher erstellte Pfad.
+Handelt es sich nicht um einen Regulären Ausdruck, der als Operator genutzt wird, werden folgende drei Teile in dieser Reihenfolge aneinander gehangen: 
+\reg{\{PATH\} \{OPERATOR\} \{VALUE\}}
+\noindent wobei das Element \el{method} den Operator enthält und \el{value} den Wert. \jv{PATH} ist der vorher erstellte Pfad.
 
-Handelt es sich um einen regulären Ausdruck, wird das führende Leerzeichen entfernt und die Bedingung in folgender Form aufgeschrieben: \el{MATCH(\{REGEX\}, \{PATH\})}.
+Handelt es sich um einen regulären Ausdruck, wird das führende Leerzeichen entfernt und die Bedingung in folgender Form aufgeschrieben:
+\reg{MATCH(\{REGEX\}, \{PATH\})}
 
 Soll eine Antwort leer bleiben, wird \enquote{NULL} als Wert verwendet.
 Bei beidem handelt es sich nicht um einen Teil der IMI-Syntax, weiteres dazu in \cref{d:imi}.
 
-Abschließend wird der Bedingung eine OID gegeben, in der Form \el{\{qid\}\{ex\}}, wobei \el{ex} in der Properties-Datei festgelegt werden kann.
+Abschließend wird der Bedingung eine OID der Form \el{\{qid\}\{ex\}} gegeben, wobei \el{ex} in der Properties-Datei festgelegt werden kann.
 Diese wird auch in der Frage eingetragen, damit man später eine Referenz auf die Bedingung hat.
 
 \subsection{Parsing der LimeSurvey Antworten}
@@ -442,12 +447,6 @@ Als Teil des Objektes \jv{survey} wird sie später an den \jv{ODMWriter} weiterg
 Mittels der Klasse \jv{ODMWriter} soll eine neue ODM-Datei erstellt werden. Der Konstruktor nimmt dabei die beim Parsing erstellte \jv{Survey} entgegen.
 Die Methode \jv{createODMFile} dient vor allem als Caller für andere Methoden, welche die eigentlichen Funktionen ausführen.
 
-\begin{figure}[h]
-			\centering
-			\includegraphics[width=.98\textwidth]{./img/cls_writer.png}
-			\caption{Klassendiagramm des Pakets writer}
-\end{figure}
-
 \subsubsection{Studienstruktur}
 
 Zuerst erstellt \jv{createODMRoot} das Wurzelelement \el{ODM} mit allen benötigten Attributen.
@@ -462,6 +461,12 @@ Nun werden die Fragegruppen mittels \jv{addQuestionGroups} hinzugefügt. Wie in 
 Im Formular wird die entsprechende Referenz auf die Fragegruppe eingefügt.
 Gibt es eine Beschreibung, wird sie in eine Beschreibung in der \el{ItemGroupDef} eingefügt.
 Die Fragen brauchen später Referenzen in den Fragegruppen, daher werden Referenzen auf alle Fragegruppen gespeichert, sodass man später einfach Elemente hinzufügen kann.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.98\textwidth]{./img/cls_writer.png}
+	\caption{Klassendiagramm des Pakets writer}
+\end{figure}
 
 \subsubsection{Fragen}
 
