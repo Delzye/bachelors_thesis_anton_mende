@@ -7,27 +7,26 @@
 	\item \textbf{EDC} \el{Electronic Data Capture} Das Sammeln und Verarbeiten von Daten
 	\item \textbf{RegEx} \el{Regular Expression} Ein Ausdruck, der genutzt werden kann, um Zeichenketten auf eine bestimmte Struktur zu überprüfen
 	\item \textbf{IMI} \el{Institut für Medizinische Informatik} Eines der Institute der WWU. Diese Arbeit ist in Kooperation mit ihnen entstanden
-	\item \textbf{XML} \el{eXtensible Markup Language}
+	\item \textbf{XML} \el{eXtensible Markup Language} Eine Auszeichnungssprache zum Speichern hierarchisch strukturierter Daten 
 	\item \textbf{XSD} \el{XML Schema Definition} Eine Datei, welche beschreibt, wie ein XML-Dokument aufgebaut sein sollte, um einer bestimmten Definition zu entsprechen.
 	\item \textbf{SAX} \el{Simple API for XML} Ein Standard, welcher beschreibt, wie man ein XML-Dokument parsen kann. Dieses wird sequentiell eingelesen und für definierte Ereignisse wird eine vorgegebene Rückruf-Funktion aufgerufen. Ein Programm kann eigene Funktionen registrieren und so das Dokument verarbeiten.
 	\item \textbf{DOM} \el{Document Object Model} Bietet die Möglichkeit, die Hierarchie der XML-Knoten in Baumform darzustellen und so zu navigieren/ den Baum zu bearbeiten
-	\item \textbf{CDISC} \el{Clinical Data Interchange Standards Consortium}
+	\item \textbf{CDISC} \el{Clinical Data Interchange Standards Consortium} Eine Non-Profit-Organisation, welche Standards zum Austausch von Daten aus klinischen Studien entwickelt
 	\item \textbf{CDISC ODM} \el{Operational Data Model} von CDISC entwickeltes XML-Format (siehe \cref{m:odm})
-	\item \textbf{lsa} Dateiendung des LimeSurvey Archives (siehe \cref{m:lsa})
-	\item \textbf{lsr} Dateiendung der LimeSurvey Response Datei (siehe \cref{m:lsa})
-	\item \textbf{lss} Dateiendung der LimeSurvey Struktur Datei (siehe \cref{m:lsa})
+	\item \textbf{lsa} Abkürzung für und Dateiendung des LimeSurvey Archives (siehe \cref{m:lsa})
+	\item \textbf{lsr} Abkürzung für und Dateiendung der LimeSurvey Response Datei (siehe \cref{m:lsa})
+	\item \textbf{lss} Abkürzung für und Dateiendung der LimeSurvey Struktur Datei (siehe \cref{m:lsa})
 \end{description}
 
 \section{LimeSurvey}
 
 LimeSurvey ist ein von der gleichnamigen deutschen Firma entwickeltes Werkzeug für Umfragen.
-Laut ihrer Website\cite{ls} ist LimeSurvey ein für Einsteiger und Profis sowie für Privatpersonen als auch Institutionen gut geeignetes Werkzeug, um die Meinungen, Interessen und Entscheidungsgrundlagen einer Zielgruppe herauszufinden.
+Laut ihrer Website\cite{ls} ist LimeSurvey ein für Einsteiger und Profis, sowie für Privatpersonen als auch Institutionen gut geeignetes Werkzeug, um die Meinungen, Interessen und Entscheidungsgrundlagen einer Zielgruppe herauszufinden.
 Es wird seit 2006 an der Software entwickelt und sie ist sowohl als Cloud-Edition über die Firma erhältlich, sowie auch als OpenSource-Projekt in der Community-Edition.\\
 
 Falls man die Cloud-Edition nutzen will, hat man fünf Optionen: \textit{Free}, \textit{Basic}, \textit{Expert}, \textit{Enterprise} und \textit{Corporate}.
 Diese unterscheiden sich vor allem durch die Zahl an Antworten pro Monat, die Menge an Upload-Speicher, E-Mail-Support, White-Label-Umfragen, Alias-Domains und die Entfernung des LimeSurvey-Brandings.
 Innerhalb der \textit{Corporate}-Lösung kann man noch dedizierte Server und die Nutzung der Security Assertion Markup Language (SAML) beantragen.
-Preislich bewegt man sich in einem Rahmen von 0€-74€ für die normalen Lösungen und einem individuell absprechbaren Preis für die \textit{Corporate}-Lösung.
 
 \subsection{Community-Edition}
 
@@ -37,17 +36,20 @@ So muss man Abhängigkeiten nicht auf dem eigenen System installieren und verwal
 Zur Verwaltung der Docker-Version des \enquote{Australian Consortium for Social \& Political Research Inc.} (ACSPRI) wird eine Docker-Compose-Datei genutzt, welche online zur Verfügung steht \cite{docker_comp}.
 
 \subsection{Features}
+
+Alle her aufgelisteten Informationen wurden der Dokumentation, dem LimeSurvey Manual\cite{lsm} entnommen.
+
 \subsubsection{ExpressionScript}
 \label{m:expr_script}
-Mit Expression Script lässt sich komplexe Logik in die Umfrage einbringen.
+Mit Expression Script lässt sich komplexe Logik in eine Umfrage einbringen.
 Die LimeSurvey-interne Skriptsprache lässt Bedingungen zu, unter denen bestimmte Fragen oder Antworten angezeigt werden sollen.
 Man kann hier sowohl Antworten auf vorherige Fragen einbinden, als auch Informationen über den Teilnehmer, welche er vorher angegeben hat beziehungsweise welche über ihn gespeichert wurden.
 Man kann mehrere Szenarios designen und es sind Vergleiche mit den Standard-Operatoren sowie RegEx möglich.
 
 \subsubsection{Timings}
 
-Es ist möglich genau festzulegen, wie viel Zeit ein Nutzer zum Beantworten einer Frage hat.
-Es können Warnmeldungen zu bestimmten Abschnitten innerhalb der Zeitperiode angezeigt werden, die CSS-Klasse kann angepasst werden und das Beantworten anderer Fragen kann unterbunden werden.
+Es ist möglich, genau festzulegen, wie viel Zeit ein Nutzer zum Beantworten einer Frage hat.
+Es können Warnmeldungen zu bestimmten Abschnitten innerhalb der Zeitperiode angezeigt werden, die CSS-Klasse, welche Aspekte der Darstellung einer Frage bestimmt, kann angepasst werden und das Beantworten anderer Fragen kann unterbunden werden.
 
 \subsection{Fragegruppen}
 
@@ -62,69 +64,69 @@ Davon sind allerdings nicht alle tatsächlich Fragen, auf die der Teilnehmer ant
 Die möglichen Antworten auf Freitext- und Zahlenfragen lassen sich mittels RegEx limitieren.
 Es gibt pro Frage einen optionalen Hilfstext.
 Fragen mit vordefinierten Antworten erhalten eine \enquote{Keine Antwort}-Option, wenn sie nicht verpflichtend sind.
-Im folgenden sollen alle Typen einmal aufgelistet und kurz beschrieben werden.
+Im folgenden werden alle Typen einmal aufgelistet und kurz beschrieben.
 
 
 \subsubsection{Einfachauswahl}
 
 Auf folgende Fragen kann man maximal eine Antwort geben.
 \begin{itemize}
-	\item[5 Punkte Wahl] Hier kann auf einer Skala von 1 bis 5 ein Wert ausgewählt werden
-	\item[Liste] Hier kann aus einer vordefinierten Liste eine Antwort gewählt werden. Es gibt drei unterschiedliche Darstellungsmöglichkeiten für diese Liste, entweder als Dropdown-Menü, als Bootstrap-Buttons oder mit Radio-Buttons neben den Antworten
-	\item[Liste mit Kommentar] Dies ist eine Listen-Frage wie oben, allerdings kann für die Frage auch noch ein Kommentar im Freitext geschrieben werden
-	\item[Image-Select-List] Hier wird zu der Liste an Antworten noch ein Bild angezeigt. Die Antworten werden mit Radio-Buttons daneben angezeigt
+	\item[5 Punkte Wahl] Hier kann auf einer Skala von 1 bis 5 ein Wert ausgewählt werden.
+	\item[Liste] Hier kann aus einer vordefinierten Liste eine Antwort gewählt werden. Es gibt drei unterschiedliche Darstellungsmöglichkeiten für diese Liste, entweder als Dropdown-Menü, als Bootstrap-Buttons oder mit Radio-Buttons neben den Antworten.
+	\item[Liste mit Kommentar] Dies ist eine Listen-Frage wie oben, allerdings kann für die Frage auch noch ein Kommentar im Freitext geschrieben werden.
+	\item[Image-Select-List] Hier wird zu der Liste an Antworten noch ein Bild angezeigt. Die Antworten werden mit Radio-Buttons daneben angezeigt.
 \end{itemize}
 
 \subsubsection{Matrix}
 
 Pro Frage gibt es beliebig viele Subfragen, für jede Subfrage kann eine der vordefinierten Antworten ausgewählt werden.
-Subfragen werden typischerweise als Zeilen dargestellt, die Antworten als Spalten
+Subfragen werden typischerweise als Zeilen dargestellt, die Antworten als Spalten.
 
 \begin{itemize}
-	\item[5 Punkte] Hier kann auf einer Skala von 1 bis 5 ein Wert ausgewählt werden
-	\item[10 Punkte] Hier kann auf einer Skala vom 1 bis 10 ein Wert ausgewählt werden
-	\item[Z/G/A] Hier kann aus den drei Möglichkeiten \enquote{Zunahme/Gleich/Abnahme} eine gewählt werden
-	\item[J/N/U] Hier kann aus den drei Möglichkeiten \enquote{Ja/Nein/Unsicher} eine gewählt werden
-	\item[Matrix (Custom)] Hier kann eine eigene Liste an Antwortmöglichkeiten definiert werden
-	\item[Matrix nach Spalte] Identisch zu Matrix (Custom), allerdings werden Zeilen und Spalten getauscht
-	\item[Dual Matrix] Es gibt zwei selbst erstellbare Listen an Antwortmöglichkeiten, man kann aus beiden eine Antwort pro Subfrage wählen
-	\item[Matrix (Freitext)] Hier kann man zwei Listen an Subfragen angeben. Daraus wird dann eine Matrix erstellt, wo in jeder Zelle Freitext als Antwort geschrieben werden kann
-	\item[Matrix (Zahlen)] Identisch zu Matrix (Freitext), aber es können nur Zahlen als Antwort angegeben werden
+	\item[5 Punkte] Hier kann auf einer Skala von 1 bis 5 ein Wert ausgewählt werden.
+	\item[10 Punkte] Hier kann auf einer Skala vom 1 bis 10 ein Wert ausgewählt werden.
+	\item[Z/G/A] Hier kann aus den drei Möglichkeiten \enquote{Zunahme/Gleich/Abnahme} eine gewählt werden.
+	\item[J/N/U] Hier kann aus den drei Möglichkeiten \enquote{Ja/Nein/Unsicher} eine gewählt werden.
+	\item[Matrix (Custom)] Hier kann eine eigene Liste an Antwortmöglichkeiten definiert werden.
+	\item[Matrix nach Spalte] Identisch zu Matrix (Custom), allerdings werden Zeilen und Spalten getauscht.
+	\item[Dual Matrix] Es gibt zwei selbst erstellbare Listen an Antwortmöglichkeiten, man kann aus beiden eine Antwort pro Subfrage wählen.
+	\item[Matrix (Freitext)] Hier kann man zwei Listen an Subfragen angeben. Daraus wird dann eine Matrix erstellt, wo in jeder Zelle Freitext als Antwort geschrieben werden kann.
+	\item[Matrix (Zahlen)] Identisch zu Matrix (Freitext), aber es können nur Zahlen als Antwort angegeben werden.
 \end{itemize}
 
 \subsubsection{Multiple Choice}
 
 Hier können mehrere Antworten aus einer vordefinierten Liste ausgewählt werden.
-Optional kann ein \enquote{Anderes}-Feld zugänglich gemacht werden, wo Teilnehmer eine eigene Antwort schreiben können
+Optional kann ein \enquote{Anderes}-Feld zugänglich gemacht werden, in welches Teilnehmer eine eigene Antwort schreiben können.
 
 \begin{itemize}
-	\item[Multiple Choice] Darstellung als Bootstrap-Buttons oder Radio-List ist möglich
-	\item[Image Select] Hier wird ein Bild mit angezeigt
-	\item[Kommentar] hier kann ein Kommentar pro Antwortfeld geschrieben werden
+	\item[Multiple Choice] Darstellung als Bootstrap-Buttons oder Radio-List ist möglich.
+	\item[Image Select] Hier wird ein Bild mit angezeigt.
+	\item[Kommentar] Hier kann ein Kommentar pro Antwortfeld geschrieben werden.
 \end{itemize}
 
 \subsubsection{Textfragen}
 
 \begin{itemize}
-	\item[Browser Detect] Erkennt den Webbrowser des Teilnehmers. Dies ist keine Frage, welche der Teilnehmer beantworten kann
-	\item[Freitext] Hier kann der Teilnehmer einen Text eintippen. Es gibt kurze, lange und riesige Freitexte
-	\item[Mehrere Texte] Es gibt mehrere Subfragen. Für jede kann ein kurzer Freitext angegeben werden
-	\item[Input on Demand] %TODO
+	\item[Browser Detect] Erkennt den Webbrowser des Teilnehmers. Dies ist keine Frage, welche der Teilnehmer beantworten kann.
+	\item[Freitext] Hier kann der Teilnehmer einen Text eintippen. Es gibt kurze, lange und riesige Freitexte.
+	\item[Mehrere Texte] Es gibt mehrere Subfragen. Für jede kann ein kurzer Freitext angegeben werden.
+	\item[Input on Demand] Die Frage ist funktional identisch zu \el{Mehrere Texte}, allerdings muss der Teilnehmer einen Knopf drücken, um die nächste Subfrage angezeigt zu bekommen.
 \end{itemize}
 
 \subsubsection{Maskenfragen}
 
 \begin{itemize}
-	\item[Datum/Zeit] Hier kann ein Datum und eine Uhrzeit angegeben werden. Das Format ist einstellbar, es kann auch ein minimales Datum angegeben werden
-	\item[Ja/Nein] Hier kann mit Ja oder Nein geantwortet werden
-	\item[Gleichung] Hier kann ein Text angegeben werden, wo der Nutzer Variablen einträgt, diese können in einer Rechnung verwendet werden, dessen Ergebnis dann angezeigt wird
-	\item[Dateiupload] Hier kann eine Datei als Antwort hochgeladen werden
-	\item[Geschlecht] Hier kann zwischen \enquote{Männlich}, \enquote{Weiblich} und \enquote{Keine Antwort} ausgewählt werden
-	\item[Sprachumschaltung] Hier kann der Teilnehmer die Sprache ändern. Auch das ist keine richtige Frage
+	\item[Datum/Zeit] Hier kann ein Datum und eine Uhrzeit angegeben werden. Das Format ist einstellbar, es kann auch ein minimales Datum angegeben werden.
+	\item[Ja/Nein] Hier kann mit Ja oder Nein geantwortet werden.
+	\item[Gleichung] Bei diesem Typ werden Antworten auf vorher gestellte Fragen verwendet, um sie in einer Gleichung zu verarbeiten und das Ergebnis anzuzeigen.
+	\item[Dateiupload] Hier kann eine Datei als Antwort hochgeladen werden.
+	\item[Geschlecht] Hier kann zwischen \enquote{Männlich}, \enquote{Weiblich} und \enquote{Keine Antwort} ausgewählt werden.
+	\item[Sprachumschaltung] Hier kann der Teilnehmer die Sprache ändern. Auch das ist keine richtige Frage.
 	\item[Zahleneingabe] Hier kann nach einer Zahl als Antwort gefragt werden.
-	\item[Mehrfache Zahlen] Hier gibt es mehrere Subfragen, auf die jeweils mit einer Zahl geantwortet werden muss. Die Maximal/Minimal-Werte sind limitierbar, genau so wie auch die Maximal- und Minimal-Summe. Es können genaue Gesamtergebnisse verlangt werden und nur Ganzzahlen als Antwort verlangt werden
-	\item[Ranking (Advanced)] Hier kann der Teilnehmer Elemente aus einer vordifinierten Liste sortieren. Es müssen nicht alle Elemente einsortiert werden
-	\item[Textanzeige] Hier wird ein Text angezeigt. Auch hier kann nicht geantwortet werden
+	\item[Mehrfache Zahlen] Hier gibt es mehrere Subfragen, auf die jeweils mit einer Zahl geantwortet werden muss. Die Maximal/Minimal-Werte sind limitierbar, genau so wie auch die Maximal- und Minimal-Summe. Es können genaue Gesamtergebnisse verlangt werden und nur Ganzzahlen als Antwort verlangt werden.
+	\item[Ranking (Advanced)] Hier kann der Teilnehmer Elemente aus einer vordifinierten Liste sortieren. Es müssen nicht alle Elemente einsortiert werden.
+	\item[Textanzeige] Hier wird ein Text angezeigt. Auch hier kann nicht geantwortet werden.
 \end{itemize}
 
 \subsection{Export}
@@ -132,20 +134,22 @@ Optional kann ein \enquote{Anderes}-Feld zugänglich gemacht werden, wo Teilnehm
 \label{m:lsa}
 Das LimeSurvey Archiv ist eine von sieben Möglichkeiten, Daten von einer LimeSurvey Umfrage zu exportieren.
 Ein solches Archiv ist eine komprimierte Datei im .lsa-Format, welche mehrere extrahierbare Dateien enthält.
-Die Zahl und Art der Dateien ist dabei abhängig von den Einstellungen. Zwei Dateien sind immer enthalten:\\
-Die erste Datei enthält die Umfrage-Struktur sowie Informationen über die Art und Weise, wie die Fragen darstellt werden sollen (die .lss-Datei), die zweite Datei enthält die Antworten der Teilnehmer (.lsr-Datei).
+Die Zahl und Art der Dateien ist dabei abhängig von den Einstellungen. Zwei Dateien sind immer enthalten:
+
+Die erste Datei enthält die Umfrage-Struktur sowie Informationen über die Art und Weise, wie die Fragen dargestellt werden sollen (die .lss-Datei).
+Die zweite Datei enthält die Antworten der Teilnehmer (.lsr-Datei).
 Ausdrücklich erwähnt wird dabei, dass Dateien, die als Antwort auf eine Frage hochgeladen wurden, nicht Teil des Archivs sind.
-Eine weitere optionale Datei ist eine Token-Datei (.lst), welche nur enthalten ist, wenn mögliche Teilnehmer der Umfrage im Vorhinein festgelegt wurden.
+Eine weitere, optionale, Datei ist eine Token-Datei (.lst), welche nur enthalten ist, wenn mögliche Teilnehmer der Umfrage im Vorhinein festgelegt wurden.
 Hier sind Informationen über den Teilnehmer gespeichert, in den Antworten wird pro Teilnehmer ein Token referenziert, sodass man die Antworten einem Teilnehmer zuordnen kann.
 
 \subsubsection{Weitere Exportmöglichkeiten}
 \begin{itemize}
 	\item[LSS] Es ist möglich, nur die im LSA enthaltene LSS-Datei zu exportieren, das wird mittels dieser Option gemacht.
 	\item[Excel/.csv] Hier sind weitere Einstellungen möglich, wie das Exportieren eines Teils der Antworten oder die Wahl eines bestimmten Formates (Word, Excel, CSV, HTML, PDF).
-	\item[SPSS] SPSS ist ein Software-Paket, welches zur statistischen Analyse von Daten genutzt wird. Auch hier kann ausgewählt werden, welche Antworten exportiert werden sollen. Die Nutzung der Open-Source Version PSPP ist auch möglich
-	\item[R] R ist eine Alternative zu SPSS, hier werden allerdings alle Daten exportiert
+	\item[SPSS] SPSS ist ein Software-Paket, welches zur statistischen Analyse von Daten genutzt wird. Auch hier kann ausgewählt werden, welche Antworten exportiert werden sollen. Die Nutzung der Open-Source Version PSPP ist auch möglich.
+	\item[R] R ist eine Alternative zu SPSS, hier werden allerdings alle Daten exportiert.
 	\item[STATA-xml] Auch STATA ist eine komerzielle Lösung für Datenanalyse wie SPSS. Hierfür werden die Daten von LimeSurvey direkt in das proprietäre STATA-Format umgewandelt.
-	\item[VV] Durch \enquote{vertical verfication} ist es möglich, die Antworten zu modifizieren und die modifizierte Datei dann wieder zu importieren
+	\item[VV] Durch \enquote{vertical verfication} ist es möglich, die Antworten zu modifizieren und die modifizierte Datei dann wieder zu importieren.
 \end{itemize}
 
 \section{Operational Data Model}
@@ -159,7 +163,8 @@ Das ändert sich mittlerweile, das IMI der WWU zum Beispiel nutzt das Format ber
 
 \subsection{Aufbau}
 
-Zuerst sollte angemerkt werden, dass hier bei weitem nicht alle Elemente, die im ODM-Standard definiert sind, vorgestellt werden. Das hat sowohl Zeit- als auch Platzgründe, weiterhin werden viele Elemente für die Abbildung von LimeSurvey nicht gebraucht.
+Zuerst sollte angemerkt werden, dass hier nicht alle Elemente, die im ODM-Standard definiert sind, vorgestellt werden. Das hat sowohl Zeit- als auch Platzgründe, weiterhin werden viele Elemente für die Abbildung von LimeSurvey nicht gebraucht.
+Eine vollständige Liste kann in der Dokumentation von ODM gefunden werden. %TODO Cite
 Für diese Arbeit sind besonders zwei Teile des ODM Standards relevant: Die \el{Study} und die \el{ClinicalData}.
 Weiterhin gibt es noch \el{AdminData}, \el{ReferenceData} und \el{Association}.
 Grundlegend werden andere Elemente mittels einer OID referenziert, ein Attribut, welches jedes Element besitzt, das man referenzieren kann.
@@ -195,16 +200,20 @@ Ab hier ist dann die Stuktur der Studie abgebildet, wobei die \el{ItemData} das 
 
 \section{Syntaxerweiterung des Instituts für Medizinische Infomatik}
 
-ODM besitzt eine sehr loose Definition dessen, was als Bedingung gilt. Daher kann man eine extra Syntax/Sprache angeben, in welcher die Bedingung verfasst ist.
+ODM besitzt eine sehr lose Definition dessen, was als Bedingung gilt. Daher kann man eine extra Syntax/Sprache angeben, in welcher die Bedingung verfasst ist.
 Das Institut für Medizinische Informatik der WWU (IMI) hat in einem internen Dokument eine eigene Syntax für Bedingungen entwickelt.
-Die Antwort auf eine Frage wird mit dem folgenden Ausdruck referenziert: \enquote{SE-\{SeOID\}/F-\{FOID\}/IG-\{IGOID\}/I-\{IOID\}}.
+Die Antwort auf eine Frage wird mit dem folgenden Ausdruck referenziert: 
+
+\reg{SE-\{SeOID\}/F-\{FOID\}/IG-\{IGOID\}/I-\{IOID\}}
+
+\noindent wobei entsprechende OIDs eingesetzt werden, sodass die Frage eindeutig identifiziert werden kann.
 Diese Selektoren werden wie Variablen in der sh-Syntax mit einem Dollarsymbol und runden Klammern umschlossen.
 Durch Angabe des ganzen Pfades wird sichergestellt, dass die Referenz eindeutig ist. Auch eine bestimmte Wiederholung kann angegeben werden.
-Sonst gibt es logische Operatoren wie \enquote{==,!=,<=,>=,AND,OR,NOT,IN,...} und mathematische Operatoren wie \enquote{+,-,*,/,MIN,MAX,SUM,MEDIAN,MEAN,...}.
+Sonst gibt es logische Operatoren wie \enquote{==, !=, <=, >=, AND, OR, NOT, IN,...} und mathematische Operatoren wie \enquote{+, -, *, /, MIN, MAX, SUM, MEDIAN, MEAN,...}.
 
 \section{dom4j}
 
-Dom4j ist eine API, welche die bestehenden Funktionen der \jv{javax}-Bibliothek abstrahiert und so wesentlich simplere Wege bietet, diese zu nutzen.
+\jv{dom4j} ist eine API, welche die bestehenden Funktionen der \jv{javax}-Bibliothek abstrahiert und so wesentlich simplere Wege bietet, diese zu nutzen\cite{dom4j}.
 Unter anderem ist es möglich, Elemente in einem XML-Dokument mittels XPath-Ausdrücken zu finden und DOM/SAX-Parser zu nutzen, um ein Dokument zu verarbeiten.
 Auch ein \jv{XMLWriter} existiert, welcher unter anderem Standardelemente von XML automatisch an ein Dokument anhängt und das Format des Dokuments mittels eines einzeiligen Befehls so anpassen kann, dass es leicht für einen Menschen lesbar ist.
 
@@ -212,16 +221,19 @@ Auch ein \jv{XMLWriter} existiert, welcher unter anderem Standardelemente von XM
 
 Reguläre Ausdrücke (RegEx) sind ein beliebtes Mittel, um in verschiedensten Anwendungsgebieten der Informatik Zeichenketten zu analysieren.
 Sie sind sehr mächtig und haben verschiedenste Funktionen.
-Die Hauptfunktion ist es, zu überprüfen, ob eine Zeichenkette einem bestimmten Format entspricht (Ob es ein Match gibt).\\
+Die Hauptfunktion ist es, zu überprüfen, ob eine Zeichenkette einem bestimmten Format entspricht (bzw. ob es ein Match gibt).\\
 
-Dabei gibt es eine eigene Syntax, in welcher ein Format spezifiziert werden kann.
-Nennenswert hier ist, dass es verschiedne Syntx gibt, je nachdem in welcher Programmiersprache man arbeitet.
+Dabei gibt es eine eigene Syntax, in welcher ein Format spezifiziert werden kann\cite{regex101}.
+Nennenswert hier ist, dass es verschiedene Syntax gibt, je nachdem in welcher Programmiersprache oder Umgebung man arbeitet.
 Am bekanntesten und am weitesten verbreitet ist die \jv{Perl-Syntax}, Java hat jedoch eine leicht abweichende Syntax.
 Der Anfang einer Zeichenkette wird mit \enquote{\textasciicircum} markiert, das Ende selbiger mit \enquote{\$}.
 Weiterhin steht zum Beispiel \enquote{\textbackslash d} für eine beliebige Zahl (\textbackslash\textbackslash d in Java) oder \enquote{.} für jedes beliebige Zeichen.
 Dann gibt es Quantoren, mit denen die Häufigkeit eines Ausdrucks bestimmt werden kann.
 Hier steht \enquote{?} für Null oder ein Vorkommnis, \enquote{*} für beliebig viele oder \enquote{+} für mindestens ein Vorkommen.
-In eckigen Klammern können Zeichen angegeben, welche gematcht werden sollen. So verlangt \enquote{[abc]} zum Beispiel, dass ein Zeichen an einer entsprechenden Stelle a, b oder c sein muss.
+In eckigen Klammern können Zeichen angegeben, welche gematcht werden sollen. So verlangt \enquote{[abc]} zum Beispiel, dass ein Zeichen an einer entsprechenden Stelle a, b oder c sein muss.\\
 
 Es gibt auch Capture Groups. Hiermit kann man, nachdem ein Match gefunden wurde, einen Teil der Zeichenkette erhalten, welcher dem Muster in der Capture Group entspricht. Diese wird mit runden Klammern markiert.
-Hat man also den Ausdruck \enquote{X(\textbackslash d+)X}, also ein Ausdruck, der verlangt, dass die Zeichenkette mit einem \jv{X} beginnen muss, dann mindestens eine Ziffer hat und auf einem \jv{X} endet, und die Zeichenkette \enquote{X0135X}, dann kann man durch Zugriff auf die Gruppe die Zeichenkette \enquote{135} erhalten.
+
+Dazu ein Beispiel: Man hat den Ausdruck \enquote{X(\textbackslash d+)X}, es wird also verlangt, dass die Zeichenkette mit einem \jv{X} beginnen muss, dann mindestens eine Ziffer hat und auf einem \jv{X} endet. 
+Dann hat man noch die Zeichenkette \enquote{X0135X}, diese stimmt mit dem Format des Ausdrucks überein.
+Durch Zugriff auf die Gruppe kann man nun die Zeichenkette \enquote{0135} erhalten.

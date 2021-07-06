@@ -1,7 +1,7 @@
 \appendix
 
-\chapter{Appendix}
-\section{Vollständiger Aufbau des LSS-Formates}
+\chapter{Vollständiger Aufbau des LSS-Formates}
+\label{app:lss}
 
 \begin{figure}[h]
 			\centering
@@ -10,16 +10,61 @@
 \end{figure}
 
 \begin{figure}[h]
-	\makebox[\linewidth][c]{%
-		\begin{subfigure}[b]{.6\textwidth}
-			\centering
-			\includegraphics[width=.95\textwidth]{./img/m_survey_props.png}
-			\caption{Mapping der Umfrage-Eigenschaften}
+	\centering
+	\begin{subfigure}[b]{.45\textwidth}
+		\includegraphics[width=.95\textwidth]{./img/append_lss_ans.png}
+		\caption{Aufbau der Elemente für die Antworten}
+	\end{subfigure}%
+	\begin{minipage}[b]{.45\textwidth}
+		\begin{subfigure}[b]{\linewidth}
+			\includegraphics[width=.95\textwidth]{./img/append_lss_cond.png}
+			\caption{Das Element für die Bedingungen}
+		\end{subfigure}\\
+		\begin{subfigure}[b]{\linewidth}
+			\includegraphics[width=.95\textwidth]{./img/append_lss_q_attr.png}
+			\caption{Die Frageattribute im LSS-Format}
 		\end{subfigure}%
-		\begin{subfigure}[b]{.6\textwidth}
-			\includegraphics[width=.95\textwidth]{./img/m_groups.png}
-			\caption{Mapping der Fragegruppen}
+	\end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+	\makebox[\linewidth][c]{%
+		\begin{subfigure}[b]{.45\textwidth}
+			\centering
+			\includegraphics[width=.95\textwidth]{./img/append_lss_group.png}
+			\caption{Aufbau von Fragegruppen}
+		\end{subfigure}%
+		\begin{subfigure}[b]{.45\textwidth}
+			\includegraphics[width=.95\textwidth]{./img/append_lss_q.png}
+			\caption{Aufbau der Frageelemente}
 		\end{subfigure}%
 		}
-		\caption{Diagramme für Fragegruppen und Umfragen}
+		\caption{Diagramme für Fragegruppen und Fragen}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.7\textwidth]{./img/append_lss_sur.png}
+	\caption{Aufbau der Metadaten einer Umfrage}
+\end{figure}
+
+\begin{figure}[h]
+	\makebox[\linewidth][c]{%
+		\begin{subfigure}[b]{.45\textwidth}
+			\centering
+			\includegraphics[width=.95\textwidth]{./img/append_lss_surls.png}
+			\caption{Aufbau von weiteren Metadaten der Umfrage}
+		\end{subfigure}%
+		\begin{subfigure}[b]{.45\textwidth}
+			\includegraphics[width=.8\textwidth]{./img/append_lss_theme.png}
+			\caption{Aufbau eines Themes}
+		\end{subfigure}%
+		}
+		\caption{Diagramme für Metadaten der Umfrage und des Designs}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.95\textwidth]{./img/append_lss_theme_inh.png}
+	\caption{Aufbau der geerbten Designs}
 \end{figure}

@@ -13,7 +13,7 @@ Dafür wurde eine Instanz der LimeSurvey Community Edition benötigt, diese aufz
 Nachdem die Struktur der Umfrage selbst, sowie der Fragegruppen so ermittelt wurde, wurden komplexere Dateien erstellt.
 Diese enthielten zunächst Fragen mit festen Antwortmöglichkeiten, also vor allem Maskenfragen und Multiple Choice Fragen.
 Nachdem so auch die Struktur der Antworten deutlich geworden war, wurden zuletzt die Matrixfragen eingebaut und die Struktur der Subfragen ermittelt.
-Das Ergebis dieser Analyse wird im Folgenden dargestellt (Es werden nicht alle existierenden Elemente angesprochen, sondern nur die für diese Arbeit relevanten, eine vollständige Auflistung kann im %TODO
+Das Ergebis dieser Analyse wird im Folgenden dargestellt (Es werden nicht alle existierenden Elemente angesprochen, sondern nur die für diese Arbeit relevanten, eine vollständige Auflistung kann im \cref{app:lss}
 gefunden werden):
 
 \subsection{Grundlegende Struktur}
@@ -23,6 +23,7 @@ Hier sind zuerst grundlegende Informationen wie die Datenbank-Version und den Ty
 Jedes der größeren direkten Kind-Elemente in \el{document} hat die gleiche Struktur.
 Es gibt dort zwei Kind-Elemente, \el{fields} und \el{rows}. In \el{rows} gibt es \el{row} Elemente, welche die Informationen selbst in weiteren Elementen enthalten.
 In \el{fields} gibt es \el{fieldname} Elemente, wobei es für jedes mögliche Element in \el{//rows/row} ein \el{fieldname} Element mit dem Namen als Text gibt.
+In den Feldern werden also einmal alle Elemente genannt, die sich innerhalb einer Reihe befinden können.
 
 \subsection{Fragegruppen}
 
