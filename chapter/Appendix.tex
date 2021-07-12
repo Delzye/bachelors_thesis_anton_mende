@@ -7,6 +7,7 @@
 			\centering
 			\includegraphics[width=.25\textwidth]{./img/append_lss.png}
 			\caption{Aufbau des Wurzel-Elements \el{document}}
+			\label{app:lss_struct}
 \end{figure}
 
 \begin{figure}[h]
@@ -67,4 +68,49 @@
 	\centering
 	\includegraphics[width=.95\textwidth]{./img/append_lss_theme_inh.png}
 	\caption{Aufbau der geerbten Designs}
+\end{figure}
+
+\chapter{Klassendiagramme des Programms lsa2odm}
+
+\begin{figure}[h]
+	\makebox[\linewidth][c]{%
+		\begin{subfigure}[b]{.6\textwidth}
+			\label{fig:app}
+			\centering
+			\includegraphics[width=.95\textwidth]{./img/cls_app.png}
+			\caption{Klassendiagramm für das Paket \jv{app}}
+		\end{subfigure}%
+		\begin{subfigure}[b]{.6\textwidth}
+			\label{fig:utils}
+			\includegraphics[width=.95\textwidth]{./img/cls_utils.png}
+			\caption{Klassendiagramm für das Paket \jv{utils}}
+		\end{subfigure}%
+		}
+		\caption{Klassendiagramme für mehrere Pakete, welche am Anfang der Ausführung gebraucht werden}
+\end{figure}
+
+\begin{figure}[h]
+	\label{im:fig:lss}
+	\centering
+	\includegraphics[width=0.90\textwidth]{./img/cls_lss.png}
+	\caption{Klassendiagramm für das Paket \textit{lss}}
+\end{figure}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.99\textwidth]{./img/cls_lss_2.png}
+	\caption{Klassendiagramm für \textit{LssParser}}
+	\label{fig:lss2}
+\end{figure}
+
+\begin{figure}[h]
+			\centering
+			\includegraphics[width=.98\textwidth]{./img/cls_lsr.png}
+			\caption{Klassendiagramm des Paketes \textit{lsr}}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.98\textwidth]{./img/cls_writer.png}
+	\caption{Klassendiagramm des Pakets writer}
 \end{figure}

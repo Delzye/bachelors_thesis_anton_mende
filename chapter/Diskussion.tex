@@ -1,10 +1,6 @@
 \chapter{Diskussion}
 \label{ch:diskussion}
 
-% In diesem Kapitel werden die zuvor vorgestellten Ergebnisse der Arbeit diskutiert. Häufig wird es mit dem Fazit zusammengelegt.
-
-% Verwandte Arbeiten hier
-
 \section{Auslassen von Fragetypen}
 \label{d:leave}
 
@@ -12,27 +8,30 @@ Auch wenn mit diesem Konverter eine vollständige Umsetzung der LimeSurvey Archi
 Im Folgenden soll erläutert werden, welche Fragetypen nicht konvertiert werden, wie diese Fragetypen hätten umgesetzt werden können und warum die Entscheidung getroffen wurde, dies nicht zu tun.
 
 \subsection{Datei-Upload}
+\label{d:upload}
 
 Der Fragetyp \el{Datei-Upload} kann genutzt werden, um den Nutzer auf eine Frage mit einer Datei antworten zu lassen.
-In ODM hätte man diese Datei einbinden können, indem man sie in \el{hexBinary} umwandelt, ein Datentyp in ODM, welcher Stream-Daten in einem hexacodierten Binärformat sammelt.
+In ODM hätte man diese Datei einbinden können, indem sie in \el{hexBinary} umwandelt wird, ein Datentyp in ODM, welcher Stream-Daten in einem hexacodierten Binärformat sammelt.
 Trotzdem wurde dieser Fragentyp im Konverter nicht umgesetzt.
 Das liegt zum einen daran, dass die hochgeladenen Dateien nicht Teil des Archives sind (siehe \cref{m:lsa}) und andererseits daran, dass die Praktikabilität dieses Vorgehens eher fragwürdig ist.
-Unter anderem wird eine Rekonstruktion zur Originaldatei schwer, da es zum Beispiel keine Informationen über den ursprünglichen Dateityp gibt, auch wird die XML-Datei nur noch sehr unangenehm durch einen Menschen lesbar, wenn man diese Stream-Daten in Antworten einbinden würde. 
+Unter anderem wird eine Rekonstruktion zur Originaldatei schwer, da es zum Beispiel keine Informationen über den ursprünglichen Dateityp gibt, auch wird die XML-Datei nur noch sehr schwer durch einen Menschen lesbar, wenn diese Stream-Daten in Antworten eingebunden werden. 
 
 \subsection{Browser-Detection, Language-Switch}
 
-Beide Fragetypen sammeln Informationen über den Benutzer, Man könnte also argumentieren, es sei sinnvoll, beide als Fragen zu übernehmen.
+Beide Fragetypen sammeln Informationen über den Benutzer, man könnte also argumentieren, es sei sinnvoll, beide als Fragen zu übernehmen.
 Technisch wäre das ebenfalls kein Problem, man kann einfach einen festen Fragetext vorformulieren und die gesammelten Informationen als Antwort eintragen.
 
-Das wäre allerdings irreführend, da dies impliziert, der Nutzer habe ausdrücklich auf eine Frage geantwortet, wenn er in Wirklichkeit eventuell nicht einmal wusste, dass unter anderem Informationen über seinen Brower aufgenommen wurden.
-Auch eine Frage zur Sprache hätte wenig Sinn, gerade weil es auch hier eigentlich keine Antwort auf eine Frage war, sondern eher eine Einstellung in der Umfrage.
+Das wäre allerdings irreführend, da dies impliziert, der Nutzer habe ausdrücklich auf eine Frage geantwortet, wenn er in Wirklichkeit eventuell nicht einmal wusste, dass unter anderem Informationen über seinen Browser gesammelt wurden.
+Auch eine Frage zur Sprache hätte wenig Sinn, unter anderem deshalb, weil es eigentlich keine Antwort auf eine Frage war, sondern eher eine Einstellung im Umfrage-Werkzeug.
+
 Das Ziel einer Umfrage ist es ja eher, die Meinung oder Ansichten eines Teilnehmers einzuholen, Metainformationen wie die Sprache gehören da eher nicht zu.
-Keine Frage zur Sprache zu erstellen ist allerdings eher eine Designentscheidung, man könnte hier durchaus auch anders argumentieren und es wäre ein Informationsgewinn, zumal der Nutzer die Sprache ja auch wirklich selber eingestellt hat.
+Keine Frage zur Sprache zu erstellen ist allerdings eher eine Designentscheidung, man könnte hier durchaus auch anders argumentieren.
+Es wäre ein Informationsgewinn, eine Frage zur Sprache einzubauen, zumal der Nutzer die Sprache ja auch wirklich selber eingestellt hat.
 
 \subsection{Text-Display}
 
 Dieser Fragetyp stellt nur einen Text dar. Es werden keine Informationen gesammelt.
-Da man den Inhalt des Textes auch nicht automatisch irgendeiner Frage oder Fragegruppe, zum Beispiel als Beschreibung, zuordnen kann, wird er nicht übernommen.
+Da der Inhalt des Textes auch nicht automatisch irgendeiner Frage oder Fragegruppe, zum Beispiel als Beschreibung, zugeordnet werden kann, wird er nicht übernommen.
 
 \subsection{Gleichung}
 
@@ -48,34 +47,39 @@ Darunter sind Themes für die ganze Umfrage, sowie Attribute für einzelne Frage
 Teils kann man auch ganze CSS-Klassen angeben, welche das Aussehen der Umfrage bestimmen.
 All diese Angaben sind selbstverständlich auch Teil des LSA-Archives, werden vom Konverter allerdings nicht übernommen.
 
-Das ist prinzipiell nicht optimal, da die Art und Weise, wie eine Frage dargestellt wird, auch eine Auswirkung auf die Antwort haben kann. %TODO: Quotes?
+Das ist prinzipiell nicht optimal, da die Art und Weise, wie eine Frage dargestellt wird, auch eine Auswirkung auf die Antwort haben kann\cite{quest_eff}.
 Ein bestimmtes Antwortverhalten lässt sich also potentiell nicht mehr nachvollziehen, da die Darstellung verloren gegangen ist.
 
 Dennoch ergibt es Sinn, die Informationen nicht zu übenehmen.
 Erstens hat der ODM-Standard keinen Weg, irgendwelche Attribute zur visuellen Darstellung zu speichern.
 Eine Übernahme erfordert also ein selbst definiertes Prinzip, was wiederum von anderen Programmen, welche ODM Dateien nutzen, nicht verstanden werden kann.
-Zweitens handelt es sich hierbei nicht um Informationen, welche von den Teilnehmern gewonnen wurden, das ist wohl auch einer der Gründe, warum es in ODM keinen Standard für visuelles gibt.
+
+Zweitens handelt es sich hierbei nicht um Informationen, welche von den Teilnehmern gewonnen wurden, das ist wohl auch einer der Gründe, warum es in ODM keinen Standard für Visuelles gibt.
 Auch spielt die Darstellung zwar eine Rolle, jedoch keine übergeordnete, man verliert durch das Auslassen der Informationen keinen wesentlichen Teil der in LimeSurvey gewonnenen Informationen.
 Eigenschaften wie die Formulierung der Frage sind hier relevanter und diese wird übernommen.
 
 \subsection{Timings}
 
 Auch die Timings sind vorwiegend ein Weg, die Art und Weise zu beeinflussen, wie eine Frage oder Informationen über diese beim Teilnehmer dargestellt werden.
-Eigenschaften wie die Warnungen zu bestimmten Zeiten oder die Limitierung der Antwortzeit haben zwar einen Einfluss auf die Länge der Antwort zum Beispiel, aber dennoch sind sie nicht wirklich Teil der Frage im klassischen Sinn.
+Eigenschaften wie die Warnungen zu bestimmten Zeiten oder die Limitierung der Antwortzeit haben zwar einen Einfluss auf die Länge der Antwort zum Beispiel, aber dennoch sind sie nicht wirklich Teil der Frage.
 
-Da ODM auch hier keinen Standard zum Darstellen der Informationen besitzt, werden Timings ebenfalls nicht übernommen.
+Da ODM auch hier keinen Standard zum Speichern der Informationen besitzt, werden Timings ebenfalls nicht übernommen.
 
 \section{Formatierung}
 
-Da LimeSurvey erheblich mehr Möglichkeiten hat, die Darstellung von Fragen zu beeinflussen, musste sich im Mapping überlegt werden, wie man diese Fragen so formatieren kann, dass sie in ODM übernehmbar sind.
-Mittels der \el{Presentation} %TODO: Name correct?
-kann eine Darstellung von Fragen definiert werden. Da hier allerdings auch keine standardisierte Form gibt, soll diese Möglichkeit zuerst nicht genutzt werden.
+Da LimeSurvey erheblich mehr Möglichkeiten hat, die Darstellung von Fragen zu beeinflussen, zum Beispiel mit Arrays, musste im Mapping überlegt werden, wie man diese Fragen so formatieren kann, dass sie in ODM übernehmbar sind.
+Mittels der \el{Presentation} kann die Art und Weise, wie eine Frage dargestellt wird, definiert werden.
+Da es hier allerdings auch keine standardisierte Form gibt, wie bei den Bedingungen, soll diese Möglichkeit zunächst nicht genutzt werden.
 Entsprechende Syntax könnte nämlich von keinem bestehenden Programm erkannt werden.
-% Weitere Optionen in dieser Richtung werden in %TODO diskutiert.
+In einem Internen Bericht des IMI wurden bereits Wege besprochen, das \el{Presentation} Element zu nutzen, um Multiple-Choice-Fragen in Studien zu ermöglichen.
+Allerdings ist das Konzept noch nicht komplett ausgereift, auch muss bisher JSON genutzt werden, um einige Informationen zu speichern, da dies in XML nicht möglich war.
 
 \subsection{Fragen mit Bildern im Fragetext}
+
 Bei dem Bild der \el{Image-Select-List} besteht das Problem, dass dieses nur mittels Link zum Bild auf dem LimeSurvey-Server eingebettet ist.
 Beim Übertragen der Fragen ist somit auch nur dieser Link enthalten.
+Es wäre selbstverständlich besser, wenn man das Bild auch mit in ODM übernehmen könnte, allerdings hat der Konverter gar keinen Zugriff auf die Datei.
+Selbst wenn ein Zugriff möglich wäre, würden wieder die Gegenargumente aus \cref{d:upload} greifen.
 
 \subsection{Arrays}
 
@@ -97,10 +101,13 @@ Hier werden aus einer Multiple-Choice-Frage mehrere Ja/Nein-Fragen, das hat den 
 
 Wenn man z.B. aus der Frage: \enquote{Nennen sie ihre Lieblingsfarben: Rot, Grün, Blau, Orange} die Frage \enquote{Ist Orange ihre Lieblingsfarbe?} macht, 
 wird sich der Teilnehmer bei letzterem weit genauer überlegen, ob er Orange wirklich so gerne mag, während man in der ersten Darstellung weit eher dazu geneigt ist, 
-das mit seiner eigentlichen Lieblingsfarbe, Grün zum Beispiel, anzukreuzen, weil die Farbe ja auch ganz nett ist und man eh mehrere nehmen kann.
+das mit seiner eigentlichen Lieblingsfarbe, Grün zum Beispiel, anzukreuzen, weil die Farbe ja auch ganz nett ist und man \enquote{eh mehrere nehmen} kann.
+Das ist ein bekanntes Problem mit Multiple-Choice-Fragen, das sogenannte \enquote{acqiescence bias}\cite{acquiescence_bias}.
+Bei diesem ist es wahrscheinlich, dass der Teilnehmer bei überproportional vielen Fragen \enquote{Ja} antwortet.
 
-Dieses Verhalten kann dazu führen, dass man weniger Optionen anklickt (Hier zum Beispiel, hat man ja bereits eine Lieblingsfarbe angegeben, wieso noch eine zweite anwählen?)
-und dass man weniger Optionen überlesen kann, gerade bei Fragen mit vielen Antwortmöglichkeiten ist so die Gefahr geringer, eine Option zu überspringen.
+Es gibt auch noch das genaue Gegenteil, das \enquote{dissent bias}. Bei diesem tendiert man dazu, sehr oft \enquote{Nein} anzuwählen.
+Dieses Verhalten kann dazu führen, dass man weniger Optionen anklickt (Hier zum Beispiel, hat man ja bereits eine Lieblingsfarbe angegeben, wieso noch eine zweite anwählen?).
+Auch ist es bei separaten Fragen so, dass man weniger Optionen überlesen kann, gerade bei Fragen mit vielen Antwortmöglichkeiten ist so die Gefahr geringer, eine Option zu überspringen.
 
 Mit den Limitierungen von ODM ist dies allerdings immer noch ein besserer Weg, als die Frage z.B. pro Antwortmöglichkeit einmal als Einfachauswahl einzufügen.
 Das würde wesentlich mehr Wiederholung bedeuten, die Auswertung unnötig kompliziert machen und wäre eine aus Teilnehmerperspektive sehr seltsame Darstellung.
@@ -111,7 +118,7 @@ Das würde wesentlich mehr Wiederholung bedeuten, die Auswertung unnötig kompli
 In dieser Arbeit wurde mit der LimeSurvey-Datenbank-Version \textit{443} gearbeitet.
 Die Art und Weise, wie Fragen gespeichert werden, ändert sich allerdings potentiell immer wieder.
 So wurde in Version \textit{441} die Matrix noch anders gespeichert, es gab einen anderen Weg, zu unterscheiden, welche Subfrage auf der X-Achse und welche Subfrage auf der Y-Achse liegt.
-Derartige Änderungen würden den Konverter natürlich kaputt machen, dementsprechend kann es notwendig werden, versionsabhängige Arbeitsschritte in den Code einzubauen.
+Derartige Änderungen würden den Konverter kaputt machen, dementsprechend kann es notwendig werden, versionsabhängige Arbeitsschritte in den Code einzubauen.
 
 Bisher wurde das nicht gemacht, unter anderem deshalb, weil es schwer ist, an LSA-Archive in alten Versionen zu kommen, hier müsste man potentiell weitere LimeSurvey-Instanzen aufsetzen.
 In dieser Hinsicht wäre es sicherlich sinnvoll, den Code noch besser und eindeutiger zu kommentieren, als es ohnehin geboten ist, sodass jeder später schnell und einfach kleinere Änderungen in Abhängigkeit der Datenbank-Version einbauen kann.
@@ -124,7 +131,7 @@ Auch muss man sich überlegen, für welche Versionen der Konverter tatsächlich 
 
 Auffällig war, dass in der LSS-Datei nur CDATA-Werte als Text verwendet werden.
 So ist niemals klar, welcher Datentyp genau nun in ein bestimmtes Feld gehört.
-Das Schema erzwingt hier teils genauere Datentypen, wenn der Inhalt offensichtlich ist, allerdings ist dies nicht immer möglich.
+Das Schema erzwingt hier teils genauere Datentypen wie \jv{string}, \jv{integer} oder \jv{datetime}, wenn der Inhalt offensichtlich ist, allerdings ist dies nicht immer möglich.
 Trotzdem wird so nicht nur ein Maß an struktureller Korrektheit sondern auch an inhaltlicher Korrektheit erzwungen.
 Prinzipiell sollten diese Datentypen einer aus LimeSurvey exportierten Datei nie im Wege stehen, daher ist die Einführung dieser kein Problem.
 
@@ -132,7 +139,7 @@ Prinzipiell sollten diese Datentypen einer aus LimeSurvey exportierten Datei nie
 
 Auch das Design der hardgecodeten Elemente ist nicht optimal, da so in der Zukunft zum LSS-Format hinzugefügte Elemente als invalide erkannt werden.
 Man könnte sicherlich einen dynamischeren Weg kreieren, indem man die Liste an möglichen Elementen in dem \el{fields}-Element und Features von XSD 1.1 nutzt.
-Allerdings widerspricht das der Art und Weise, wie XSD verwendet werden sollte, das Festhalten der genauen Elementnamen ist dort vorgesehen.
+Allerdings widerspricht das der Art und Weise, wie XSD verwendet werden sollte, das Festhalten der genauen Elementnamen und ihrer Reihenfolge ist dort vorgesehen.
 Auch ist es kein großes Problem, da der Konverter diese Felder dann sowieso nicht kennt, so wird man ebenfalls vor potentiellen Inkompatibilitäten gewarnt.
 
 \section{Implementierung}
@@ -142,7 +149,7 @@ Auch ist es kein großes Problem, da der Konverter diese Felder dann sowieso nic
 Es gibt eine Vielzahl an Gründen, warum Java als Sprache für dieses Projekt gewählt wurde.
 Einerseits soll der Konverter später am IMI eingesetzt werden, deren Systeme basieren größtenteils auf Java.
 Weiterhin ist Java dank der JVM unabhängig von Betriebsystem und es gibt eine Menge an Bibliotheken, welche das Programmieren vereinfachen.
-Mit \jv{log4j} bekommt man einen einfachen Überblick über alle Nachrichten des Programms, weiterhin spart man sich dank \jv{lombok} das Schreiben von Gettern, Settern und vielen Konstruktoren.
+Mit \jv{log4j} bekommt man einen einfachen Überblick über alle Nachrichten, welche das Programm ausgibt, weiterhin spart man sich dank \jv{lombok} das Schreiben von Gettern, Settern und vielen Konstruktoren.
 Die Sprache ist schnell und es gibt sehr viele mächtige Werkzeuge, um mit XML arbeiten zu können.
 
 Natürlich gibt es noch weitere Sprachen, mit welchen man den Job hätte erledigen können, wie Python oder Rust.
@@ -164,6 +171,43 @@ Mit JAXB kann man aus XML-Elementen automatisch Klassen erstellen. Das ist ein s
 Allerdings ist das hier nicht unbedingt zielführend, da die LSS-Struktur ja erheblich komplexer ist, als das auszugebende ODM.
 Daher war es Ziel, die LSS-Struktur so schnell wie möglich zu vereinfachen, das wurde direkt beim Einlesen des Archives gemacht.
 
+\subsection{ODM $\rightarrow$ LSS}
+
+\subsubsection{Antworten}
+
+Es würde Sinn ergeben, die klinischen Daten aus ODM auch als LSR-Datei zu übernehmen.
+Man könnte so bestehende Datensätze leicht erweitern und die kombinierten Antworten später exportieren.
+Auch ist die LSR-Datei Teil des Archives und die Antworten Teil des Mappings, aus dieser Perspektive sollte man die Antworten ebenfalls übernehmen.
+
+Dagegen sprechen würde, dass die Auswertung der Antworten in LimeSurvey nur sehr grundlegend möglich ist und die Abspeicherung ohnehin in ODM vorgenommen werden sollte.
+Aus Zeitgründen wurden die Antworten allerdings nicht konvertiert, das ist eine noch zu erledigende Aufgabe.
+
+\subsubsection{Formulare}
+
+In ODM gibt es mehrere Formulare, welche für eine Umfrage genutzt werden können.
+Der Konverter konvertiert bisher nur ein Formular, will man mehrere Formulare konvertieren, muss man den Konverter mehrmals aufrufen.
+Dies ist vorallem eine Designentscheidung, man könnte auch alle Formulare konvertieren.
+
+Allerdings hat man so eine feinere Kontrolle über die verrichtete Arbeit, will man ein Formular nicht konvertieren, weil es groß ist und man es nicht braucht, muss man so keine zusätzliche Zeit warten.
+
+Man könnte noch eine weitere Methode \jv{convertAll} einführen, welche alle Formulare konvertiert.
+
+\subsubsection{Auslassen relevanter Informationen}
+
+Der Konverter trägt viele Informationen, welche benötigt werden, nicht in das LSS-Dokument ein.
+
+In den Fragegruppen sind es die Umfrage-ID, die Relevanz, die Gruppenreihenfolge und die Randomisierungsgruppe.
+Für Fragen werden die Umfrage-ID, das \enquote{Other}-Feld und der Default-Wert nicht konvertiert.
+Bei den Frageattributen werden nur Werte eingetragen, die vom Standardwert abweichen.
+In den Umfragedaten wird fast nichts eingestellt, nur ID und Sprache wird gesetzt, die 56 anderen Elemente werden nicht gesetzt.
+Auch von den Spracheinstellungen werden 24 der 26 Werte nicht gesetzt.
+Die Themes werden komplett ausgelassen.
+
+Das ist möglich, da der Importer von LimeSurvey viele Werte mit dem Default-Wert ersetzt, wenn sie nicht gegeben sind.
+Weitere Werte werden ohnehin verändert, darunter alle IDs.
+Das liegt daran, dass es innerhalb einer LimeSurvey-Instanz keine ID doppelt geben darf, auch nicht zwischen verschiedenen Studien.
+Die vom Konverter gesetzten IDs werden also ohnehin ersetzt, wenn es mindestens eine Umfrage gibt.
+
 \section{Erweiterung der IMI-Syntax}
 \label{d:imi}
 
@@ -177,49 +221,6 @@ Auch wird keine Möglichkeit geboten, die Abwesenheit einer Antwort zu überprü
 Das wird allerdings nur von \textit{EvalEx} unterstützt, nicht durch \textit{expr-eval}.
 
 \section{Verwandte Arbeiten}
-
-% - OpenClinica zu ODM
-% 	- Kann nur Klinische Daten einlesen, keine Metadaten (Angeblich)
-% 	- Betrachtet verschiedene Eigenschaften, die für eine Konformität zum ODM-Standard eingehalten werden müssen
-% 	- Zeigt ein Mapping (Hier werden auch Metadaten gemappt)
-% 	- Nutzt eine Vendor-Extension, ebenfalls im Mapping enthalten
-% 	- Redet sowohl über Import als auch Export
-
-% - ODM zu Samply.MDR
-% 	- XSLT
-% 	- Sehr ähnlich
-
-% - ODM von/zu openEHR
-% 	- XSLT
-% 	- Keine Protokolle und Studien Events
-
-
-% - Studie in Pomerania (SHIP) zu ODM
-% 	- Java
-% 	- Einzelne Studie
-% 	- Möglich
-
-% - ODM zu FHIR
-% 	- Metadaten
-% 	- Java
-% 	- ODM Klassen aus xsd
-	
-% - ODM zu/von EN 13606 EHR
-% 	- gute Übertragung mit kleinen Limitierungen möglich
-% 	- Nur Mapping
-
-% 	- ODM zu OpenCLinica
-% 	- Ähnliche Struktur
-% 	- OC ist Excel Template
-% 	- Mapping für Metadaten
-
-% - ODM von/zu CDA
-% 	- Impl in R
-% 	- GPL
-
-% - ODMToolBox
-% 	- Java/Spring
-% 	- Bevorzugt direktes mapping, dann workarounds
 
 Es gibt eine ganze Reihe an Konvertern, welche entweder von ODM zu einem anderen Format oder von einem anderen Format zu ODM konvertieren können.
 

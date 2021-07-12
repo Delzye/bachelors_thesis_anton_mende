@@ -4,8 +4,7 @@
 %                         http://cvpr.uni-muenster.de
 %
 %---------------------------------------------------------------------------
-% Geeignet für:
-%  - Seminararbeiten
+% Geeignet für: - Seminararbeiten
 %  - Bachelorarbeiten
 %  - Masterarbeiten
 %---------------------------------------------------------------------------
@@ -61,7 +60,10 @@
 % Einstellungen für Abstand an den Rändern
 \geometry{a4paper,left=35mm,right=35mm,top=20mm,bottom=20mm, includeheadfoot}
 
-\setitemize{font=\bfseries, leftmargin=2cm}
+% Einstellungen für Enumitem
+\setlist[enumerate]{label*=\arabic*.} % Sublisten haben die Zahl der Oberliste am Anfang
+
+% Quellenverzeichnis
 \usepackage[sorting=none]{biblatex}
 \addbibresource{Quellen.bib}
 

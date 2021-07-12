@@ -13,7 +13,7 @@ Innerhalb der \textit{Corporate}-Lösung kann man noch dedizierte Server und die
 
 \subsection{Community-Edition}
 
-Zum Erstellen von Umfragen, welche in dieser Arbeit gebraucht werden, wird eine Version der Community-Edition genutzt.
+Zum Erstellen von Umfragen, welche in dieser Arbeit gebraucht werden, wird eine Version der Community-Edition genutzt (Version \jv{3.27.6}).
 Diese nutzt Docker, um die Website möglichst separat vom restlichen System zu halten.
 So muss man Abhängigkeiten nicht auf dem eigenen System installieren und verwalten.
 Zur Verwaltung der Docker-Version des \enquote{Australian Consortium for Social \& Political Research Inc.} (ACSPRI) wird eine Docker-Compose-Datei genutzt, welche online zur Verfügung steht \cite{docker_comp}.
@@ -41,6 +41,7 @@ Eine Gruppe kann beliebig viele Fragen enthalten, weiterhin hat sie einen Titel,
 Es darf beliebig viele Fragegruppen geben.
 
 \subsection{Fragetypen}
+\label{met:q_types}
 
 Es gibt 36 Fragetypen in LimeSurvey, welche in fünf Kategorien unterteilt sind.
 Davon sind allerdings nicht alle tatsächlich Fragen, auf die der Teilnehmer antworten kann, insgesamt gibt es vier Fragetypen, welche nicht explizit Fragen sind. %TODO: wirklich vier?
@@ -53,19 +54,19 @@ Im folgenden werden alle Typen einmal aufgelistet und kurz beschrieben.
 \subsubsection{Einfachauswahl}
 
 Auf folgende Fragen kann man maximal eine Antwort geben.
-\begin{itemize}
+\begin{description}
 	\item[5 Punkte Wahl] Hier kann auf einer Skala von 1 bis 5 ein Wert ausgewählt werden.
 	\item[Liste] Hier kann aus einer vordefinierten Liste eine Antwort gewählt werden. Es gibt drei unterschiedliche Darstellungsmöglichkeiten für diese Liste, entweder als Dropdown-Menü, als Bootstrap-Buttons oder mit Radio-Buttons neben den Antworten.
 	\item[Liste mit Kommentar] Dies ist eine Listen-Frage wie oben, allerdings kann für die Frage auch noch ein Kommentar im Freitext geschrieben werden.
 	\item[Image-Select-List] Hier wird zu der Liste an Antworten noch ein Bild angezeigt. Die Antworten werden mit Radio-Buttons daneben angezeigt.
-\end{itemize}
+\end{description}
 
 \subsubsection{Matrix}
 
 Pro Frage gibt es beliebig viele Subfragen, für jede Subfrage kann eine der vordefinierten Antworten ausgewählt werden.
 Subfragen werden typischerweise als Zeilen dargestellt, die Antworten als Spalten.
 
-\begin{itemize}
+\begin{description}
 	\item[5 Punkte] Hier kann auf einer Skala von 1 bis 5 ein Wert ausgewählt werden.
 	\item[10 Punkte] Hier kann auf einer Skala vom 1 bis 10 ein Wert ausgewählt werden.
 	\item[Z/G/A] Hier kann aus den drei Möglichkeiten \enquote{Zunahme/Gleich/Abnahme} eine gewählt werden.
@@ -75,31 +76,31 @@ Subfragen werden typischerweise als Zeilen dargestellt, die Antworten als Spalte
 	\item[Dual Matrix] Es gibt zwei selbst erstellbare Listen an Antwortmöglichkeiten, man kann aus beiden eine Antwort pro Subfrage wählen.
 	\item[Matrix (Freitext)] Hier kann man zwei Listen an Subfragen angeben. Daraus wird dann eine Matrix erstellt, wo in jeder Zelle Freitext als Antwort geschrieben werden kann.
 	\item[Matrix (Zahlen)] Identisch zu Matrix (Freitext), aber es können nur Zahlen als Antwort angegeben werden.
-\end{itemize}
+\end{description}
 
 \subsubsection{Multiple Choice}
 
 Hier können mehrere Antworten aus einer vordefinierten Liste ausgewählt werden.
 Optional kann ein \enquote{Anderes}-Feld zugänglich gemacht werden, in welches Teilnehmer eine eigene Antwort schreiben können.
 
-\begin{itemize}
+\begin{description}
 	\item[Multiple Choice] Darstellung als Bootstrap-Buttons oder Radio-List ist möglich.
 	\item[Image Select] Hier wird ein Bild mit angezeigt.
 	\item[Kommentar] Hier kann ein Kommentar pro Antwortfeld geschrieben werden.
-\end{itemize}
+\end{description}
 
 \subsubsection{Textfragen}
 
-\begin{itemize}
+\begin{description}
 	\item[Browser Detect] Erkennt den Webbrowser des Teilnehmers. Dies ist keine Frage, welche der Teilnehmer beantworten kann.
 	\item[Freitext] Hier kann der Teilnehmer einen Text eintippen. Es gibt kurze, lange und riesige Freitexte.
 	\item[Mehrere Texte] Es gibt mehrere Subfragen. Für jede kann ein kurzer Freitext angegeben werden.
 	\item[Input on Demand] Die Frage ist funktional identisch zu \el{Mehrere Texte}, allerdings muss der Teilnehmer einen Knopf drücken, um die nächste Subfrage angezeigt zu bekommen.
-\end{itemize}
+\end{description}
 
 \subsubsection{Maskenfragen}
 
-\begin{itemize}
+\begin{description}
 	\item[Datum/Zeit] Hier kann ein Datum und eine Uhrzeit angegeben werden. Das Format ist einstellbar, es kann auch ein minimales Datum angegeben werden.
 	\item[Ja/Nein] Hier kann mit Ja oder Nein geantwortet werden.
 	\item[Gleichung] Bei diesem Typ werden Antworten auf vorher gestellte Fragen verwendet, um sie in einer Gleichung zu verarbeiten und das Ergebnis anzuzeigen.
@@ -110,7 +111,7 @@ Optional kann ein \enquote{Anderes}-Feld zugänglich gemacht werden, in welches 
 	\item[Mehrfache Zahlen] Hier gibt es mehrere Subfragen, auf die jeweils mit einer Zahl geantwortet werden muss. Die Maximal/Minimal-Werte sind limitierbar, genau so wie auch die Maximal- und Minimal-Summe. Es können genaue Gesamtergebnisse verlangt werden und nur Ganzzahlen als Antwort verlangt werden.
 	\item[Ranking (Advanced)] Hier kann der Teilnehmer Elemente aus einer vordifinierten Liste sortieren. Es müssen nicht alle Elemente einsortiert werden.
 	\item[Textanzeige] Hier wird ein Text angezeigt. Auch hier kann nicht geantwortet werden.
-\end{itemize}
+\end{description}
 
 \subsection{Export}
 \subsubsection{LimeSurvey Archiv}
@@ -126,14 +127,25 @@ Eine weitere, optionale, Datei ist eine Token-Datei (.lst), welche nur enthalten
 Hier sind Informationen über den Teilnehmer gespeichert, in den Antworten wird pro Teilnehmer ein Token referenziert, sodass man die Antworten einem Teilnehmer zuordnen kann.
 
 \subsubsection{Weitere Exportmöglichkeiten}
-\begin{itemize}
+\begin{description}
 	\item[LSS] Es ist möglich, nur die im LSA enthaltene LSS-Datei zu exportieren, das wird mittels dieser Option gemacht.
 	\item[Excel/.csv] Hier sind weitere Einstellungen möglich, wie das Exportieren eines Teils der Antworten oder die Wahl eines bestimmten Formates (Word, Excel, CSV, HTML, PDF).
 	\item[SPSS] SPSS ist ein Software-Paket, welches zur statistischen Analyse von Daten genutzt wird. Auch hier kann ausgewählt werden, welche Antworten exportiert werden sollen. Die Nutzung der Open-Source Version PSPP ist auch möglich.
 	\item[R] R ist eine Alternative zu SPSS, hier werden allerdings alle Daten exportiert.
 	\item[STATA-xml] Auch STATA ist eine komerzielle Lösung für Datenanalyse wie SPSS. Hierfür werden die Daten von LimeSurvey direkt in das proprietäre STATA-Format umgewandelt.
 	\item[VV] Durch \enquote{vertical verfication} ist es möglich, die Antworten zu modifizieren und die modifizierte Datei dann wieder zu importieren.
-\end{itemize}
+\end{description}
+
+\section{XML}
+
+Die Art und Weise, wie der Aufbau eines XML-Dokuments in dieser Arbeit dargestellt wird, ist in der Legende (\cref{fig:legend}) erklärt.
+
+\begin{figure}[h]
+			\centering
+			\includegraphics[width=.30\textwidth]{./img/legend.png}
+			\caption{Legende für die folgenden Grafiken im Mapping}
+			\label{fig:legend}
+\end{figure}
 
 \section{Operational Data Model}
 \label{m:odm}
@@ -143,11 +155,12 @@ Es dient dazu, sowohl Metadaten als auch klinische Daten einer Studie zu erfasse
 ODM ist unabhängig von spezifischen Firmen und Plattformen und daher gut zum Austausch zwischen verschiedensten Werkzeugen und Gruppierungen geeignet.
 Bereits 2006 hat ODM im internationalen Raum Anklang gefunden, in Deutschland allerdings noch nicht\cite{odm_art}.
 Das ändert sich mittlerweile, das IMI der WWU zum Beispiel nutzt das Format bereits in mehreren Werkzeugen.
+In dieser Arbeit wird Version \jv{1.3.2} genutzt.
 
 \subsection{Aufbau}
 
 Zuerst sollte angemerkt werden, dass hier nicht alle Elemente, die im ODM-Standard definiert sind, vorgestellt werden. Das hat sowohl Zeit- als auch Platzgründe, weiterhin werden viele Elemente für die Abbildung von LimeSurvey nicht gebraucht.
-Eine vollständige Liste kann in der Dokumentation von ODM gefunden werden. %TODO Cite
+Eine vollständige Liste kann in der Dokumentation von ODM gefunden werden\cite{odm}.
 Für diese Arbeit sind besonders zwei Teile des ODM Standards relevant: Die \el{Study} und die \el{ClinicalData}.
 Weiterhin gibt es noch \el{AdminData}, \el{ReferenceData} und \el{Association}.
 Grundlegend werden andere Elemente mittels einer OID referenziert, ein Attribut, welches jedes Element besitzt, das man referenzieren kann.
@@ -162,6 +175,14 @@ Das Basiselement einer Studie ist das \el{Protocol}.
 Dies enthält Elemente des Typs \el{StudyEventRef}.
 Dann folgen Elemente des Typs \el{StudyEventDef}, welche wiederum Referenzen auf Elemente des Typs \el{FormDef} beinhalten.
 Dieses Schema setzt sich noch mit den Elementen \el{ItemGroupDef} und \el{ItemDef} fort.
+In \cref{fig:odm_ex} ist das Konzept noch einmal visualisiert.
+
+\begin{figure}[h]
+			\centering
+			\includegraphics[width=.40\textwidth]{./img/met_odm.png}
+			\caption{Die Struktur aus Referenzen und Definitionen in ODM}
+			\label{fig:odm_ex}
+\end{figure}
 
 Als weitere Elemente gibt es noch die \el{CodeList} und die \el{Condition}.
 In einer \el{CodeList} werden Antwortmöglichkeiten festgehalten, welche auf eine Frage (Element des Typs \el{ItemDef}) gegeben werden können.
@@ -199,6 +220,7 @@ Sonst gibt es logische Operatoren wie \enquote{==, !=, <=, >=, AND, OR, NOT, IN,
 \jv{dom4j} ist eine API, welche die bestehenden Funktionen der \jv{javax}-Bibliothek abstrahiert und so wesentlich simplere Wege bietet, diese zu nutzen\cite{dom4j}.
 Unter anderem ist es möglich, Elemente in einem XML-Dokument mittels XPath-Ausdrücken zu finden und DOM/SAX-Parser zu nutzen, um ein Dokument zu verarbeiten.
 Auch ein \jv{XMLWriter} existiert, welcher unter anderem Standardelemente von XML automatisch an ein Dokument anhängt und das Format des Dokuments mittels eines einzeiligen Befehls so anpassen kann, dass es leicht für einen Menschen lesbar ist.
+In dieser Arbeit wird Version \jv{1.6.1} verwendet.
 
 \section{Reguläre Ausdrücke}
 

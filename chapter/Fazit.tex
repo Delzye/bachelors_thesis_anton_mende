@@ -27,11 +27,21 @@ Auch wird das Speichern der Daten immer einfacher, wenn alles in einem einzigen 
 Dafür ist unter anderem auch die Qualität des Konverters entscheidend, da der Datenverlust beim Konvertieren minimal sein soll.
 
 Die bisherige Implementierung macht hier bereits einen guten Job, allerdings kann man, mit genügend Zeit und wenn man die Notwendigkeit sieht, noch weitere Features hinzufügen:
-
 \begin{itemize}
-	\item Mehrere Umfragen in einer LSS-Datei unterstützen
-	\item Fragen in verschiedenen Sprachen in einem ItemDef Element unterbringen
-	\item Unterstützung für mehr Formate bei \el{Datum/Zeit-Fragen}
-	\item Übernahme von regulären Ausdrücken zur Validierung der Antwort-Struktur als \el{RangeCheck}
-	\item Übernehmen, wie viele Ziffern eine Zahl bei einer Antwort lang sein darf
+	\item Aufgaben in der Richtung LSA $\rightarrow$ ODM
+	\begin{itemize}
+		\item Mehrere Umfragen in einer LSS-Datei unterstützen
+		\item Fragen in verschiedenen Sprachen in einem ItemDef Element unterbringen (Bisher werden Fragen doppelt übernommen)
+		\item Unterstützung für mehr Formate bei \el{Datum/Zeit-Fragen}
+		\item Übernahme von regulären Ausdrücken zur Validierung der Antwort-Struktur als \el{RangeCheck}
+		\item Übernehmen, wie viele Ziffern eine Zahl bei einer Antwort lang sein darf
+	\end{itemize}
+	\item Aufgaben in der Richtung ODM $\rightarrow$ LSA
+	\begin{itemize}
+		\item Konvertierung der Antworten in einer LSR-Datei
+		\item Packen beider Dateien in ein Archiv
+		\item Eine Möglichkeit einfügen, alle Formulare zu konvertieren
+		\item Einstellbare Werte beim Schreiben der LSS-Datei (Sprache, Datenbank-Version)
+		\item Fragen für weitere Datentypen wie Datum/Zeit einfügen
+	\end{itemize}
 \end{itemize}
